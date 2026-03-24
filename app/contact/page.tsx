@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import type { LucideIcon } from "lucide-react";
-import { Linkedin, Mail, MapPin, MessageCircle } from "lucide-react";
+import { Mail, MessageCircle } from "lucide-react";
 
 import { siteConfig } from "@/data/site";
 
@@ -11,7 +11,11 @@ import { SectionHeading } from "@/components/shared/section-heading";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: "Contact EziLab for project inquiries, collaborations, and partnerships.",
+  description:
+    "Get in touch with EziLab for web development, app development, and digital product inquiries. Serving clients worldwide.",
+  alternates: {
+    canonical: "https://ezilab.io/contact",
+  },
 };
 
 const contactLinks = [
@@ -26,18 +30,6 @@ const contactLinks = [
     value: siteConfig.whatsapp,
     href: `https://wa.me/${siteConfig.whatsapp.replace(/\D/g, "")}`,
     icon: MessageCircle,
-  },
-  {
-    label: "Location",
-    value: siteConfig.location,
-    href: "#",
-    icon: MapPin,
-  },
-  {
-    label: "LinkedIn",
-    value: "EziLab Organization",
-    href: siteConfig.social.linkedin,
-    icon: Linkedin,
   },
 ] as Array<{ label: string; value: string; href: string; icon: LucideIcon }>;
 

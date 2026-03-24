@@ -6,12 +6,11 @@ export type NavItem = {
 export const siteConfig = {
   name: "EziLab",
   shortName: "EziLab",
-  tagline: "Turning ideas into scalable digital products",
+  tagline: "Elevate Zone of Innovation Laboratory — A space where ideas are elevated and turned into innovation.",
   description:
-    "EziLab is a digital innovation organization that builds modern websites, applications, dashboards, and future-ready solutions for growing teams.",
-  location: "Lahore, Pakistan",
-  email: "hello@ezilab.dev",
-  whatsapp: "+92 300 1234567",
+    "EziLab (Elevate Zone of Innovation Laboratory) is a digital innovation organization that builds modern websites, applications, dashboards, and future-ready solutions for growing teams.",
+  email: "zahid@ezilab.io",
+  whatsapp: "+92 334 966 2622",
   social: {
     github: "https://github.com",
     linkedin: "https://linkedin.com",
@@ -21,7 +20,7 @@ export const siteConfig = {
 
 export const mainNav: NavItem[] = [
   { label: "Home", href: "/" },
-  { label: "Projects", href: "/projects" },
+  // { label: "Projects", href: "/projects" },
   { label: "Services", href: "/services" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },

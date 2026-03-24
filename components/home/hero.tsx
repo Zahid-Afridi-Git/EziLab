@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowUpRight, Sparkles } from "lucide-react";
+import { ArrowUpRight, Globe2, LayoutDashboard, Smartphone, Sparkles } from "lucide-react";
 
 import { siteConfig } from "@/data/site";
 
@@ -11,10 +11,26 @@ import { FadeIn } from "@/components/shared/fade-in";
 
 export function Hero() {
   const items = [
-    "Product websites and high-conversion landing pages",
-    "Operational dashboards and admin systems",
-    "Cross-platform mobile applications",
-    "AI-enabled and future-tech prototypes",
+    {
+      title: "Web & landing pages",
+      detail: "Conversion-first experiences",
+      icon: Globe2,
+    },
+    {
+      title: "Dashboards & admin",
+      detail: "Operational visibility tools",
+      icon: LayoutDashboard,
+    },
+    {
+      title: "Mobile products",
+      detail: "Cross-platform experiences",
+      icon: Smartphone,
+    },
+    {
+      title: "AI prototypes",
+      detail: "Fast validation for new ideas",
+      icon: Sparkles,
+    },
   ];
 
   return (
@@ -38,19 +54,19 @@ export function Hero() {
               {siteConfig.description} We partner with startups and organizations to launch
               products that are fast, clear, and built for long-term scale.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Link
-                href="/projects"
-                className="inline-flex h-12 items-center gap-2 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-6 text-sm font-semibold text-slate-950 transition duration-200 hover:-translate-y-0.5 hover:brightness-110"
+                href="/contact"
+                className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-6 text-sm font-semibold text-slate-950 transition duration-200 hover:-translate-y-0.5 hover:brightness-110 sm:w-auto"
               >
-                View Projects
+                Start Your Project
                 <ArrowUpRight size={16} />
               </Link>
               <Link
-                href="/contact"
-                className="inline-flex h-12 items-center rounded-full border border-slate-700 px-6 text-sm font-semibold text-slate-100 transition duration-200 hover:-translate-y-0.5 hover:border-cyan-300/70 hover:text-cyan-200"
+                href="/services"
+                className="inline-flex h-12 w-full items-center justify-center rounded-full border border-slate-700 px-6 text-sm font-semibold text-slate-100 transition duration-200 hover:-translate-y-0.5 hover:border-cyan-300/70 hover:text-cyan-200 sm:w-auto"
               >
-                Contact Us
+                Our Services
               </Link>
             </div>
           </FadeIn>
@@ -62,13 +78,44 @@ export function Hero() {
               transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }}
               className="relative rounded-2xl bg-gradient-to-br from-cyan-300/70 via-blue-500/35 to-cyan-200/65 p-[1px]"
             >
-              <div className="rounded-2xl border border-slate-800/70 bg-slate-900/75 p-6 shadow-[0_28px_50px_-28px_rgba(34,211,238,0.6)] backdrop-blur-xl">
+              <div className="rounded-2xl border border-slate-800/70 bg-slate-900/75 p-4 shadow-[0_28px_50px_-28px_rgba(34,211,238,0.6)] backdrop-blur-xl sm:p-6">
                 <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-cyan-200">
                   <Sparkles size={14} />
                   What we build
                 </p>
+                <div className="mt-4 grid gap-3 sm:hidden">
+                  <div className="grid grid-cols-2 gap-3">
+                    {items.map((item) => {
+                      const Icon = item.icon;
+
+                      return (
+                        <div
+                          key={item.title}
+                          className="rounded-xl border border-slate-800 bg-slate-950/80 p-3"
+                        >
+                          <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-cyan-300/30 bg-cyan-300/10 text-cyan-200">
+                            <Icon size={16} />
+                          </span>
+                          <p className="mt-3 text-sm font-semibold text-white">{item.title}</p>
+                          <p className="mt-1 text-xs leading-relaxed text-slate-400">
+                            {item.detail}
+                          </p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <div className="rounded-xl border border-cyan-300/25 bg-slate-950/80 p-4">
+                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-cyan-200">
+                      2025-2026 Focus
+                    </p>
+                    <p className="mt-2 text-sm font-medium text-white">
+                      Case-study delivery with measurable business outcomes.
+                    </p>
+                  </div>
+                </div>
+
                 <motion.ul
-                  className="mt-5 space-y-4"
+                  className="mt-5 hidden space-y-4 sm:block"
                   initial="hidden"
                   animate="show"
                   variants={{
@@ -78,7 +125,7 @@ export function Hero() {
                 >
                   {items.map((item) => (
                     <motion.li
-                      key={item}
+                      key={item.title}
                       className="flex gap-3 text-sm text-slate-300"
                       variants={{
                         hidden: { opacity: 0, y: 10 },
@@ -86,11 +133,14 @@ export function Hero() {
                       }}
                     >
                       <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-300" />
-                      <span>{item}</span>
+                      <span>
+                        <span className="font-medium text-white">{item.title}</span>
+                        <span className="text-slate-400"> - {item.detail}</span>
+                      </span>
                     </motion.li>
                   ))}
                 </motion.ul>
-                <div className="mt-6 rounded-xl border border-cyan-300/25 bg-slate-950/80 p-4">
+                <div className="mt-6 hidden rounded-xl border border-cyan-300/25 bg-slate-950/80 p-4 sm:block">
                   <p className="text-sm font-medium text-white">
                     2025-2026 Focus: Case-study quality delivery with measurable business outcomes.
                   </p>

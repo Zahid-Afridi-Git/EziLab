@@ -49,31 +49,6 @@ export function ContactForm() {
         </label>
       </div>
 
-      <div className="mt-4 grid gap-4 sm:grid-cols-2">
-        <label className="space-y-2">
-          <span className="text-sm font-medium text-slate-200">Company (Optional)</span>
-          <input
-            type="text"
-            name="company"
-            className="h-11 w-full rounded-lg border border-slate-700 bg-slate-950 px-3 text-sm text-slate-100 outline-none transition focus:border-cyan-300/70 focus:shadow-[0_0_0_4px_rgba(34,211,238,0.15)]"
-          />
-        </label>
-        <label className="space-y-2">
-          <span className="text-sm font-medium text-slate-200">Budget Range</span>
-          <select
-            name="budget"
-            className="h-11 w-full rounded-lg border border-slate-700 bg-slate-950 px-3 text-sm text-slate-100 outline-none transition focus:border-cyan-300/70 focus:shadow-[0_0_0_4px_rgba(34,211,238,0.15)]"
-            defaultValue="Not selected"
-          >
-            <option>Not selected</option>
-            <option>$2k - $5k</option>
-            <option>$5k - $15k</option>
-            <option>$15k - $30k</option>
-            <option>$30k+</option>
-          </select>
-        </label>
-      </div>
-
       <label className="mt-4 block space-y-2">
         <span className="text-sm font-medium text-slate-200">Project Details</span>
         <textarea
@@ -88,7 +63,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={submitting}
-        className="mt-6 inline-flex h-11 items-center gap-2 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-6 text-sm font-semibold text-slate-950 transition duration-200 hover:-translate-y-0.5 hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-75"
+        className="mt-6 inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-6 text-sm font-semibold text-slate-950 transition duration-200 hover:-translate-y-0.5 hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-75 sm:w-auto"
       >
         {submitting ? (
           <>

@@ -21,7 +21,10 @@ import { SectionHeading } from "@/components/shared/section-heading";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Learn about EziLab, our mission, vision, and how we build future-ready digital products.",
+    "EziLab (Elevate Zone of Innovation Laboratory) is a digital innovation organization that builds modern websites, apps, and dashboards for growing teams worldwide.",
+  alternates: {
+    canonical: "https://ezilab.io/about",
+  },
 };
 
 const values: Array<{ label: string; icon: LucideIcon }> = [
@@ -74,7 +77,7 @@ export default function AboutPage() {
         <FadeIn>
           <SectionHeading
             label="About EziLab"
-            title="A digital innovation organization focused on practical, future-ready products."
+            title="Elevate Zone of Innovation Laboratory — focused on practical, future-ready products."
             description={siteConfig.description}
           />
         </FadeIn>
@@ -198,16 +201,16 @@ export default function AboutPage() {
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Link
-                href="/projects"
+                href="/contact"
                 className="inline-flex h-11 items-center rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-5 text-sm font-semibold text-slate-950 transition hover:brightness-110"
               >
-                View Projects
+                Contact EziLab
               </Link>
               <Link
-                href="/contact"
+                href="/services"
                 className="inline-flex h-11 items-center rounded-full border border-slate-700 px-5 text-sm font-semibold text-slate-100 transition hover:border-cyan-300/70 hover:text-cyan-200"
               >
-                Contact EziLab
+                Our Services
               </Link>
             </div>
           </div>

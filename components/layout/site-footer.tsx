@@ -24,7 +24,7 @@ export function SiteFooter() {
               target="_blank"
               rel="noreferrer"
               aria-label="GitHub"
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-700 bg-slate-900 text-slate-200 transition hover:-translate-y-0.5 hover:border-cyan-300/70 hover:text-cyan-200"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-700 bg-slate-900 text-slate-200 transition hover:-translate-y-0.5 hover:border-cyan-300/70 hover:text-cyan-200"
             >
               <Github size={16} />
             </a>
@@ -33,7 +33,7 @@ export function SiteFooter() {
               target="_blank"
               rel="noreferrer"
               aria-label="LinkedIn"
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-700 bg-slate-900 text-slate-200 transition hover:-translate-y-0.5 hover:border-cyan-300/70 hover:text-cyan-200"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-700 bg-slate-900 text-slate-200 transition hover:-translate-y-0.5 hover:border-cyan-300/70 hover:text-cyan-200"
             >
               <Linkedin size={16} />
             </a>
@@ -42,7 +42,7 @@ export function SiteFooter() {
               target="_blank"
               rel="noreferrer"
               aria-label="X"
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-700 bg-slate-900 text-slate-200 transition hover:-translate-y-0.5 hover:border-cyan-300/70 hover:text-cyan-200"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-700 bg-slate-900 text-slate-200 transition hover:-translate-y-0.5 hover:border-cyan-300/70 hover:text-cyan-200"
             >
               <Twitter size={16} />
             </a>
@@ -72,7 +72,6 @@ export function SiteFooter() {
             Contact
           </h3>
           <ul className="mt-4 space-y-3 text-sm text-slate-300">
-            <li>{siteConfig.location}</li>
             <li>
               <a href={`mailto:${siteConfig.email}`} className="transition hover:text-cyan-200">
                 {siteConfig.email}
@@ -91,7 +90,7 @@ export function SiteFooter() {
       </div>
       <div className="border-t border-slate-800">
         <div className="mx-auto flex w-full max-w-6xl flex-col items-start justify-between gap-3 px-4 py-5 text-xs text-slate-400 sm:flex-row sm:items-center sm:px-6 lg:px-8">
-          <p>© {new Date().getFullYear()} EziLab. All rights reserved.</p>
+          <p>(c) {new Date().getFullYear()} EziLab. All rights reserved.</p>
           <p>Built with Next.js, Tailwind CSS, and Framer Motion.</p>
         </div>
       </div>

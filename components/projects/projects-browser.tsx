@@ -51,26 +51,31 @@ export function ProjectsBrowser({ initialCategory }: ProjectsBrowserProps) {
 
   return (
     <>
-      <FadeIn delay={0.08} className="mt-8 flex flex-wrap gap-2">
-        {projectCategories.map((category) => {
-          const isActive = category === selectedCategory;
+      <div className="sticky top-[4.5rem] z-20 mt-8 -mx-4 border-y border-slate-800/70 bg-slate-950/88 px-4 py-3 backdrop-blur-xl sm:static sm:mx-0 sm:border-0 sm:bg-transparent sm:px-0 sm:py-0">
+        <div className="overflow-x-auto sm:overflow-visible">
+          <div className="flex min-w-max snap-x snap-mandatory gap-2 sm:min-w-0 sm:flex-wrap">
+            {projectCategories.map((category) => {
+              const isActive = category === selectedCategory;
 
-          return (
-            <button
-              type="button"
-              key={category}
-              onClick={() => handleCategoryChange(category)}
-              className={
-                isActive
-                  ? "inline-flex h-10 items-center rounded-full bg-cyan-300/20 px-4 text-sm font-semibold text-cyan-100"
-                  : "inline-flex h-10 items-center rounded-full border border-slate-700 px-4 text-sm font-medium text-slate-200 transition hover:border-cyan-300/60 hover:text-cyan-100"
-              }
-            >
-              {category}
-            </button>
-          );
-        })}
-      </FadeIn>
+              return (
+                <button
+                  type="button"
+                  key={category}
+                  aria-pressed={isActive}
+                  onClick={() => handleCategoryChange(category)}
+                  className={
+                    isActive
+                      ? "inline-flex h-10 shrink-0 snap-start items-center rounded-full bg-cyan-300/20 px-4 text-sm font-semibold text-cyan-100"
+                      : "inline-flex h-10 shrink-0 snap-start items-center rounded-full border border-slate-700 px-4 text-sm font-medium text-slate-200 transition hover:border-cyan-300/60 hover:text-cyan-100"
+                  }
+                >
+                  {category}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </div>
 
       <FadeIn delay={0.1} className="mt-5">
         <p className="text-sm text-slate-400">

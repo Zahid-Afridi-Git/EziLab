@@ -19,18 +19,18 @@ export function ContactCta() {
               Share your goals and scope. EziLab will help you shape the roadmap and deliver a
               strong digital product from concept to launch.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Link
                 href="/contact"
-                className="inline-flex h-12 items-center rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-6 text-sm font-semibold text-slate-950 transition hover:brightness-110"
+                className="inline-flex h-12 w-full items-center justify-center rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-6 text-sm font-semibold text-slate-950 transition hover:brightness-110 sm:w-auto"
               >
                 Start a Conversation
               </Link>
               <Link
-                href="/projects"
-                className="inline-flex h-12 items-center rounded-full border border-cyan-300/40 px-6 text-sm font-semibold text-white transition hover:border-cyan-200 hover:text-cyan-100"
+                href="/services"
+                className="inline-flex h-12 w-full items-center justify-center rounded-full border border-cyan-300/40 px-6 text-sm font-semibold text-white transition hover:border-cyan-200 hover:text-cyan-100 sm:w-auto"
               >
-                See More Projects
+                Our Services
               </Link>
             </div>
           </div>

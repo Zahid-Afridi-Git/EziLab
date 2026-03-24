@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { AlertTriangle, Lightbulb, TrendingUp } from "lucide-react";
+import { AlertTriangle, Download, ExternalLink, Github, Lightbulb, TrendingUp } from "lucide-react";
 
+import type { ProjectAction } from "@/data/projects";
 import { getAdjacentProjects, getProjectBySlug, projects } from "@/data/projects";
 
 import { Badge } from "@/components/shared/badge";
@@ -15,6 +16,18 @@ type ProjectDetailPageProps = {
     slug: string;
   }>;
 };
+
+function ActionIcon({ kind }: { kind?: ProjectAction["kind"] }) {
+  if (kind === "download") {
+    return <Download size={14} />;
+  }
+
+  if (kind === "github") {
+    return <Github size={14} />;
+  }
+
+  return <ExternalLink size={14} />;
+}
 
 export async function generateStaticParams() {
   return projects.map((project) => ({ slug: project.slug }));
@@ -83,8 +96,8 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
         <div className="mt-8 grid gap-5 lg:grid-cols-12">
           <FadeIn className="lg:col-span-8">
             <div className="space-y-4">
-              <section className="rounded-2xl border border-rose-400/25 bg-rose-500/5 p-6">
-                <h2 className="flex items-center gap-2 font-heading text-2xl font-semibold text-white">
+              <section className="rounded-2xl border border-rose-400/25 bg-rose-500/5 p-5 sm:p-6">
+                <h2 className="flex items-center gap-2 font-heading text-xl font-semibold text-white sm:text-2xl">
                   <AlertTriangle size={20} className="text-rose-200" />
                   Problem
                 </h2>
@@ -93,8 +106,8 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                 </p>
               </section>
 
-              <section className="rounded-2xl border border-cyan-300/30 bg-cyan-400/5 p-6">
-                <h2 className="flex items-center gap-2 font-heading text-2xl font-semibold text-white">
+              <section className="rounded-2xl border border-cyan-300/30 bg-cyan-400/5 p-5 sm:p-6">
+                <h2 className="flex items-center gap-2 font-heading text-xl font-semibold text-white sm:text-2xl">
                   <Lightbulb size={20} className="text-cyan-200" />
                   Solution
                 </h2>
@@ -103,8 +116,8 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                 </p>
               </section>
 
-              <section className="rounded-2xl border border-emerald-300/30 bg-emerald-500/5 p-6">
-                <h2 className="flex items-center gap-2 font-heading text-2xl font-semibold text-white">
+              <section className="rounded-2xl border border-emerald-300/30 bg-emerald-500/5 p-5 sm:p-6">
+                <h2 className="flex items-center gap-2 font-heading text-xl font-semibold text-white sm:text-2xl">
                   <TrendingUp size={20} className="text-emerald-200" />
                   Outcome
                 </h2>
@@ -116,72 +129,90 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
           </FadeIn>
 
           <FadeIn delay={0.08} className="lg:col-span-4">
-            <aside className="space-y-4 rounded-2xl border border-slate-800 bg-slate-900/70 p-6">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">
-                  Category
-                </p>
-                <p className="mt-1 text-sm text-slate-200">{project.category}</p>
+            <aside className="space-y-5 rounded-2xl border border-slate-800 bg-slate-900/70 p-5 sm:p-6">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">
+                    Category
+                  </p>
+                  <p className="mt-1 text-sm text-slate-200">{project.category}</p>
+                </div>
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">
+                    Year
+                  </p>
+                  <p className="mt-1 text-sm text-slate-200">{project.year}</p>
+                </div>
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">
+                    Status
+                  </p>
+                  <p className="mt-1 text-sm text-slate-200">{project.status}</p>
+                </div>
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">
+                    Client Type
+                  </p>
+                  <p className="mt-1 text-sm text-slate-200">{project.clientType}</p>
+                </div>
+                <div className="col-span-2">
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">
+                    Project Type
+                  </p>
+                  <p className="mt-1 text-sm text-slate-200">{project.projectType}</p>
+                </div>
+                <div className="col-span-2">
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">
+                    Role of EziLab
+                  </p>
+                  <p className="mt-1 text-sm leading-relaxed text-slate-200">{project.role}</p>
+                </div>
               </div>
-              <div>
+              <div className="border-t border-slate-800 pt-5">
                 <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">
-                  Year
+                  Tech Stack
                 </p>
-                <p className="mt-1 text-sm text-slate-200">{project.year}</p>
-              </div>
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">
-                  Project Type
-                </p>
-                <p className="mt-1 text-sm text-slate-200">{project.projectType}</p>
-              </div>
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">
-                  Role of EziLab
-                </p>
-                <p className="mt-1 text-sm text-slate-200">{project.role}</p>
-              </div>
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">
-                  Status
-                </p>
-                <p className="mt-1 text-sm text-slate-200">{project.status}</p>
-              </div>
-              <div className="pt-3">
-                <div className="flex flex-wrap gap-2">
+                <div className="mt-3 flex flex-wrap gap-2">
                   {project.techStack.map((tech) => (
                     <Badge key={tech} label={tech} />
                   ))}
                 </div>
               </div>
-              <div className="flex flex-wrap gap-3 pt-3">
-                {project.liveUrl ? (
+              <div className="flex flex-col gap-3 pt-1 sm:flex-row sm:flex-wrap">
+                {project.primaryAction ? (
                   <a
-                    href={project.liveUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex h-10 items-center rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-4 text-xs font-semibold text-slate-950 transition hover:brightness-110"
+                    href={project.primaryAction.href}
+                    target={project.primaryAction.kind === "download" ? undefined : "_blank"}
+                    rel={project.primaryAction.kind === "download" ? undefined : "noreferrer"}
+                    download={project.primaryAction.kind === "download" ? true : undefined}
+                    className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-4 text-xs font-semibold text-slate-950 transition hover:brightness-110 sm:w-auto"
                   >
-                    Live Project
+                    <ActionIcon kind={project.primaryAction.kind} />
+                    {project.primaryAction.label}
                   </a>
                 ) : null}
-                {project.githubUrl ? (
+                {project.secondaryAction ? (
                   <a
-                    href={project.githubUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex h-10 items-center rounded-full border border-slate-700 px-4 text-xs font-semibold text-slate-100 transition hover:border-cyan-300/70 hover:text-cyan-200"
+                    href={project.secondaryAction.href}
+                    target={project.secondaryAction.kind === "download" ? undefined : "_blank"}
+                    rel={project.secondaryAction.kind === "download" ? undefined : "noreferrer"}
+                    download={project.secondaryAction.kind === "download" ? true : undefined}
+                    className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full border border-slate-700 px-4 text-xs font-semibold text-slate-100 transition hover:border-cyan-300/70 hover:text-cyan-200 sm:w-auto"
                   >
-                    GitHub
+                    <ActionIcon kind={project.secondaryAction.kind} />
+                    {project.secondaryAction.label}
                   </a>
                 ) : null}
               </div>
+              {project.availabilityNote ? (
+                <p className="text-xs leading-relaxed text-slate-400">{project.availabilityNote}</p>
+              ) : null}
             </aside>
           </FadeIn>
         </div>
 
-        <FadeIn delay={0.1} className="mt-8 rounded-2xl border border-slate-800 bg-slate-900/70 p-6">
-          <h2 className="font-heading text-2xl font-semibold text-white">Key Features</h2>
+        <FadeIn delay={0.1} className="mt-8 rounded-2xl border border-slate-800 bg-slate-900/70 p-5 sm:p-6">
+          <h2 className="font-heading text-xl font-semibold text-white sm:text-2xl">Key Features</h2>
           <ul className="mt-4 grid gap-3 sm:grid-cols-2">
             {project.features.map((feature) => (
               <li key={feature} className="flex gap-3 rounded-xl border border-slate-800 bg-slate-900 px-4 py-3">
@@ -193,8 +224,21 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
         </FadeIn>
 
         <FadeIn delay={0.12} className="mt-8">
-          <h2 className="font-heading text-2xl font-semibold text-white">Screenshots</h2>
-          <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <h2 className="font-heading text-xl font-semibold text-white sm:text-2xl">Screenshots</h2>
+          <div className="-mx-4 mt-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 sm:hidden">
+            {project.screenshots.map((shot) => (
+              <figure
+                key={shot.alt}
+                className="w-[82vw] shrink-0 snap-center overflow-hidden rounded-xl border border-slate-800 bg-slate-900/70"
+              >
+                <div className="relative aspect-[4/3]">
+                  <Image src={shot.src} alt={shot.alt} fill sizes="82vw" className="object-cover" />
+                </div>
+                <figcaption className="p-3 text-xs text-slate-300">{shot.alt}</figcaption>
+              </figure>
+            ))}
+          </div>
+          <div className="mt-4 hidden gap-4 sm:grid sm:grid-cols-2 lg:grid-cols-3">
             {project.screenshots.map((shot) => (
               <figure
                 key={shot.alt}

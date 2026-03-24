@@ -19,7 +19,10 @@ import { SectionHeading } from "@/components/shared/section-heading";
 export const metadata: Metadata = {
   title: "Services",
   description:
-    "Explore EziLab services including web development, mobile apps, dashboards, UI design, and maintenance support.",
+    "EziLab services: custom web development, mobile apps, admin dashboards, e-commerce solutions, UI/UX design, and ongoing maintenance. Built with Next.js, React, and TypeScript.",
+  alternates: {
+    canonical: "https://ezilab.io/services",
+  },
 };
 
 const serviceIcons: Record<string, LucideIcon> = {

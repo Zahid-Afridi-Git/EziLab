@@ -7,6 +7,8 @@
   --bg-base: #030712;
   --bg-glow-a: rgba(34, 211, 238, 0.15);
   --bg-glow-b: rgba(37, 99, 235, 0.16);
+  --color-slate-800: rgba(30, 41, 59, 0.5);
+  --color-slate-700: rgba(51, 65, 85, 0.45);
 }
 
 @theme inline {
@@ -27,8 +29,8 @@
   --color-white: #0f172a;
   --color-slate-950: #f8fafc;
   --color-slate-900: #ffffff;
-  --color-slate-800: #e2e8f0;
-  --color-slate-700: #cbd5e1;
+  --color-slate-800: rgba(226, 232, 240, 0.6);
+  --color-slate-700: rgba(203, 213, 225, 0.55);
   --color-slate-400: #64748b;
   --color-slate-300: #334155;
   --color-slate-200: #1e293b;

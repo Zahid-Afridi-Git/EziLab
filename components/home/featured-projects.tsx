@@ -79,6 +79,7 @@ export function FeaturedProjects() {
           ))}
         </div>
 
+        {/* Projects page disabled for now
         <FadeIn delay={0.12} className="mt-8">
           <Link
             href="/projects"
@@ -87,6 +88,7 @@ export function FeaturedProjects() {
             View All Projects
           </Link>
         </FadeIn>
+        */}
       </Container>
     </section>
   );

@@ -19,8 +19,8 @@ export function AboutPreview() {
           <FadeIn className="lg:col-span-6">
             <SectionHeading
               label="About EziLab"
-              title="A digital innovation organization built to ship real products."
-              description="EziLab exists to turn ideas into reliable digital products with strong design, scalable architecture, and measurable outcomes."
+              title="Elevate Zone of Innovation Laboratory — built to ship real products."
+              description="EziLab is a space where ideas are elevated and turned into innovation. We deliver reliable digital products with strong design, scalable architecture, and measurable outcomes."
             />
             <Link
               href="/about"

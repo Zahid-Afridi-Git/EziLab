@@ -3,6 +3,12 @@ export type ProjectScreenshot = {
   alt: string;
 };
 
+export type ProjectAction = {
+  href: string;
+  label: string;
+  kind?: "download" | "external" | "github";
+};
+
 export type Project = {
   title: string;
   slug: string;
@@ -14,8 +20,9 @@ export type Project = {
   clientType: "Client" | "Internal";
   role: string;
   image: string;
-  liveUrl?: string;
-  githubUrl?: string;
+  primaryAction?: ProjectAction;
+  secondaryAction?: ProjectAction;
+  availabilityNote?: string;
   features: string[];
   challenge: string;
   solution: string;
@@ -28,32 +35,35 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    title: "TAK8 Mobility Platform",
-    slug: "tak8-mobility-platform",
+    title: "TAK8 Car Rental",
+    slug: "tak8-car-rental",
     category: "Mobility",
     year: 2026,
     shortDescription:
-      "A full car-rental ecosystem with customer booking, fleet operations, and analytics.",
+      "A car rental platform for Perth, Australia with online booking, fleet management, and customer portal.",
     fullDescription:
-      "TAK8 is a multi-surface mobility product covering marketing website, booking app, and operations dashboard for the internal team.",
-    projectType: "Web + Dashboard + Mobile Companion",
+      "TAK8 is a full-service car rental platform built for tak8.com.au, offering seamless vehicle browsing, online booking, and fleet operations management for the Perth market.",
+    projectType: "Web Platform + Admin Dashboard",
     clientType: "Client",
     role: "Product strategy, UI engineering, backend architecture, and release management.",
     image: "/images/projects/tak8.svg",
-    liveUrl: "https://tak8.example.com",
-    githubUrl: "https://github.com",
+    primaryAction: {
+      href: "https://tak8.com.au",
+      label: "Live Demo",
+      kind: "external",
+    },
     features: [
-      "Vehicle listing and smart availability management",
-      "Dynamic booking flow with pricing logic",
-      "Driver and fleet management dashboard",
-      "Live booking analytics and utilization reporting",
+      "Vehicle browsing with filters and availability checks",
+      "Online booking flow with pricing and date selection",
+      "Customer portal for managing reservations",
+      "Fleet and booking management admin dashboard",
     ],
     challenge:
-      "The client was handling bookings manually with spreadsheets and had no reliable way to monitor fleet performance in real time.",
+      "The client needed a professional online presence to compete in Perth's car rental market, replacing manual booking processes.",
     solution:
-      "EziLab delivered one connected platform with customer booking automation, admin workflows, and centralized analytics dashboards.",
+      "EziLab built a modern car rental platform with an intuitive booking experience, customer self-service portal, and admin tools for fleet operations.",
     result:
-      "Booking processing time dropped by 58%, while fleet utilization improved by 34% within the first two months.",
+      "Online bookings increased significantly, reducing manual processing time and improving customer satisfaction.",
     techStack: [
       "Next.js",
       "TypeScript",
@@ -63,9 +73,9 @@ export const projects: Project[] = [
       "Framer Motion",
     ],
     screenshots: [
-      { src: "/images/projects/tak8.svg", alt: "TAK8 booking flow screen" },
-      { src: "/images/projects/tak8.svg", alt: "TAK8 fleet dashboard view" },
-      { src: "/images/projects/tak8.svg", alt: "TAK8 analytics overview" },
+      { src: "/images/projects/tak8.svg", alt: "TAK8 vehicle browsing page" },
+      { src: "/images/projects/tak8.svg", alt: "TAK8 booking flow" },
+      { src: "/images/projects/tak8.svg", alt: "TAK8 admin dashboard" },
     ],
     featured: true,
     status: "Completed",
@@ -83,8 +93,16 @@ export const projects: Project[] = [
     clientType: "Client",
     role: "UX architecture, frontend implementation, and Firebase-based backend integration.",
     image: "/images/projects/unifreelance.svg",
-    liveUrl: "https://unifreelance.example.com",
-    githubUrl: "https://github.com",
+    primaryAction: {
+      href: "https://unifreelance.example.com",
+      label: "Live Demo",
+      kind: "external",
+    },
+    secondaryAction: {
+      href: "https://github.com",
+      label: "GitHub",
+      kind: "github",
+    },
     features: [
       "Student onboarding with profile verification",
       "Project posting and proposal management",
@@ -122,31 +140,77 @@ export const projects: Project[] = [
     status: "Completed",
   },
   {
-    title: "Aalatesbeeh Commerce",
-    slug: "aalatesbeeh-commerce",
+    title: "Sukoon",
+    slug: "sukoon",
+    category: "Islamic App",
+    year: 2026,
+    shortDescription:
+      "An Islamic mobile app designed around duas, adhkar, reflection, and calm daily faith routines.",
+    fullDescription:
+      "Sukoon is a mobile-first Islamic app created to help users stay connected to their faith through a calmer, more intentional daily experience. The product combines duas, adhkar, reminders, guided reflection, and habit support in a focused interface that avoids the clutter common in feature-heavy utility apps. Every part of the app is being shaped around trust, simplicity, and repeat daily use.",
+    projectType: "Mobile App (Android-first MVP)",
+    clientType: "Internal",
+    role: "Product strategy, Islamic UX design, mobile app architecture, and end-to-end development.",
+    image: "/images/projects/sukoon.svg",
+    availabilityNote:
+      "This is a mobile app, not a web product. Add the Android APK path and store links here when the public release is ready.",
+    features: [
+      "Daily duas and adhkar presented in a calm, readable interface",
+      "Faith-based reminders that encourage regular Islamic practice",
+      "Guided reflection flows designed for quiet, intentional use",
+      "Habit and routine support for building consistency over time",
+      "Mobile-first UX designed for low-friction daily engagement",
+      "Launch path prepared for Android APK distribution and future store rollout",
+    ],
+    challenge:
+      "The challenge was to design an Islamic app that felt spiritually grounded without becoming visually cluttered or difficult to use. Many existing apps are useful but fragmented, outdated, or overloaded with options, so Sukoon needed to deliver real faith-centered value inside a modern, peaceful experience that users would want to return to every day.",
+    solution:
+      "EziLab approached Sukoon as a faith-centered product experience rather than a feature dump. We focused on a calm visual system, lightweight navigation, and a structure built around the moments users revisit most: remembrance, reflection, routine, and spiritual encouragement. The app was also planned for staged distribution, with support for early Android APK delivery and a roadmap for future app-store publishing.",
+    result:
+      "Sukoon is currently in active MVP development with a strong Islamic product identity, a focused feature set, and a launch-ready case study presence on the website. The current outcome is a clear product direction, a brand-aligned mobile experience, and a scalable foundation for screenshots, APK distribution, and future app-store expansion.",
+    techStack: ["React Native", "TypeScript", "Firebase", "Node.js", "Figma"],
+    screenshots: [
+      {
+        src: "/images/projects/sukoon.svg",
+        alt: "Sukoon onboarding designed for a calm first experience",
+      },
+      {
+        src: "/images/projects/sukoon.svg",
+        alt: "Sukoon daily duas and adhkar screen",
+      },
+      {
+        src: "/images/projects/sukoon.svg",
+        alt: "Sukoon faith reminders and habit support flow",
+      },
+    ],
+    featured: true,
+    status: "Ongoing",
+  },
+  {
+    title: "EziWalk E-Commerce",
+    slug: "eziwalk-ecommerce",
     category: "E-commerce",
     year: 2025,
     shortDescription:
-      "A premium e-commerce website with product management, cart, and order tracking.",
+      "A modern e-commerce website with product catalog, cart, checkout, and order management.",
     fullDescription:
-      "Aalatesbeeh Commerce is a conversion-driven storefront with optimized product pages and a streamlined operational dashboard.",
+      "EziWalk is a full-featured e-commerce platform with an optimized storefront, seamless checkout experience, and a comprehensive admin dashboard for managing products and orders.",
     projectType: "Storefront + Admin",
     clientType: "Client",
     role: "Brand-aware UI design, storefront engineering, and admin dashboard delivery.",
-    image: "/images/projects/aalatesbeeh.svg",
-    liveUrl: "https://aalatesbeeh.example.com",
+    image: "/images/projects/eziwalk.svg",
     features: [
-      "Category and product catalog management",
-      "Optimized cart and checkout journey",
-      "Order lifecycle and status updates",
-      "Admin controls for inventory and promotions",
+      "Product catalog with categories and search",
+      "Shopping cart and streamlined checkout flow",
+      "Order tracking and status updates",
+      "Admin dashboard for inventory and order management",
     ],
     challenge:
-      "The business needed a professional digital store but had slow manual order handling and no central inventory view.",
+      "The business needed a professional online store to reach more customers and move away from manual order processing.",
     solution:
-      "EziLab built a complete commerce workflow with storefront UX improvements and a role-based management dashboard.",
+      "EziLab built a complete e-commerce platform with a conversion-optimized storefront and a role-based admin dashboard.",
     result:
-      "Online orders increased by 67% and average checkout completion improved from 48% to 71%.",
+      "Online orders increased significantly and checkout completion rates improved after launch.",
     techStack: [
       "Next.js",
       "TypeScript",
@@ -157,270 +221,20 @@ export const projects: Project[] = [
     ],
     screenshots: [
       {
-        src: "/images/projects/aalatesbeeh.svg",
-        alt: "Aalatesbeeh product listing page",
+        src: "/images/projects/eziwalk.svg",
+        alt: "EziWalk product listing page",
       },
       {
-        src: "/images/projects/aalatesbeeh.svg",
-        alt: "Aalatesbeeh checkout and cart UI",
+        src: "/images/projects/eziwalk.svg",
+        alt: "EziWalk checkout and cart UI",
       },
       {
-        src: "/images/projects/aalatesbeeh.svg",
-        alt: "Aalatesbeeh admin inventory controls",
+        src: "/images/projects/eziwalk.svg",
+        alt: "EziWalk admin dashboard",
       },
     ],
     featured: true,
     status: "Completed",
-  },
-  {
-    title: "RetailPulse Analytics",
-    slug: "retailpulse-analytics",
-    category: "Dashboard",
-    year: 2026,
-    shortDescription:
-      "A retail intelligence dashboard for sales trends, inventory risk, and demand forecasting.",
-    fullDescription:
-      "RetailPulse combines sales data, inventory metrics, and predictive insights into a decision-ready dashboard for managers.",
-    projectType: "Data Dashboard",
-    clientType: "Client",
-    role: "Dashboard UX, data visualization system, and API integration pipeline.",
-    image: "/images/projects/retailpulse.svg",
-    liveUrl: "https://retailpulse.example.com",
-    githubUrl: "https://github.com",
-    features: [
-      "Interactive KPI widgets and custom date filters",
-      "Store-level and product-level segmentation",
-      "Low-stock alerts and forecasting panels",
-      "CSV export and scheduled summary reports",
-    ],
-    challenge:
-      "Leadership teams were making inventory decisions using delayed reports and disconnected spreadsheets.",
-    solution:
-      "We integrated live data streams and designed a modular analytics workspace with actionable KPI cards and alerts.",
-    result:
-      "Stockout incidents reduced by 29% and weekly reporting effort was cut by 11 hours.",
-    techStack: [
-      "Next.js",
-      "TypeScript",
-      "Node.js",
-      "PostgreSQL",
-      "Chart.js",
-      "Tailwind CSS",
-    ],
-    screenshots: [
-      {
-        src: "/images/projects/retailpulse.svg",
-        alt: "RetailPulse KPI and trend charts",
-      },
-      {
-        src: "/images/projects/retailpulse.svg",
-        alt: "RetailPulse inventory risk heatmap",
-      },
-      {
-        src: "/images/projects/retailpulse.svg",
-        alt: "RetailPulse demand forecast module",
-      },
-    ],
-    featured: true,
-    status: "Completed",
-  },
-  {
-    title: "CareBridge Portal",
-    slug: "carebridge-portal",
-    category: "Healthcare",
-    year: 2025,
-    shortDescription:
-      "A patient communication and appointment portal with secure doctor workflows.",
-    fullDescription:
-      "CareBridge is a secure healthcare portal for appointments, medical summaries, and doctor-patient communication.",
-    projectType: "Patient Portal",
-    clientType: "Client",
-    role: "Architecture planning, compliant UX patterns, and secure API implementation.",
-    image: "/images/projects/carebridge.svg",
-    liveUrl: "https://carebridge.example.com",
-    features: [
-      "Doctor scheduling and appointment slots",
-      "Patient dashboard with records and summaries",
-      "Secure communication channels",
-      "Role-based access and audit trail controls",
-    ],
-    challenge:
-      "The clinic operated with fragmented tools, causing long wait times and poor visibility for both patients and staff.",
-    solution:
-      "EziLab delivered a consolidated portal with secure access, appointment orchestration, and communication workflows.",
-    result:
-      "Appointment no-show rates dropped by 22% and staff coordination improved significantly in under one quarter.",
-    techStack: [
-      "Next.js",
-      "TypeScript",
-      "Node.js",
-      "PostgreSQL",
-      "Tailwind CSS",
-      "JWT Auth",
-    ],
-    screenshots: [
-      {
-        src: "/images/projects/carebridge.svg",
-        alt: "CareBridge appointment calendar",
-      },
-      {
-        src: "/images/projects/carebridge.svg",
-        alt: "CareBridge patient dashboard",
-      },
-      {
-        src: "/images/projects/carebridge.svg",
-        alt: "CareBridge secure communication view",
-      },
-    ],
-    featured: true,
-    status: "Completed",
-  },
-  {
-    title: "CivicFlow Permits",
-    slug: "civicflow-permits",
-    category: "GovTech",
-    year: 2026,
-    shortDescription:
-      "A permit submission and review platform for municipality services and citizen requests.",
-    fullDescription:
-      "CivicFlow modernizes permit submissions with transparent workflows for citizens, reviewers, and municipal teams.",
-    projectType: "Web Platform + Dashboard",
-    clientType: "Client",
-    role: "Product planning, service design, and end-to-end engineering delivery.",
-    image: "/images/projects/civicflow.svg",
-    liveUrl: "https://civicflow.example.com",
-    githubUrl: "https://github.com",
-    features: [
-      "Online permit submission with document upload",
-      "Status timeline and email notifications",
-      "Reviewer dashboard with approval queues",
-      "Operational reporting for municipal offices",
-    ],
-    challenge:
-      "Permit processing relied on paper forms and manual approvals, leading to long response times and low transparency.",
-    solution:
-      "EziLab created a digital workflow engine that tracks every request, automates notifications, and centralizes review actions.",
-    result:
-      "Average permit turnaround time improved by 46% and citizen support calls declined notably.",
-    techStack: [
-      "Next.js",
-      "TypeScript",
-      "Node.js",
-      "PostgreSQL",
-      "Tailwind CSS",
-      "AWS S3",
-    ],
-    screenshots: [
-      {
-        src: "/images/projects/civicflow.svg",
-        alt: "CivicFlow submission form",
-      },
-      {
-        src: "/images/projects/civicflow.svg",
-        alt: "CivicFlow request timeline",
-      },
-      {
-        src: "/images/projects/civicflow.svg",
-        alt: "CivicFlow reviewer dashboard",
-      },
-    ],
-    featured: true,
-    status: "Completed",
-  },
-  {
-    title: "ClassOrbit LMS",
-    slug: "classorbit-lms",
-    category: "Education",
-    year: 2025,
-    shortDescription:
-      "A learning management system with course progress, quizzes, and instructor analytics.",
-    fullDescription:
-      "ClassOrbit supports institutions with modular course publishing, student progress tracking, and performance reporting.",
-    projectType: "Web Platform",
-    clientType: "Client",
-    role: "Frontend system design, API integration, and analytics dashboard implementation.",
-    image: "/images/projects/classorbit.svg",
-    liveUrl: "https://classorbit.example.com",
-    features: [
-      "Course modules with progress persistence",
-      "Timed quizzes and assessment controls",
-      "Instructor analytics and learner cohorts",
-      "Announcements and notifications",
-    ],
-    challenge:
-      "The organization had no unified digital learning environment and relied on disjointed communication tools.",
-    solution:
-      "We designed one platform for course delivery, assessment, and reporting with role-specific interfaces.",
-    result:
-      "Course completion rates improved by 31% after launch with stronger engagement tracking.",
-    techStack: ["React", "TypeScript", "Firebase", "Tailwind CSS", "Cloud Functions"],
-    screenshots: [
-      {
-        src: "/images/projects/classorbit.svg",
-        alt: "ClassOrbit learner dashboard",
-      },
-      {
-        src: "/images/projects/classorbit.svg",
-        alt: "ClassOrbit quiz interface",
-      },
-      {
-        src: "/images/projects/classorbit.svg",
-        alt: "ClassOrbit instructor analytics",
-      },
-    ],
-    featured: false,
-    status: "Completed",
-  },
-  {
-    title: "NovaEstate CRM",
-    slug: "novaestate-crm",
-    category: "Real Estate",
-    year: 2026,
-    shortDescription:
-      "A CRM for brokers with lead funnels, follow-ups, and performance insights.",
-    fullDescription:
-      "NovaEstate CRM helps sales teams manage leads, nurture communication, and track performance from one dashboard.",
-    projectType: "Dashboard Application",
-    clientType: "Client",
-    role: "Platform UX strategy, CRM workflow design, and backend integration.",
-    image: "/images/projects/novaestate.svg",
-    liveUrl: "https://novaestate.example.com",
-    features: [
-      "Lead capture and lifecycle pipeline",
-      "Agent-level activity and conversion metrics",
-      "Automated reminders and follow-up tracking",
-      "Property assignment and notes history",
-    ],
-    challenge:
-      "Agents were losing qualified leads due to missed follow-ups and inconsistent records across channels.",
-    solution:
-      "EziLab built a structured CRM pipeline with reminders, activity visibility, and manager-level insight dashboards.",
-    result:
-      "Lead response speed improved by 52% and deal conversion increased by 24% during pilot rollout.",
-    techStack: [
-      "Next.js",
-      "TypeScript",
-      "Node.js",
-      "PostgreSQL",
-      "Tailwind CSS",
-      "Redis",
-    ],
-    screenshots: [
-      {
-        src: "/images/projects/novaestate.svg",
-        alt: "NovaEstate lead pipeline screen",
-      },
-      {
-        src: "/images/projects/novaestate.svg",
-        alt: "NovaEstate agent performance dashboard",
-      },
-      {
-        src: "/images/projects/novaestate.svg",
-        alt: "NovaEstate activity timeline",
-      },
-    ],
-    featured: false,
-    status: "Ongoing",
   },
 ];
 
