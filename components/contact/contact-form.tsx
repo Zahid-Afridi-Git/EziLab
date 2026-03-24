@@ -1,21 +1,47 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { CheckCircle2, LoaderCircle } from "lucide-react";
+import { AlertCircle, CheckCircle2, LoaderCircle } from "lucide-react";
+
+// TODO: Replace with your real Web3Forms access key
+// Get yours free at https://web3forms.com (enter zahid@ezilab.io)
+const WEB3FORMS_ACCESS_KEY = "2707b767-70a9-4561-9013-f7283c6045d5";
 
 export function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setSubmitting(true);
     setSubmitted(false);
+    setError("");
 
-    window.setTimeout(() => {
+    const formData = new FormData(event.currentTarget);
+    formData.append("access_key", WEB3FORMS_ACCESS_KEY);
+    formData.append("subject", "New Project Inquiry — EziLab");
+    formData.append("from_name", "EziLab Contact Form");
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setSubmitted(true);
+        (event.target as HTMLFormElement).reset();
+      } else {
+        setError(data.message || "Something went wrong. Please try again.");
+      }
+    } catch {
+      setError("Failed to send. Please check your connection and try again.");
+    } finally {
       setSubmitting(false);
-      setSubmitted(true);
-    }, 900);
+    }
   }
 
   return (
@@ -27,6 +53,8 @@ export function ContactForm() {
       <p className="mt-2 text-sm text-slate-300">
         Share your requirements and EziLab will respond within 24 hours.
       </p>
+
+      <input type="hidden" name="botcheck" className="hidden" />
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2">
         <label className="space-y-2">
@@ -82,7 +110,16 @@ export function ContactForm() {
             Inquiry submitted
           </p>
           <p className="mt-1 text-cyan-100/90">
-            Thanks for reaching out. Your inquiry has been captured on this demo form.
+            Thanks for reaching out. We&apos;ll get back to you within 24 hours.
+          </p>
+        </div>
+      ) : null}
+
+      {error ? (
+        <div className="mt-5 rounded-xl border border-red-400/35 bg-red-400/12 px-4 py-3 text-sm text-red-200">
+          <p className="flex items-center gap-2 font-medium">
+            <AlertCircle size={16} />
+            {error}
           </p>
         </div>
       ) : null}
