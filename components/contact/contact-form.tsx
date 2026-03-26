@@ -1,24 +1,71 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import { AlertCircle, CheckCircle2, LoaderCircle } from "lucide-react";
 
-// TODO: Replace with your real Web3Forms access key
-// Get yours free at https://web3forms.com (enter zahid@ezilab.io)
 const WEB3FORMS_ACCESS_KEY = "2707b767-70a9-4561-9013-f7283c6045d5";
+
+const NAME_REGEX = /^[a-zA-Z\s'-]{2,60}$/;
+const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const MIN_MESSAGE_LENGTH = 20;
+
+type FieldErrors = {
+  name?: string;
+  email?: string;
+  message?: string;
+};
+
+function validateForm(name: string, email: string, message: string): FieldErrors {
+  const errors: FieldErrors = {};
+
+  const trimmedName = name.trim();
+  if (!trimmedName) {
+    errors.name = "Name is required.";
+  } else if (!NAME_REGEX.test(trimmedName)) {
+    errors.name = "Please enter a valid name (letters only).";
+  }
+
+  const trimmedEmail = email.trim();
+  if (!trimmedEmail) {
+    errors.email = "Email is required.";
+  } else if (!EMAIL_REGEX.test(trimmedEmail)) {
+    errors.email = "Please enter a valid email address.";
+  }
+
+  const trimmedMessage = message.trim();
+  if (!trimmedMessage) {
+    errors.message = "Project details are required.";
+  } else if (trimmedMessage.length < MIN_MESSAGE_LENGTH) {
+    errors.message = `Please provide at least ${MIN_MESSAGE_LENGTH} characters.`;
+  }
+
+  return errors;
+}
 
 export function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setSubmitting(true);
     setSubmitted(false);
     setError("");
 
-    const formData = new FormData(event.currentTarget);
+    const form = event.currentTarget;
+    const name = (form.elements.namedItem("name") as HTMLInputElement).value;
+    const email = (form.elements.namedItem("email") as HTMLInputElement).value;
+    const message = (form.elements.namedItem("message") as HTMLTextAreaElement).value;
+
+    const errors = validateForm(name, email, message);
+    setFieldErrors(errors);
+
+    if (Object.keys(errors).length > 0) return;
+
+    setSubmitting(true);
+
+    const formData = new FormData(form);
     formData.append("access_key", WEB3FORMS_ACCESS_KEY);
     formData.append("subject", "New Project Inquiry — EziLab");
     formData.append("from_name", "EziLab Contact Form");
@@ -33,7 +80,8 @@ export function ContactForm() {
 
       if (data.success) {
         setSubmitted(true);
-        (event.target as HTMLFormElement).reset();
+        setFieldErrors({});
+        form.reset();
       } else {
         setError(data.message || "Something went wrong. Please try again.");
       }
@@ -44,9 +92,15 @@ export function ContactForm() {
     }
   }
 
+  const inputBase =
+    "h-11 w-full rounded-lg border bg-slate-950 px-3 text-sm text-slate-100 outline-none transition focus:shadow-[0_0_0_4px_rgba(34,211,238,0.15)]";
+  const inputOk = "border-slate-700 focus:border-cyan-300/70";
+  const inputErr = "border-red-400/60 focus:border-red-400/80";
+
   return (
     <form
       onSubmit={handleSubmit}
+      noValidate
       className="rounded-2xl border border-slate-800 bg-slate-900/70 p-6 sm:p-8"
     >
       <h2 className="font-heading text-2xl font-semibold text-white">Send a Project Inquiry</h2>
@@ -57,36 +111,53 @@ export function ContactForm() {
       <input type="hidden" name="botcheck" className="hidden" />
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2">
-        <label className="space-y-2">
-          <span className="text-sm font-medium text-slate-200">Full Name</span>
+        <div className="space-y-2">
+          <label htmlFor="contact-name" className="text-sm font-medium text-slate-200">
+            Full Name
+          </label>
           <input
-            required
+            id="contact-name"
             type="text"
             name="name"
-            className="h-11 w-full rounded-lg border border-slate-700 bg-slate-950 px-3 text-sm text-slate-100 outline-none transition focus:border-cyan-300/70 focus:shadow-[0_0_0_4px_rgba(34,211,238,0.15)]"
+            autoComplete="name"
+            className={`${inputBase} ${fieldErrors.name ? inputErr : inputOk}`}
           />
-        </label>
-        <label className="space-y-2">
-          <span className="text-sm font-medium text-slate-200">Email</span>
+          {fieldErrors.name ? (
+            <p className="text-xs text-red-300">{fieldErrors.name}</p>
+          ) : null}
+        </div>
+        <div className="space-y-2">
+          <label htmlFor="contact-email" className="text-sm font-medium text-slate-200">
+            Email
+          </label>
           <input
-            required
+            id="contact-email"
             type="email"
             name="email"
-            className="h-11 w-full rounded-lg border border-slate-700 bg-slate-950 px-3 text-sm text-slate-100 outline-none transition focus:border-cyan-300/70 focus:shadow-[0_0_0_4px_rgba(34,211,238,0.15)]"
+            autoComplete="email"
+            className={`${inputBase} ${fieldErrors.email ? inputErr : inputOk}`}
           />
-        </label>
+          {fieldErrors.email ? (
+            <p className="text-xs text-red-300">{fieldErrors.email}</p>
+          ) : null}
+        </div>
       </div>
 
-      <label className="mt-4 block space-y-2">
-        <span className="text-sm font-medium text-slate-200">Project Details</span>
+      <div className="mt-4 space-y-2">
+        <label htmlFor="contact-message" className="text-sm font-medium text-slate-200">
+          Project Details
+        </label>
         <textarea
-          required
+          id="contact-message"
           rows={6}
           name="message"
-          className="w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-100 outline-none transition focus:border-cyan-300/70 focus:shadow-[0_0_0_4px_rgba(34,211,238,0.15)]"
+          className={`w-full rounded-lg border bg-slate-950 px-3 py-2 text-sm text-slate-100 outline-none transition focus:shadow-[0_0_0_4px_rgba(34,211,238,0.15)] ${fieldErrors.message ? inputErr : inputOk}`}
           placeholder="Tell us what you want to build, your timeline, and expected outcomes."
         />
-      </label>
+        {fieldErrors.message ? (
+          <p className="text-xs text-red-300">{fieldErrors.message}</p>
+        ) : null}
+      </div>
 
       <button
         type="submit"
