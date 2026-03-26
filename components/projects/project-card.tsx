@@ -33,13 +33,13 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
       )}
     >
       <Link href={`/projects/${project.slug}`} className="block">
-        <div className="relative aspect-[16/9] overflow-hidden border-b border-slate-800 bg-slate-900">
+        <div className="relative aspect-[16/9] overflow-hidden border-b border-slate-800 bg-slate-950">
           <Image
             src={project.image}
             alt={`${project.title} preview`}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
-            className="object-cover transition duration-500 group-hover:scale-105"
+            className="object-contain p-2 transition duration-500 group-hover:scale-105"
           />
         </div>
       </Link>

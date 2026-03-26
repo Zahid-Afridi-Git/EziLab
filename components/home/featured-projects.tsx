@@ -28,13 +28,13 @@ export function FeaturedProjects() {
           <FadeIn delay={0.04} className="mt-10">
             <article className="overflow-hidden rounded-3xl border border-slate-800 bg-slate-900/80 shadow-[0_26px_52px_-30px_rgba(34,211,238,0.55)]">
               <div className="grid gap-0 lg:grid-cols-12">
-                <Link href={`/projects/${heroProject.slug}`} className="relative block min-h-[18rem] lg:col-span-6">
+                <Link href={`/projects/${heroProject.slug}`} className="relative block min-h-[18rem] lg:col-span-6 bg-slate-950">
                   <Image
                     src={heroProject.image}
                     alt={`${heroProject.title} highlight`}
                     fill
                     sizes="(max-width: 1024px) 100vw, 50vw"
-                    className="object-cover"
+                    className="object-contain p-2"
                   />
                 </Link>
                 <div className="p-6 sm:p-8 lg:col-span-6">

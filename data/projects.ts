@@ -46,10 +46,10 @@ export const projects: Project[] = [
     projectType: "Web Platform + Admin Dashboard",
     clientType: "Client",
     role: "Product strategy, UI engineering, backend architecture, and release management.",
-    image: "/images/projects/tak8.svg",
+    image: "/images/projects/tak8/tak8-hero.png",
     primaryAction: {
       href: "https://tak8.com.au",
-      label: "Live Demo",
+      label: "Visit Website",
       kind: "external",
     },
     features: [
@@ -73,9 +73,8 @@ export const projects: Project[] = [
       "Framer Motion",
     ],
     screenshots: [
-      { src: "/images/projects/tak8.svg", alt: "TAK8 vehicle browsing page" },
-      { src: "/images/projects/tak8.svg", alt: "TAK8 booking flow" },
-      { src: "/images/projects/tak8.svg", alt: "TAK8 admin dashboard" },
+      { src: "/images/projects/tak8/tak8-hero.png", alt: "TAK8 homepage" },
+      { src: "/images/projects/tak8/tak8-booking.png", alt: "TAK8 booking flow" },
     ],
     featured: true,
     status: "Completed",
@@ -151,9 +150,12 @@ export const projects: Project[] = [
     projectType: "Mobile App (Android-first MVP)",
     clientType: "Internal",
     role: "Product strategy, Islamic UX design, mobile app architecture, and end-to-end development.",
-    image: "/images/projects/sukoon.svg",
-    availabilityNote:
-      "This is a mobile app, not a web product. Add the Android APK path and store links here when the public release is ready.",
+    image: "/images/projects/sukoon/hero-sectin.png",
+    primaryAction: {
+      href: "/downloads/sukoon.apk",
+      label: "Download APK",
+      kind: "download",
+    },
     features: [
       "Daily duas and adhkar presented in a calm, readable interface",
       "Faith-based reminders that encourage regular Islamic practice",
@@ -171,16 +173,20 @@ export const projects: Project[] = [
     techStack: ["React Native", "TypeScript", "Firebase", "Node.js", "Figma"],
     screenshots: [
       {
-        src: "/images/projects/sukoon.svg",
-        alt: "Sukoon onboarding designed for a calm first experience",
+        src: "/images/projects/sukoon/sukoon-greeting page.png",
+        alt: "Sukoon greeting page",
       },
       {
-        src: "/images/projects/sukoon.svg",
-        alt: "Sukoon daily duas and adhkar screen",
+        src: "/images/projects/sukoon/dua-library.png",
+        alt: "Sukoon dua library screen",
       },
       {
-        src: "/images/projects/sukoon.svg",
-        alt: "Sukoon faith reminders and habit support flow",
+        src: "/images/projects/sukoon/habits-section.png",
+        alt: "Sukoon habits and routine section",
+      },
+      {
+        src: "/images/projects/sukoon/hero-sectin.png",
+        alt: "Sukoon hero section",
       },
     ],
     featured: true,
@@ -198,7 +204,7 @@ export const projects: Project[] = [
     projectType: "Storefront + Admin",
     clientType: "Client",
     role: "Brand-aware UI design, storefront engineering, and admin dashboard delivery.",
-    image: "/images/projects/eziwalk.svg",
+    image: "/images/projects/eziwalk/eziwalk-hero.png",
     features: [
       "Product catalog with categories and search",
       "Shopping cart and streamlined checkout flow",
@@ -221,16 +227,16 @@ export const projects: Project[] = [
     ],
     screenshots: [
       {
-        src: "/images/projects/eziwalk.svg",
-        alt: "EziWalk product listing page",
+        src: "/images/projects/eziwalk/eziwalk-hero.png",
+        alt: "EziWalk homepage",
       },
       {
-        src: "/images/projects/eziwalk.svg",
-        alt: "EziWalk checkout and cart UI",
+        src: "/images/projects/eziwalk/nabar area.png",
+        alt: "EziWalk navigation area",
       },
       {
-        src: "/images/projects/eziwalk.svg",
-        alt: "EziWalk admin dashboard",
+        src: "/images/projects/eziwalk/News-area.png",
+        alt: "EziWalk news section",
       },
     ],
     featured: true,

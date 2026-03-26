@@ -81,13 +81,13 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
         </FadeIn>
 
         <FadeIn delay={0.08} className="mt-8">
-          <div className="relative aspect-[16/9] overflow-hidden rounded-2xl border border-slate-800 bg-slate-900">
+          <div className="relative aspect-[16/9] overflow-hidden rounded-2xl border border-slate-800 bg-slate-950">
             <Image
               src={project.image}
               alt={`${project.title} hero`}
               fill
               sizes="100vw"
-              className="object-cover"
+              className="object-contain p-2"
               priority
             />
           </div>
@@ -229,10 +229,10 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
             {project.screenshots.map((shot) => (
               <figure
                 key={shot.alt}
-                className="w-[82vw] shrink-0 snap-center overflow-hidden rounded-xl border border-slate-800 bg-slate-900/70"
+                className="w-[82vw] shrink-0 snap-center overflow-hidden rounded-xl border border-slate-800 bg-slate-950"
               >
                 <div className="relative aspect-[4/3]">
-                  <Image src={shot.src} alt={shot.alt} fill sizes="82vw" className="object-cover" />
+                  <Image src={shot.src} alt={shot.alt} fill sizes="82vw" className="object-contain p-1" />
                 </div>
                 <figcaption className="p-3 text-xs text-slate-300">{shot.alt}</figcaption>
               </figure>
@@ -242,10 +242,10 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
             {project.screenshots.map((shot) => (
               <figure
                 key={shot.alt}
-                className="overflow-hidden rounded-xl border border-slate-800 bg-slate-900/70"
+                className="overflow-hidden rounded-xl border border-slate-800 bg-slate-950"
               >
                 <div className="relative aspect-[4/3]">
-                  <Image src={shot.src} alt={shot.alt} fill sizes="(max-width: 1024px) 50vw, 33vw" className="object-cover" />
+                  <Image src={shot.src} alt={shot.alt} fill sizes="(max-width: 1024px) 50vw, 33vw" className="object-contain p-1" />
                 </div>
                 <figcaption className="p-3 text-xs text-slate-300">{shot.alt}</figcaption>
               </figure>
