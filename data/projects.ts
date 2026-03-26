@@ -151,11 +151,6 @@ export const projects: Project[] = [
     clientType: "Internal",
     role: "Product strategy, Islamic UX design, mobile app architecture, and end-to-end development.",
     image: "/images/projects/sukoon/hero-sectin.png",
-    primaryAction: {
-      href: "/downloads/sukoon.apk",
-      label: "Download APK",
-      kind: "download",
-    },
     features: [
       "Daily duas and adhkar presented in a calm, readable interface",
       "Faith-based reminders that encourage regular Islamic practice",
