@@ -29,7 +29,7 @@ const themeInitScript = `
 })();
 `;
 
-const GA_MEASUREMENT_ID = "G-G41T09LRJV";
+const GA_MEASUREMENT_ID = "G-L1PLP6GJSF";
 const googleAnalyticsInitScript = `
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
