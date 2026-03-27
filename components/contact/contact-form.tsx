@@ -67,7 +67,7 @@ export function ContactForm() {
 
     const formData = new FormData(form);
     formData.append("access_key", WEB3FORMS_ACCESS_KEY);
-    formData.append("subject", "New Project Inquiry — EziLab");
+    formData.append("subject", "New Project Inquiry â€” EziLab");
     formData.append("from_name", "EziLab Contact Form");
 
     try {

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Manrope, Sora } from "next/font/google";
+import Script from "next/script";
 
 import { BackToTop } from "@/components/layout/back-to-top";
 import { SiteFooter } from "@/components/layout/site-footer";
@@ -26,6 +27,14 @@ const themeInitScript = `
   const theme = saved || fallback;
   document.documentElement.dataset.theme = theme;
 })();
+`;
+
+const GA_MEASUREMENT_ID = "G-64T109LRJV";
+const googleAnalyticsInitScript = `
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${GA_MEASUREMENT_ID}');
 `;
 
 export const metadata: Metadata = {
@@ -131,6 +140,13 @@ export default function RootLayout({
         />
       </head>
       <body className={`${bodyFont.variable} ${headingFont.variable} min-h-screen antialiased`}>
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {googleAnalyticsInitScript}
+        </Script>
         <div className="relative flex min-h-screen flex-col">
           <SiteHeader />
           <div className="flex-1">{children}</div>
