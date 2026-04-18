@@ -49,7 +49,7 @@ export default function ServicesPage() {
         <div className="mt-10 grid gap-5 lg:grid-cols-2">
           {services.map((service, index) => (
             <FadeIn key={service.slug} delay={index * 0.04}>
-              <article className="h-full rounded-2xl border border-slate-800 bg-slate-900/70 p-6 transition duration-200 hover:-translate-y-1 hover:border-cyan-300/35 hover:shadow-[0_18px_40px_-28px_rgba(34,211,238,0.65)]">
+              <article className="h-full rounded-2xl border border-white/[0.06] bg-white/[0.03] p-6 transition duration-200 hover:-translate-y-1 hover:border-white/[0.1] hover:shadow-[0_18px_40px_-28px_rgba(34,211,238,0.65)]">
                 {(() => {
                   const Icon = serviceIcons[service.slug] ?? Globe;
                   return (
@@ -100,7 +100,7 @@ export default function ServicesPage() {
         </div>
 
         <FadeIn delay={0.15} className="mt-12">
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-6 sm:p-8">
+          <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-6 sm:p-8">
             <h3 className="font-heading text-2xl font-semibold text-white">
               Need a custom scope instead of a fixed package?
             </h3>
@@ -109,7 +109,7 @@ export default function ServicesPage() {
             </p>
             <Link
               href="/contact"
-              className="mt-6 inline-flex h-11 items-center rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-5 text-sm font-semibold text-slate-950 transition hover:brightness-110"
+              className="mt-6 inline-flex h-11 items-center rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-5 text-sm font-semibold text-[#030712] transition hover:brightness-110"
             >
               Talk to EziLab
             </Link>

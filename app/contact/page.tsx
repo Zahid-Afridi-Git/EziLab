@@ -47,11 +47,11 @@ export default function ContactPage() {
 
         <div className="mt-10 grid gap-5 lg:grid-cols-12">
           <FadeIn className="lg:col-span-5">
-            <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-6">
+            <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-6">
               <h2 className="font-heading text-2xl font-semibold text-white">Contact Channels</h2>
               <ul className="mt-5 space-y-4">
                 {contactLinks.map((item) => (
-                  <li key={item.label} className="rounded-xl border border-slate-800 bg-slate-900 p-4">
+                  <li key={item.label} className="rounded-xl border border-white/[0.06] bg-white/[0.03] p-4">
                     <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">
                       <item.icon size={14} />
                       {item.label}

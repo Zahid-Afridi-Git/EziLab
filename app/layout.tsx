@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Manrope, Sora } from "next/font/google";
-import Script from "next/script";
 
+import { CookieConsent } from "@/components/legal/cookie-controls";
 import { BackToTop } from "@/components/layout/back-to-top";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
@@ -30,17 +30,11 @@ const themeInitScript = `
 `;
 
 const GA_MEASUREMENT_ID = "G-L1PLP6GJSF";
-const googleAnalyticsInitScript = `
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', '${GA_MEASUREMENT_ID}');
-`;
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://ezilab.io"),
   title: {
-    default: "EziLab | Elevate Zone of Innovation Laboratory",
+    default: "EziLab | Web & App Development Platform",
     template: "%s | EziLab",
   },
   description: siteConfig.description,
@@ -50,7 +44,9 @@ export const metadata: Metadata = {
   publisher: "EziLab",
   keywords: [
     "EziLab",
-    "Elevate Zone of Innovation Laboratory",
+    "Elevate Zone of Innovation Lab",
+    "web and app development platform",
+    "build websites and apps",
     "ezilab.io",
     "web development company",
     "app development",
@@ -68,7 +64,7 @@ export const metadata: Metadata = {
     "software development company",
   ],
   openGraph: {
-    title: "EziLab | Elevate Zone of Innovation Laboratory",
+    title: "EziLab | Web & App Development Platform",
     description: siteConfig.description,
     url: "https://ezilab.io",
     siteName: "EziLab",
@@ -77,7 +73,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "EziLab | Elevate Zone of Innovation Laboratory",
+    title: "EziLab | Web & App Development Platform",
     description: siteConfig.description,
     creator: "@ezilab",
   },
@@ -106,7 +102,7 @@ export default function RootLayout({
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "EziLab",
-    alternateName: "Elevate Zone of Innovation Laboratory",
+    alternateName: "Elevate Zone of Innovation Lab",
     url: "https://ezilab.io",
     email: "zahid@ezilab.io",
     description: siteConfig.description,
@@ -140,13 +136,7 @@ export default function RootLayout({
         />
       </head>
       <body className={`${bodyFont.variable} ${headingFont.variable} min-h-screen antialiased`}>
-        <Script
-          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {googleAnalyticsInitScript}
-        </Script>
+        <CookieConsent measurementId={GA_MEASUREMENT_ID} />
         <div className="relative flex min-h-screen flex-col">
           <SiteHeader />
           <div className="flex-1">{children}</div>

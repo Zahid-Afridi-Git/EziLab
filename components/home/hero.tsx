@@ -1,153 +1,203 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { ArrowUpRight, Globe2, LayoutDashboard, Smartphone, Sparkles } from "lucide-react";
-
-import { siteConfig } from "@/data/site";
-
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
+import { ArrowUpRight, CheckCircle2, Globe2, LayoutDashboard, Smartphone, ShoppingBag, Terminal, Code2 } from "lucide-react";
 import { Container } from "@/components/shared/container";
-import { FadeIn } from "@/components/shared/fade-in";
+
+const capabilities = [
+  { icon: Globe2, label: "Websites", desc: "Landing pages, portfolios, business sites" },
+  { icon: Smartphone, label: "Mobile Apps", desc: "iOS & Android with React Native" },
+  { icon: LayoutDashboard, label: "Dashboards", desc: "Admin panels & internal tools" },
+  { icon: ShoppingBag, label: "E-commerce", desc: "Online stores & checkout flows" },
+];
+
+const highlights = ["28+ projects delivered", "6–10 week average delivery", "92% client retention"];
+
+const codeLines = [
+  { text: "const", kw: true, rest: " app = createProject({" },
+  { text: "  name:", kw: false, rest: ' "your-next-product",' },
+  { text: "  stack:", kw: false, rest: " [React, Next.js, TypeScript]," },
+  { text: "  platforms:", kw: false, rest: " [web, mobile, dashboard]," },
+  { text: "  status:", kw: false, rest: ' "launching-soon" 🚀' },
+  { text: "});", kw: false, rest: "" },
+];
+
+const floatingScreens = [
+  { src: "/images/projects/tak8/tak8-hero.png", alt: "TAK8", pos: "left-[-6%] top-[20%] w-[240px] -rotate-6", d: 0.3 },
+  { src: "/images/projects/sukoon/hero-sectin.png", alt: "Sukoon", pos: "right-[-5%] top-[14%] w-[200px] rotate-6", d: 0.5 },
+  { src: "/images/projects/eziwalk/eziwalk-hero.png", alt: "EziWalk", pos: "left-[-3%] bottom-[10%] w-[220px] rotate-3", d: 0.7 },
+  { src: "/images/projects/tak8/tak8-booking.png", alt: "TAK8 booking", pos: "right-[-3%] bottom-[14%] w-[220px] -rotate-3", d: 0.6 },
+];
+
+function CodeTerminal() {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 50, scale: 0.92 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{ duration: 1, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+      className="relative mx-auto mt-14 max-w-2xl"
+    >
+      <div className="absolute -inset-8 -z-10 rounded-3xl bg-sky-500/[0.05] blur-3xl" />
+      <div className="card card-lg overflow-hidden">
+        <div className="flex items-center gap-2 border-b border-[var(--card-border)] px-4 py-3">
+          <span className="h-3 w-3 rounded-full bg-[#ff5f57]" />
+          <span className="h-3 w-3 rounded-full bg-[#febc2e]" />
+          <span className="h-3 w-3 rounded-full bg-[#28c840]" />
+          <span className="ml-3 flex items-center gap-1.5 text-[11px] text-muted">
+            <Terminal size={11} />
+            project.config.ts
+          </span>
+        </div>
+        <div className="p-5 font-mono text-[13px] leading-7">
+          {codeLines.map((line, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, x: -12 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.3, delay: 0.8 + i * 0.1, ease: "easeOut" }}
+            >
+              {line.kw ? (
+                <><span className="text-[#bf5af2]">{line.text}</span><span className="text-[#98989d]">{line.rest}</span></>
+              ) : (
+                <span className="text-[#98989d]">{line.text}<span className="text-[#64d2ff]">{line.rest}</span></span>
+              )}
+            </motion.div>
+          ))}
+          <motion.span
+            animate={{ opacity: [1, 0] }}
+            transition={{ duration: 0.8, repeat: Infinity, repeatType: "reverse" }}
+            className="mt-1 inline-block h-4 w-[3px] rounded-sm bg-sky-400"
+          />
+        </div>
+      </div>
+    </motion.div>
+  );
+}
 
 export function Hero() {
-  const items = [
-    {
-      title: "Web & landing pages",
-      detail: "Conversion-first experiences",
-      icon: Globe2,
-    },
-    {
-      title: "Dashboards & admin",
-      detail: "Operational visibility tools",
-      icon: LayoutDashboard,
-    },
-    {
-      title: "Mobile products",
-      detail: "Cross-platform experiences",
-      icon: Smartphone,
-    },
-    {
-      title: "AI prototypes",
-      detail: "Fast validation for new ideas",
-      icon: Sparkles,
-    },
-  ];
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end start"] });
+  const heroY = useTransform(scrollYProgress, [0, 1], [0, 120]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
 
   return (
-    <section className="relative overflow-hidden pb-24 pt-[4.5rem] sm:pb-28 sm:pt-24 lg:pb-32">
-      <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute left-[-10%] top-[-20%] h-[30rem] w-[30rem] rounded-full bg-cyan-500/18 blur-3xl" />
-        <div className="absolute right-[-8%] top-[10%] h-[26rem] w-[26rem] rounded-full bg-blue-500/18 blur-3xl" />
-        <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-b from-transparent to-slate-950/90" />
+    <section ref={sectionRef} className="relative overflow-hidden pb-24 pt-[5rem] sm:pb-32 sm:pt-28 lg:pb-36">
+      {/* Floating screenshots — lg only */}
+      <div className="pointer-events-none absolute inset-0 -z-[5] hidden lg:block">
+        {floatingScreens.map((s) => (
+          <motion.div
+            key={s.alt}
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2, delay: s.d, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className={`absolute ${s.pos}`}
+          >
+            <div className="overflow-hidden rounded-2xl shadow-2xl shadow-black/30">
+              <Image src={s.src} alt={s.alt} width={400} height={250} className="h-auto w-full object-cover opacity-20" />
+            </div>
+          </motion.div>
+        ))}
       </div>
 
       <Container>
-        <div className="grid items-center gap-10 lg:grid-cols-12">
-          <FadeIn className="lg:col-span-7">
-            <span className="inline-flex rounded-full border border-cyan-300/35 bg-cyan-300/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.15em] text-cyan-200">
-              Organization Portfolio
-            </span>
-            <h1 className="mt-6 text-balance font-heading text-4xl font-semibold leading-tight text-white sm:text-5xl lg:text-6xl">
-              Building modern web, mobile, and digital solutions through EziLab.
-            </h1>
-            <p className="mt-6 max-w-2xl text-pretty text-base leading-relaxed text-slate-300 sm:text-lg">
-              {siteConfig.description} We partner with startups and organizations to launch
-              products that are fast, clear, and built for long-term scale.
-            </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-              <Link
-                href="/contact"
-                className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-6 text-sm font-semibold text-slate-950 transition duration-200 hover:-translate-y-0.5 hover:brightness-110 sm:w-auto"
-              >
-                Start Your Project
-                <ArrowUpRight size={16} />
-              </Link>
-              <Link
-                href="/services"
-                className="inline-flex h-12 w-full items-center justify-center rounded-full border border-slate-700 px-6 text-sm font-semibold text-slate-100 transition duration-200 hover:-translate-y-0.5 hover:border-cyan-300/70 hover:text-cyan-200 sm:w-auto"
-              >
-                Our Services
-              </Link>
-            </div>
-          </FadeIn>
+        <motion.div style={{ y: heroY, opacity: heroOpacity }} className="relative z-10 mx-auto max-w-4xl text-center">
+          <motion.span
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="inline-flex items-center gap-2 rounded-full bg-sky-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.1em] text-sky-400"
+          >
+            <Code2 size={13} />
+            Software Development Studio
+          </motion.span>
 
-          <FadeIn delay={0.15} className="lg:col-span-5">
-            <motion.div
-              initial={{ opacity: 0.4 }}
-              animate={{ opacity: [0.4, 0.75, 0.4] }}
-              transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }}
-              className="relative rounded-2xl bg-gradient-to-br from-cyan-300/70 via-blue-500/35 to-cyan-200/65 p-[1px]"
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="mt-7 text-balance font-heading text-4xl font-semibold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-[3.5rem]"
+          >
+            We engineer{" "}
+            <span className="bg-gradient-to-r from-sky-400 to-blue-500 bg-clip-text text-transparent">digital products</span>
+            <br />
+            from code to launch
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+            className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-relaxed text-muted sm:text-lg"
+          >
+            Websites, mobile apps, and dashboards — built with modern frameworks,
+            clean architecture, and a team that ships production-ready code.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.35 }}
+            className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2"
+          >
+            {highlights.map((h) => (
+              <span key={h} className="flex items-center gap-1.5 text-sm text-muted">
+                <CheckCircle2 size={14} className="text-sky-400" />
+                {h}
+              </span>
+            ))}
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
+            className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center"
+          >
+            <Link
+              href="/contact"
+              className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-sky-500 px-7 text-sm font-semibold text-white shadow-lg shadow-sky-500/25 transition duration-300 hover:bg-sky-400 hover:shadow-sky-500/35 active:scale-[0.98] sm:w-auto"
             >
-              <div className="rounded-2xl border border-slate-800/70 bg-slate-900/75 p-4 shadow-[0_28px_50px_-28px_rgba(34,211,238,0.6)] backdrop-blur-xl sm:p-6">
-                <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-cyan-200">
-                  <Sparkles size={14} />
-                  What we build
-                </p>
-                <div className="mt-4 grid gap-3 sm:hidden">
-                  <div className="grid grid-cols-2 gap-3">
-                    {items.map((item) => {
-                      const Icon = item.icon;
+              Start Your Project
+              <ArrowUpRight size={16} />
+            </Link>
+            <Link
+              href="/services"
+              className="inline-flex h-12 w-full items-center justify-center rounded-full border border-[var(--card-border)] bg-[var(--card)] px-7 text-sm font-semibold text-foreground shadow-sm transition duration-300 hover:bg-[var(--card-hover)] active:scale-[0.98] sm:w-auto"
+            >
+              View Our Services
+            </Link>
+          </motion.div>
+        </motion.div>
 
-                      return (
-                        <div
-                          key={item.title}
-                          className="rounded-xl border border-slate-800 bg-slate-950/80 p-3"
-                        >
-                          <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-cyan-300/30 bg-cyan-300/10 text-cyan-200">
-                            <Icon size={16} />
-                          </span>
-                          <p className="mt-3 text-sm font-semibold text-white">{item.title}</p>
-                          <p className="mt-1 text-xs leading-relaxed text-slate-400">
-                            {item.detail}
-                          </p>
-                        </div>
-                      );
-                    })}
-                  </div>
-                  <div className="rounded-xl border border-cyan-300/25 bg-slate-950/80 p-4">
-                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-cyan-200">
-                      2025-2026 Focus
-                    </p>
-                    <p className="mt-2 text-sm font-medium text-white">
-                      Case-study delivery with measurable business outcomes.
-                    </p>
-                  </div>
-                </div>
+        <CodeTerminal />
 
-                <motion.ul
-                  className="mt-5 hidden space-y-4 sm:block"
-                  initial="hidden"
-                  animate="show"
-                  variants={{
-                    hidden: {},
-                    show: { transition: { staggerChildren: 0.1, delayChildren: 0.15 } },
-                  }}
+        {/* Capability cards */}
+        <div className="mt-20">
+          <p className="mb-8 text-center text-xs font-semibold uppercase tracking-[0.15em] text-muted">What We Build</p>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {capabilities.map((cap, i) => {
+              const Icon = cap.icon;
+              return (
+                <motion.article
+                  key={cap.label}
+                  initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ duration: 0.6, delay: i * 0.08, ease: [0.25, 0.46, 0.45, 0.94] }}
+                  viewport={{ once: true }}
+                  className="card group p-6"
                 >
-                  {items.map((item) => (
-                    <motion.li
-                      key={item.title}
-                      className="flex gap-3 text-sm text-slate-300"
-                      variants={{
-                        hidden: { opacity: 0, y: 10 },
-                        show: { opacity: 1, y: 0 },
-                      }}
-                    >
-                      <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-300" />
-                      <span>
-                        <span className="font-medium text-white">{item.title}</span>
-                        <span className="text-slate-400"> - {item.detail}</span>
-                      </span>
-                    </motion.li>
-                  ))}
-                </motion.ul>
-                <div className="mt-6 hidden rounded-xl border border-cyan-300/25 bg-slate-950/80 p-4 sm:block">
-                  <p className="text-sm font-medium text-white">
-                    2025-2026 Focus: Case-study quality delivery with measurable business outcomes.
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-          </FadeIn>
+                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-sky-500/10 text-sky-400">
+                    <Icon size={20} />
+                  </span>
+                  <h3 className="mt-4 font-heading text-base font-semibold text-white">{cap.label}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted">{cap.desc}</p>
+                </motion.article>
+              );
+            })}
+          </div>
         </div>
       </Container>
     </section>

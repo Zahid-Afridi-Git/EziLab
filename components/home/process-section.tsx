@@ -29,7 +29,7 @@ export function ProcessSection() {
 
               return (
                 <FadeIn key={step.title} delay={index * 0.05}>
-                  <article className="flex h-full flex-col rounded-2xl border border-slate-800 bg-slate-900/70 p-5 transition duration-200 hover:-translate-y-1 hover:border-cyan-300/40 hover:shadow-[0_20px_38px_-28px_rgba(34,211,238,0.7)]">
+                  <article className="flex h-full flex-col rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 transition duration-200 hover:-translate-y-1 hover:border-cyan-300/40 hover:shadow-[0_20px_38px_-28px_rgba(34,211,238,0.7)]">
                     <span className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-cyan-300/35 bg-cyan-300/15 text-cyan-200">
                       <Icon size={18} />
                     </span>

@@ -31,7 +31,7 @@ export function BackToTop() {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 16, scale: 0.96 }}
           transition={{ duration: 0.2, ease: "easeOut" }}
-          className="fixed right-4 bottom-[calc(env(safe-area-inset-bottom)+1rem)] z-40 inline-flex h-12 w-12 items-center justify-center rounded-full border border-cyan-300/40 bg-slate-900/90 text-cyan-100 shadow-[0_20px_40px_-24px_rgba(34,211,238,0.8)] backdrop-blur-md transition hover:-translate-y-0.5 hover:bg-slate-900 sm:right-6"
+          className="fixed right-4 bottom-[calc(env(safe-area-inset-bottom)+1rem)] z-40 inline-flex h-12 w-12 items-center justify-center rounded-full border border-cyan-300/40 bg-background/90 text-cyan-100 shadow-[0_20px_40px_-24px_rgba(34,211,238,0.8)] backdrop-blur-md transition hover:-translate-y-0.5 hover:bg-slate-900 sm:right-6"
         >
           <ArrowUp size={18} />
         </motion.button>

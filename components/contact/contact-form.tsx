@@ -93,7 +93,7 @@ export function ContactForm() {
   }
 
   const inputBase =
-    "h-11 w-full rounded-lg border bg-slate-950 px-3 text-sm text-slate-100 outline-none transition focus:shadow-[0_0_0_4px_rgba(34,211,238,0.15)]";
+    "h-11 w-full rounded-lg border bg-background px-3 text-sm text-slate-100 outline-none transition focus:shadow-[0_0_0_4px_rgba(34,211,238,0.15)]";
   const inputOk = "border-slate-700 focus:border-cyan-300/70";
   const inputErr = "border-red-400/60 focus:border-red-400/80";
 
@@ -101,7 +101,7 @@ export function ContactForm() {
     <form
       onSubmit={handleSubmit}
       noValidate
-      className="rounded-2xl border border-slate-800 bg-slate-900/70 p-6 sm:p-8"
+      className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-6 sm:p-8"
     >
       <h2 className="font-heading text-2xl font-semibold text-white">Send a Project Inquiry</h2>
       <p className="mt-2 text-sm text-slate-300">
@@ -151,7 +151,7 @@ export function ContactForm() {
           id="contact-message"
           rows={6}
           name="message"
-          className={`w-full rounded-lg border bg-slate-950 px-3 py-2 text-sm text-slate-100 outline-none transition focus:shadow-[0_0_0_4px_rgba(34,211,238,0.15)] ${fieldErrors.message ? inputErr : inputOk}`}
+          className={`w-full rounded-lg border bg-background px-3 py-2 text-sm text-slate-100 outline-none transition focus:shadow-[0_0_0_4px_rgba(34,211,238,0.15)] ${fieldErrors.message ? inputErr : inputOk}`}
           placeholder="Tell us what you want to build, your timeline, and expected outcomes."
         />
         {fieldErrors.message ? (
@@ -162,7 +162,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={submitting}
-        className="mt-6 inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-6 text-sm font-semibold text-slate-950 transition duration-200 hover:-translate-y-0.5 hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-75 sm:w-auto"
+        className="mt-6 inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-6 text-sm font-semibold text-[#030712] transition duration-200 hover:-translate-y-0.5 hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-75 sm:w-auto"
       >
         {submitting ? (
           <>

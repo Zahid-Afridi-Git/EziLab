@@ -1,16 +1,10 @@
+"use client";
+
 import Link from "next/link";
+import { motion } from "framer-motion";
 import type { LucideIcon } from "lucide-react";
-import {
-  Brush,
-  Headset,
-  LayoutDashboard,
-  ShoppingBag,
-  Smartphone,
-  Globe,
-} from "lucide-react";
-
+import { ArrowUpRight, Brush, Globe, Headset, LayoutDashboard, ShoppingBag, Smartphone } from "lucide-react";
 import { services } from "@/data/services";
-
 import { Container } from "@/components/shared/container";
 import { FadeIn } from "@/components/shared/fade-in";
 import { SectionHeading } from "@/components/shared/section-heading";
@@ -26,46 +20,56 @@ const serviceIcons: Record<string, LucideIcon> = {
 
 export function ServicesPreview() {
   return (
-    <section className="py-16 sm:py-24">
+    <section className="py-20 sm:py-28">
       <Container>
         <FadeIn>
           <SectionHeading
-            label="Services"
-            title="End-to-end digital services for product teams and businesses."
-            description="From first concept to production release, EziLab handles strategy, design, development, and long-term support."
+            label="What We Do"
+            title="Everything you need to go digital."
+            description="Whether you need a website, mobile app, online store, or admin dashboard — we handle the full process from design to deployment."
             align="center"
             className="mx-auto max-w-3xl"
           />
         </FadeIn>
 
-        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {services.map((service, index) => {
+        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {services.map((service, i) => {
             const Icon = serviceIcons[service.slug] ?? Globe;
-
             return (
-              <FadeIn key={service.slug} delay={index * 0.05}>
-                <article className="flex h-full flex-col rounded-2xl border border-slate-800 bg-slate-900/70 p-5 transition duration-200 hover:-translate-y-1 hover:border-cyan-300/35 hover:shadow-[0_18px_38px_-26px_rgba(34,211,238,0.55)]">
-                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-cyan-300/35 bg-cyan-300/10 text-cyan-200">
+              <motion.article
+                key={service.slug}
+                initial={{ opacity: 0, y: 30, scale: 0.96 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.6, delay: i * 0.06, ease: [0.25, 0.46, 0.45, 0.94] }}
+                viewport={{ once: true }}
+                className="card group flex h-full flex-col p-6"
+              >
+                <div className="flex items-center gap-3">
+                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-sky-500/10 text-sky-400">
                     <Icon size={18} />
                   </span>
-                  <h3 className="mt-4 font-heading text-lg font-semibold text-white">
-                    {service.title}
-                  </h3>
-                  <p className="mt-3 flex-1 text-sm leading-relaxed text-slate-300">{service.summary}</p>
-                  <p className="mt-4 text-xs uppercase tracking-[0.16em] text-slate-400">Value</p>
-                  <p className="mt-2 text-sm text-slate-300">{service.value}</p>
-                </article>
-              </FadeIn>
+                  <h3 className="font-heading text-base font-semibold text-white">{service.title}</h3>
+                </div>
+                <p className="mt-3 flex-1 text-sm leading-relaxed text-muted">{service.summary}</p>
+                <div className="mt-4 flex flex-wrap gap-1.5">
+                  {service.deliverables.slice(0, 2).map((d) => (
+                    <span key={d} className="inline-flex rounded-full bg-sky-500/[0.06] px-2.5 py-0.5 text-[11px] font-medium text-sky-400/80">
+                      {d}
+                    </span>
+                  ))}
+                </div>
+              </motion.article>
             );
           })}
         </div>
 
-        <FadeIn delay={0.1} className="mt-8 text-center">
+        <FadeIn delay={0.1} className="mt-12 text-center">
           <Link
             href="/services"
-            className="inline-flex h-11 items-center rounded-full border border-slate-700 px-5 text-sm font-semibold text-slate-100 transition hover:border-cyan-300/70 hover:text-cyan-200"
+            className="inline-flex h-11 items-center gap-1.5 rounded-full border border-[var(--card-border)] bg-[var(--card)] px-6 text-sm font-semibold text-foreground shadow-sm transition duration-300 hover:bg-[var(--card-hover)] active:scale-[0.98]"
           >
-            Explore All Services
+            See All Services
+            <ArrowUpRight size={14} />
           </Link>
         </FadeIn>
       </Container>

@@ -51,7 +51,7 @@ export function ProjectsBrowser({ initialCategory }: ProjectsBrowserProps) {
 
   return (
     <>
-      <div className="sticky top-[4.5rem] z-20 mt-8 -mx-4 border-y border-slate-800/70 bg-slate-950/88 px-4 py-3 backdrop-blur-xl sm:static sm:mx-0 sm:border-0 sm:bg-transparent sm:px-0 sm:py-0">
+      <div className="sticky top-[4.5rem] z-20 mt-8 -mx-4 border-y border-white/[0.06]/70 bg-background/88 px-4 py-3 backdrop-blur-xl sm:static sm:mx-0 sm:border-0 sm:bg-transparent sm:px-0 sm:py-0">
         <div className="overflow-x-auto sm:overflow-visible">
           <div className="flex min-w-max snap-x snap-mandatory gap-2 sm:min-w-0 sm:flex-wrap">
             {projectCategories.map((category) => {
@@ -66,7 +66,7 @@ export function ProjectsBrowser({ initialCategory }: ProjectsBrowserProps) {
                   className={
                     isActive
                       ? "inline-flex h-10 shrink-0 snap-start items-center rounded-full bg-cyan-300/20 px-4 text-sm font-semibold text-cyan-100"
-                      : "inline-flex h-10 shrink-0 snap-start items-center rounded-full border border-slate-700 px-4 text-sm font-medium text-slate-200 transition hover:border-cyan-300/60 hover:text-cyan-100"
+                      : "inline-flex h-10 shrink-0 snap-start items-center rounded-full border border-white/[0.08] px-4 text-sm font-medium text-slate-200 transition hover:border-cyan-300/60 hover:text-cyan-100"
                   }
                 >
                   {category}
@@ -86,7 +86,7 @@ export function ProjectsBrowser({ initialCategory }: ProjectsBrowserProps) {
 
       {filteredProjects.length === 0 ? (
         <FadeIn delay={0.12} className="mt-8">
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-8 text-center">
+          <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-8 text-center">
             <p className="font-heading text-xl font-semibold text-white">
               No projects found in this category
             </p>

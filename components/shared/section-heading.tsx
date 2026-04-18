@@ -8,23 +8,17 @@ type SectionHeadingProps = {
   className?: string;
 };
 
-export function SectionHeading({
-  label,
-  title,
-  description,
-  align = "left",
-  className,
-}: SectionHeadingProps) {
+export function SectionHeading({ label, title, description, align = "left", className }: SectionHeadingProps) {
   return (
     <div className={cn(align === "center" && "text-center", className)}>
-      <span className="inline-flex rounded-full border border-cyan-300/50 bg-cyan-300/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-cyan-200">
+      <span className="inline-block text-sm font-semibold uppercase tracking-[0.08em] text-sky-400">
         {label}
       </span>
-      <h2 className="mt-4 text-balance font-heading text-3xl font-semibold text-white sm:text-4xl">
+      <h2 className="mt-3 text-balance font-heading text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:text-[2.75rem]">
         {title}
       </h2>
       {description ? (
-        <p className="mt-4 max-w-2xl text-pretty text-sm leading-relaxed text-slate-300 sm:text-base">
+        <p className={cn("mt-4 text-pretty text-base leading-relaxed text-muted sm:text-lg", align === "center" && "mx-auto max-w-2xl")}>
           {description}
         </p>
       ) : null}

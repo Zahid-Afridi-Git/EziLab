@@ -51,12 +51,12 @@ export function SiteHeader() {
     <header
       className={cn(
         "sticky top-0 z-50 border-b border-transparent transition-all duration-300",
-        isScrolled && "border-slate-800/80 bg-slate-950/80 backdrop-blur-xl",
+        isScrolled && "border-white/[0.06] bg-background/80 backdrop-blur-xl",
       )}
     >
       <div className="mx-auto flex h-[4.5rem] w-full max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-2">
-          <span className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-cyan-400 to-blue-600 text-sm font-bold text-slate-950">
+          <span className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-sky-500 text-sm font-bold text-white">
             EZ
           </span>
           <span className="font-heading text-lg font-semibold tracking-tight text-white">
@@ -74,8 +74,8 @@ export function SiteHeader() {
                 className={cn(
                   "rounded-full px-4 py-2 text-sm font-medium transition duration-200",
                   active
-                    ? "bg-cyan-300/15 text-cyan-200"
-                    : "text-slate-300 hover:-translate-y-0.5 hover:bg-white/5 hover:text-white",
+                    ? "bg-sky-500/10 text-sky-400"
+                    : "text-slate-400 hover:-translate-y-0.5 hover:bg-white/5 hover:text-white",
                 )}
               >
                 {item.label}
@@ -88,7 +88,7 @@ export function SiteHeader() {
           <ThemeToggle />
           <Link
             href="/contact"
-            className="inline-flex h-10 items-center rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-5 text-sm font-semibold text-slate-950 transition hover:brightness-110"
+            className="inline-flex h-10 items-center rounded-full bg-sky-500 px-5 text-sm font-semibold text-white transition hover:bg-sky-400"
           >
             Start Your Project
           </Link>
@@ -99,7 +99,7 @@ export function SiteHeader() {
           aria-label="Toggle menu"
           aria-expanded={mobileOpen}
           onClick={() => setMobileOpen((open) => !open)}
-          className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-slate-800 text-slate-200 md:hidden"
+          className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-white/[0.08] text-slate-200 md:hidden"
         >
           {mobileOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
@@ -116,14 +116,14 @@ export function SiteHeader() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2, ease: "easeOut" }}
-              className="fixed inset-0 top-[4.5rem] z-40 bg-slate-950/72 backdrop-blur-sm md:hidden"
+              className="fixed inset-0 top-[4.5rem] z-40 bg-background/72 backdrop-blur-sm md:hidden"
             />
             <motion.div
               initial={{ opacity: 0, y: -18 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -18 }}
               transition={{ duration: 0.24, ease: "easeOut" }}
-              className="fixed inset-x-0 top-[4.5rem] bottom-0 z-40 border-t border-slate-800 bg-slate-950/96 md:hidden"
+              className="fixed inset-x-0 top-[4.5rem] bottom-0 z-40 border-t border-white/[0.06] bg-background/96 md:hidden"
             >
               <div className="flex h-full flex-col overflow-y-auto px-4 pb-[calc(env(safe-area-inset-bottom)+1rem)] pt-4">
                 <nav className="flex flex-col gap-2">
@@ -137,8 +137,8 @@ export function SiteHeader() {
                         className={cn(
                           "rounded-2xl border px-4 py-4 text-base font-medium transition",
                           active
-                            ? "border-cyan-300/30 bg-cyan-300/12 text-cyan-100"
-                            : "border-slate-800 bg-slate-900/70 text-slate-200 hover:border-cyan-300/30 hover:text-white",
+                            ? "border-sky-500/30 bg-sky-500/10 text-sky-400"
+                            : "border-white/[0.06] bg-white/[0.03] text-slate-300 hover:border-white/[0.1] hover:text-white",
                         )}
                       >
                         {item.label}
@@ -147,7 +147,7 @@ export function SiteHeader() {
                   })}
                 </nav>
 
-                <div className="mt-4 rounded-2xl border border-slate-800 bg-slate-900/70 p-4">
+                <div className="mt-4 rounded-2xl border border-white/[0.06] bg-white/[0.03] p-4">
                   <div className="flex items-center justify-between gap-3">
                     <div>
                       <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">
@@ -163,7 +163,7 @@ export function SiteHeader() {
                   <Link
                     href="/contact"
                     onClick={() => setMobileOpen(false)}
-                    className="inline-flex h-12 w-full items-center justify-center rounded-2xl bg-gradient-to-r from-cyan-400 to-blue-500 text-sm font-semibold text-slate-950 shadow-[0_20px_44px_-28px_rgba(34,211,238,0.8)]"
+                    className="inline-flex h-12 w-full items-center justify-center rounded-2xl bg-sky-500 text-sm font-semibold text-white shadow-lg shadow-sky-500/20"
                   >
                     Start Your Project
                   </Link>

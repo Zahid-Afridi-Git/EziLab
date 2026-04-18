@@ -3,14 +3,19 @@ import { Github, Linkedin, Twitter } from "lucide-react";
 
 import { mainNav, siteConfig } from "@/data/site";
 
+const legalLinks = [
+  { label: "Privacy Policy", href: "/privacy-policy" },
+  { label: "Cookies", href: "/cookies" },
+];
+
 export function SiteFooter() {
   return (
-    <footer className="relative border-t border-slate-800 bg-slate-950/70">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-300/60 to-transparent" />
-      <div className="mx-auto grid w-full max-w-6xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-4 lg:px-8">
-        <div className="lg:col-span-2">
+    <footer className="relative border-t border-white/[0.06] bg-background/70">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
+      <div className="mx-auto grid w-full max-w-6xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[minmax(0,2fr)_repeat(3,minmax(0,1fr))] lg:px-8">
+        <div>
           <div className="flex items-center gap-3">
-            <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-cyan-400 to-blue-600 text-sm font-bold text-slate-950">
+            <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-sky-500 text-sm font-bold text-white">
               EZ
             </span>
             <p className="font-heading text-2xl font-semibold text-white">{siteConfig.name}</p>
@@ -24,7 +29,7 @@ export function SiteFooter() {
               target="_blank"
               rel="noreferrer"
               aria-label="GitHub"
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-700 bg-slate-900 text-slate-200 transition hover:-translate-y-0.5 hover:border-cyan-300/70 hover:text-cyan-200"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/[0.06] bg-white/[0.03] text-slate-200 transition hover:-translate-y-0.5 hover:border-slate-600 hover:text-sky-400"
             >
               <Github size={16} />
             </a>
@@ -33,7 +38,7 @@ export function SiteFooter() {
               target="_blank"
               rel="noreferrer"
               aria-label="LinkedIn"
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-700 bg-slate-900 text-slate-200 transition hover:-translate-y-0.5 hover:border-cyan-300/70 hover:text-cyan-200"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/[0.06] bg-white/[0.03] text-slate-200 transition hover:-translate-y-0.5 hover:border-slate-600 hover:text-sky-400"
             >
               <Linkedin size={16} />
             </a>
@@ -42,7 +47,7 @@ export function SiteFooter() {
               target="_blank"
               rel="noreferrer"
               aria-label="X"
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-700 bg-slate-900 text-slate-200 transition hover:-translate-y-0.5 hover:border-cyan-300/70 hover:text-cyan-200"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/[0.06] bg-white/[0.03] text-slate-200 transition hover:-translate-y-0.5 hover:border-slate-600 hover:text-sky-400"
             >
               <Twitter size={16} />
             </a>
@@ -58,7 +63,25 @@ export function SiteFooter() {
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="text-sm text-slate-300 transition hover:text-cyan-200"
+                  className="text-sm text-slate-300 transition hover:text-sky-400"
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <h3 className="text-sm font-semibold uppercase tracking-[0.16em] text-slate-200">
+            Policies
+          </h3>
+          <ul className="mt-4 space-y-3">
+            {legalLinks.map((item) => (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  className="text-sm text-slate-300 transition hover:text-sky-400"
                 >
                   {item.label}
                 </Link>
@@ -73,14 +96,14 @@ export function SiteFooter() {
           </h3>
           <ul className="mt-4 space-y-3 text-sm text-slate-300">
             <li>
-              <a href={`mailto:${siteConfig.email}`} className="transition hover:text-cyan-200">
+              <a href={`mailto:${siteConfig.email}`} className="transition hover:text-sky-400">
                 {siteConfig.email}
               </a>
             </li>
             <li>
               <a
                 href={`https://wa.me/${siteConfig.whatsapp.replace(/\D/g, "")}`}
-                className="transition hover:text-cyan-200"
+                className="transition hover:text-sky-400"
               >
                 WhatsApp: {siteConfig.whatsapp}
               </a>
@@ -88,7 +111,7 @@ export function SiteFooter() {
           </ul>
         </div>
       </div>
-      <div className="border-t border-slate-800">
+      <div className="border-t border-white/[0.06]">
         <div className="mx-auto flex w-full max-w-6xl flex-col items-start justify-between gap-3 px-4 py-5 text-xs text-slate-400 sm:flex-row sm:items-center sm:px-6 lg:px-8">
           <p>(c) {new Date().getFullYear()} EziLab. All rights reserved.</p>
           <p>Built with Next.js, Tailwind CSS, and Framer Motion.</p>

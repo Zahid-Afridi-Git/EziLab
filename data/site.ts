@@ -6,9 +6,9 @@ export type NavItem = {
 export const siteConfig = {
   name: "EziLab",
   shortName: "EziLab",
-  tagline: "Elevate Zone of Innovation Laboratory — A space where ideas are elevated and turned into innovation.",
+  tagline: "EziLab — We design, build, and launch websites and apps for businesses ready to grow online.",
   description:
-    "EziLab (Elevate Zone of Innovation Laboratory) is a digital innovation organization that builds modern websites, applications, dashboards, and future-ready solutions for growing teams.",
+    "EziLab (Elevate Zone of Innovation Lab) is a web and app development platform that designs, builds, and launches modern websites, mobile apps, dashboards, and digital products for startups and growing businesses.",
   email: "zahid@ezilab.io",
   whatsapp: "+92 334 966 2622",
   social: {

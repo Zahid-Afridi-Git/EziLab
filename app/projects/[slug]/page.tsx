@@ -81,7 +81,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
         </FadeIn>
 
         <FadeIn delay={0.08} className="mt-8">
-          <div className="relative aspect-[16/9] overflow-hidden rounded-2xl border border-slate-800 bg-slate-950">
+          <div className="relative aspect-[16/9] overflow-hidden rounded-2xl border border-slate-800 bg-background">
             <Image
               src={project.image}
               alt={`${project.title} hero`}
@@ -197,7 +197,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                     target={project.secondaryAction.kind === "download" ? undefined : "_blank"}
                     rel={project.secondaryAction.kind === "download" ? undefined : "noreferrer"}
                     download={project.secondaryAction.kind === "download" ? true : undefined}
-                    className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full border border-slate-700 px-4 text-xs font-semibold text-slate-100 transition hover:border-cyan-300/70 hover:text-cyan-200 sm:w-auto"
+                    className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full border border-white/[0.08] px-4 text-xs font-semibold text-slate-100 transition hover:border-cyan-300/70 hover:text-cyan-200 sm:w-auto"
                   >
                     <ActionIcon kind={project.secondaryAction.kind} />
                     {project.secondaryAction.label}
@@ -229,7 +229,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
             {project.screenshots.map((shot) => (
               <figure
                 key={shot.alt}
-                className="w-[82vw] shrink-0 snap-center overflow-hidden rounded-xl border border-slate-800 bg-slate-950"
+                className="w-[82vw] shrink-0 snap-center overflow-hidden rounded-xl border border-slate-800 bg-background"
               >
                 <div className="relative aspect-[4/3]">
                   <Image src={shot.src} alt={shot.alt} fill sizes="82vw" className="object-contain p-1" />
@@ -242,7 +242,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
             {project.screenshots.map((shot) => (
               <figure
                 key={shot.alt}
-                className="overflow-hidden rounded-xl border border-slate-800 bg-slate-950"
+                className="overflow-hidden rounded-xl border border-slate-800 bg-background"
               >
                 <div className="relative aspect-[4/3]">
                   <Image src={shot.src} alt={shot.alt} fill sizes="(max-width: 1024px) 50vw, 33vw" className="object-contain p-1" />

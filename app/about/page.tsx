@@ -21,7 +21,7 @@ import { SectionHeading } from "@/components/shared/section-heading";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "EziLab (Elevate Zone of Innovation Laboratory) is a digital innovation organization that builds modern websites, apps, and dashboards for growing teams worldwide.",
+    "EziLab (Elevate Zone of Innovation Lab) is a web and app development platform that builds modern websites, mobile apps, and dashboards for startups and growing businesses worldwide.",
   alternates: {
     canonical: "https://ezilab.io/about",
   },
@@ -77,14 +77,14 @@ export default function AboutPage() {
         <FadeIn>
           <SectionHeading
             label="About EziLab"
-            title="Elevate Zone of Innovation Laboratory — focused on practical, future-ready products."
+            title="Elevate Zone of Innovation Lab — your platform for building websites and apps."
             description={siteConfig.description}
           />
         </FadeIn>
 
         <div className="mt-10 grid gap-5 lg:grid-cols-2">
           <FadeIn>
-            <article className="h-full rounded-2xl border border-slate-800 bg-slate-900/70 p-6">
+            <article className="h-full rounded-2xl border border-white/[0.06] bg-white/[0.03] p-6">
               <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-cyan-300/35 bg-cyan-300/10 text-cyan-200">
                 <Building2 size={18} />
               </span>
@@ -97,7 +97,7 @@ export default function AboutPage() {
           </FadeIn>
 
           <FadeIn delay={0.1}>
-            <article className="h-full rounded-2xl border border-slate-800 bg-slate-900/70 p-6">
+            <article className="h-full rounded-2xl border border-white/[0.06] bg-white/[0.03] p-6">
               <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-cyan-300/35 bg-cyan-300/10 text-cyan-200">
                 <Eye size={18} />
               </span>
@@ -122,7 +122,7 @@ export default function AboutPage() {
               {values.map((value) => (
                 <li
                   key={value.label}
-                  className="rounded-xl border border-slate-800 bg-slate-900/60 px-4 py-3 text-sm text-slate-200"
+                  className="rounded-xl border border-white/[0.06] bg-white/[0.03] px-4 py-3 text-sm text-slate-200"
                 >
                   <span className="flex items-center gap-2">
                     <value.icon size={15} className="text-cyan-200" />
@@ -134,7 +134,7 @@ export default function AboutPage() {
           </FadeIn>
 
           <FadeIn delay={0.1} className="lg:col-span-5">
-            <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-6">
+            <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-6">
               <h3 className="font-heading text-2xl font-semibold text-white">Focus industries</h3>
               <ul className="mt-4 space-y-3 text-sm text-slate-300">
                 {industries.map((industry) => (
@@ -149,14 +149,14 @@ export default function AboutPage() {
         </div>
 
         <FadeIn delay={0.12} className="mt-12">
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-6 sm:p-8">
+          <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-6 sm:p-8">
             <h3 className="flex items-center gap-2 font-heading text-2xl font-semibold text-white">
               <Users size={20} className="text-cyan-200" />
               Team & Leadership
             </h3>
             <div className="mt-5 grid gap-4 md:grid-cols-3">
               {team.map((member) => (
-                <article key={member.name} className="rounded-xl border border-slate-800 bg-slate-900 p-4">
+                <article key={member.name} className="rounded-xl border border-white/[0.06] bg-white/[0.03] p-4">
                   <p className="font-heading text-lg font-semibold text-white">{member.name}</p>
                   <p className="mt-1 text-xs font-semibold uppercase tracking-[0.16em] text-cyan-200">
                     {member.role}
@@ -169,7 +169,7 @@ export default function AboutPage() {
         </FadeIn>
 
         <FadeIn delay={0.13} className="mt-10">
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-6 sm:p-8">
+          <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-6 sm:p-8">
             <h3 className="flex items-center gap-2 font-heading text-2xl font-semibold text-white">
               <BriefcaseBusiness size={20} className="text-cyan-200" />
               EziLab Journey
@@ -177,7 +177,7 @@ export default function AboutPage() {
             <div className="relative mt-6 space-y-4 pl-5">
               <div className="pointer-events-none absolute left-1.5 top-2 bottom-2 w-px bg-slate-700" />
               {milestones.map((milestone) => (
-                <article key={milestone.title} className="relative rounded-xl border border-slate-800 bg-slate-900 p-4">
+                <article key={milestone.title} className="relative rounded-xl border border-white/[0.06] bg-white/[0.03] p-4">
                   <span className="absolute -left-[1.55rem] top-5 h-3 w-3 rounded-full border border-cyan-200 bg-cyan-300/70" />
                   <p className="text-xs font-semibold uppercase tracking-[0.16em] text-cyan-200">
                     {milestone.year}
@@ -191,7 +191,7 @@ export default function AboutPage() {
         </FadeIn>
 
         <FadeIn delay={0.14} className="mt-12">
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-6 sm:p-8">
+          <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-6 sm:p-8">
             <h3 className="font-heading text-2xl font-semibold text-white">
               Ready to collaborate with EziLab?
             </h3>
@@ -202,13 +202,13 @@ export default function AboutPage() {
             <div className="mt-6 flex flex-wrap gap-3">
               <Link
                 href="/contact"
-                className="inline-flex h-11 items-center rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-5 text-sm font-semibold text-slate-950 transition hover:brightness-110"
+                className="inline-flex h-11 items-center rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-5 text-sm font-semibold text-[#030712] transition hover:brightness-110"
               >
                 Contact EziLab
               </Link>
               <Link
                 href="/services"
-                className="inline-flex h-11 items-center rounded-full border border-slate-700 px-5 text-sm font-semibold text-slate-100 transition hover:border-cyan-300/70 hover:text-cyan-200"
+                className="inline-flex h-11 items-center rounded-full border border-white/[0.08] px-5 text-sm font-semibold text-slate-100 transition hover:border-cyan-300/70 hover:text-cyan-200"
               >
                 Our Services
               </Link>
