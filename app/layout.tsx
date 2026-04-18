@@ -3,6 +3,7 @@ import { Manrope, Sora } from "next/font/google";
 
 import { CookieConsent } from "@/components/legal/cookie-controls";
 import { BackToTop } from "@/components/layout/back-to-top";
+import { MobileTabBar } from "@/components/layout/mobile-tab-bar";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { siteConfig } from "@/data/site";
@@ -139,9 +140,10 @@ export default function RootLayout({
         <CookieConsent measurementId={GA_MEASUREMENT_ID} />
         <div className="relative flex min-h-screen flex-col">
           <SiteHeader />
-          <div className="flex-1">{children}</div>
+          <div className="flex-1 pb-16 md:pb-0">{children}</div>
           <SiteFooter />
           <BackToTop />
+          <MobileTabBar />
         </div>
       </body>
     </html>

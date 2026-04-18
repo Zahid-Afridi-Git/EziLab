@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Github, Linkedin, Twitter } from "lucide-react";
-
 import { mainNav, siteConfig } from "@/data/site";
 
 const legalLinks = [
@@ -10,110 +9,65 @@ const legalLinks = [
 
 export function SiteFooter() {
   return (
-    <footer className="relative border-t border-white/[0.06] bg-background/70">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
-      <div className="mx-auto grid w-full max-w-6xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[minmax(0,2fr)_repeat(3,minmax(0,1fr))] lg:px-8">
-        <div>
-          <div className="flex items-center gap-3">
-            <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-sky-500 text-sm font-bold text-white">
-              EZ
-            </span>
-            <p className="font-heading text-2xl font-semibold text-white">{siteConfig.name}</p>
+    <footer className="border-t border-[var(--card-border)] bg-[var(--card)]">
+      <div className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
+        {/* Top section */}
+        <div className="grid gap-8 sm:gap-10 lg:grid-cols-[minmax(0,2fr)_repeat(3,minmax(0,1fr))]">
+          {/* Brand */}
+          <div>
+            <div className="flex items-center gap-2.5">
+              <span className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-sky-500 text-sm font-bold text-white">EZ</span>
+              <p className="font-heading text-xl font-semibold text-white sm:text-2xl">{siteConfig.name}</p>
+            </div>
+            <p className="mt-3 max-w-lg text-[13px] leading-relaxed text-muted sm:mt-4 sm:text-sm">{siteConfig.description}</p>
+            <div className="mt-4 flex items-center gap-2 sm:mt-5">
+              {[
+                { href: siteConfig.social.github, label: "GitHub", Icon: Github },
+                { href: siteConfig.social.linkedin, label: "LinkedIn", Icon: Linkedin },
+                { href: siteConfig.social.x, label: "X", Icon: Twitter },
+              ].map(({ href, label, Icon }) => (
+                <a key={label} href={href} target="_blank" rel="noreferrer" aria-label={label} className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-foreground/[0.06] text-muted transition hover:text-sky-400 active:scale-95">
+                  <Icon size={15} />
+                </a>
+              ))}
+            </div>
           </div>
-          <p className="mt-4 max-w-lg text-sm leading-relaxed text-slate-300">
-            {siteConfig.description}
-          </p>
-          <div className="mt-5 flex items-center gap-2">
-            <a
-              href={siteConfig.social.github}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="GitHub"
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/[0.06] bg-white/[0.03] text-slate-200 transition hover:-translate-y-0.5 hover:border-slate-600 hover:text-sky-400"
-            >
-              <Github size={16} />
-            </a>
-            <a
-              href={siteConfig.social.linkedin}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="LinkedIn"
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/[0.06] bg-white/[0.03] text-slate-200 transition hover:-translate-y-0.5 hover:border-slate-600 hover:text-sky-400"
-            >
-              <Linkedin size={16} />
-            </a>
-            <a
-              href={siteConfig.social.x}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="X"
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/[0.06] bg-white/[0.03] text-slate-200 transition hover:-translate-y-0.5 hover:border-slate-600 hover:text-sky-400"
-            >
-              <Twitter size={16} />
-            </a>
+
+          {/* Links — 2-col on mobile, 3 separate on desktop */}
+          <div className="col-span-1 grid grid-cols-2 gap-6 sm:gap-8 lg:col-span-3 lg:grid-cols-3">
+            <div>
+              <h3 className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted sm:text-xs">Quick Links</h3>
+              <ul className="mt-3 space-y-2.5 sm:mt-4 sm:space-y-3">
+                {mainNav.map((item) => (
+                  <li key={item.href}>
+                    <Link href={item.href} className="text-[13px] text-foreground/70 transition hover:text-sky-400 sm:text-sm">{item.label}</Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted sm:text-xs">Policies</h3>
+              <ul className="mt-3 space-y-2.5 sm:mt-4 sm:space-y-3">
+                {legalLinks.map((item) => (
+                  <li key={item.href}>
+                    <Link href={item.href} className="text-[13px] text-foreground/70 transition hover:text-sky-400 sm:text-sm">{item.label}</Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="col-span-2 lg:col-span-1">
+              <h3 className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted sm:text-xs">Contact</h3>
+              <ul className="mt-3 space-y-2.5 text-[13px] text-foreground/70 sm:mt-4 sm:space-y-3 sm:text-sm">
+                <li><a href={`mailto:${siteConfig.email}`} className="transition hover:text-sky-400">{siteConfig.email}</a></li>
+                <li><a href={`https://wa.me/${siteConfig.whatsapp.replace(/\D/g, "")}`} className="transition hover:text-sky-400">WhatsApp: {siteConfig.whatsapp}</a></li>
+              </ul>
+            </div>
           </div>
         </div>
 
-        <div>
-          <h3 className="text-sm font-semibold uppercase tracking-[0.16em] text-slate-200">
-            Quick Links
-          </h3>
-          <ul className="mt-4 space-y-3">
-            {mainNav.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className="text-sm text-slate-300 transition hover:text-sky-400"
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div>
-          <h3 className="text-sm font-semibold uppercase tracking-[0.16em] text-slate-200">
-            Policies
-          </h3>
-          <ul className="mt-4 space-y-3">
-            {legalLinks.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className="text-sm text-slate-300 transition hover:text-sky-400"
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div>
-          <h3 className="text-sm font-semibold uppercase tracking-[0.16em] text-slate-200">
-            Contact
-          </h3>
-          <ul className="mt-4 space-y-3 text-sm text-slate-300">
-            <li>
-              <a href={`mailto:${siteConfig.email}`} className="transition hover:text-sky-400">
-                {siteConfig.email}
-              </a>
-            </li>
-            <li>
-              <a
-                href={`https://wa.me/${siteConfig.whatsapp.replace(/\D/g, "")}`}
-                className="transition hover:text-sky-400"
-              >
-                WhatsApp: {siteConfig.whatsapp}
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div className="border-t border-white/[0.06]">
-        <div className="mx-auto flex w-full max-w-6xl flex-col items-start justify-between gap-3 px-4 py-5 text-xs text-slate-400 sm:flex-row sm:items-center sm:px-6 lg:px-8">
-          <p>(c) {new Date().getFullYear()} EziLab. All rights reserved.</p>
+        {/* Bottom bar */}
+        <div className="mt-8 flex flex-col items-center gap-2 border-t border-[var(--card-border)] pt-6 text-[11px] text-muted sm:mt-10 sm:flex-row sm:justify-between sm:pt-8 sm:text-xs">
+          <p>&copy; {new Date().getFullYear()} EziLab. All rights reserved.</p>
           <p>Built with Next.js, Tailwind CSS, and Framer Motion.</p>
         </div>
       </div>

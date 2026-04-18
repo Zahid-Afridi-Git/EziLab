@@ -2,258 +2,335 @@
 
 import Link from "next/link";
 import Script from "next/script";
-import { startTransition, useSyncExternalStore } from "react";
-import { BarChart3, Cookie, ShieldCheck } from "lucide-react";
-
+import { startTransition, useCallback, useEffect, useState, useSyncExternalStore } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { BarChart3, Check, Cookie, ShieldCheck, X } from "lucide-react";
 import { cn } from "@/lib/cn";
 
 type CookiePreference = "accepted" | "essential";
 
-const COOKIE_CONSENT_STORAGE_KEY = "ezilab-cookie-consent";
-const COOKIE_CONSENT_EVENT = "ezilab-cookie-consent-change";
+const STORAGE_KEY = "ezilab-cookie-consent";
+const CHANGE_EVENT = "ezilab-cookie-consent-change";
 
-function readStoredPreference(): CookiePreference | null {
-  if (typeof window === "undefined") {
-    return null;
-  }
+/* ── Storage helpers ── */
 
-  const value = window.localStorage.getItem(COOKIE_CONSENT_STORAGE_KEY);
-  return value === "accepted" || value === "essential" ? value : null;
+function readStored(): CookiePreference | null {
+  if (typeof window === "undefined") return null;
+  const v = window.localStorage.getItem(STORAGE_KEY);
+  return v === "accepted" || v === "essential" ? v : null;
 }
 
 function expireCookie(name: string, domain?: string) {
-  const domainPart = domain ? `; domain=${domain}` : "";
-  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/${domainPart}; SameSite=Lax`;
+  const d = domain ? `; domain=${domain}` : "";
+  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/${d}; SameSite=Lax`;
 }
 
-function clearAnalyticsCookies() {
-  if (typeof document === "undefined") {
-    return;
-  }
-
+function clearGACookies() {
+  if (typeof document === "undefined") return;
   const host = window.location.hostname;
-  const hostSegments = host.split(".");
-  const rootDomain =
-    hostSegments.length > 1 ? `.${hostSegments.slice(-2).join(".")}` : undefined;
+  const parts = host.split(".");
+  const root = parts.length > 1 ? `.${parts.slice(-2).join(".")}` : undefined;
 
-  for (const cookie of document.cookie.split(";")) {
-    const [rawName] = cookie.split("=");
-    const name = rawName?.trim();
-
-    if (!name || !name.startsWith("_ga")) {
-      continue;
-    }
-
+  for (const c of document.cookie.split(";")) {
+    const name = c.split("=")[0]?.trim();
+    if (!name || !name.startsWith("_ga")) continue;
     expireCookie(name);
     expireCookie(name, host);
-
-    if (rootDomain) {
-      expireCookie(name, rootDomain);
-    }
+    if (root) expireCookie(name, root);
   }
 }
 
-function broadcastPreference(value: CookiePreference | null) {
-  window.dispatchEvent(
-    new CustomEvent(COOKIE_CONSENT_EVENT, {
-      detail: value,
-    }),
-  );
+function disableGA(measurementId: string) {
+  if (typeof window !== "undefined") {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (window as any)[`ga-disable-${measurementId}`] = true;
+  }
+  clearGACookies();
 }
 
-function storePreference(value: CookiePreference | null) {
+function broadcast(value: CookiePreference | null) {
+  window.dispatchEvent(new CustomEvent(CHANGE_EVENT, { detail: value }));
+}
+
+function store(value: CookiePreference | null, measurementId?: string) {
   if (value) {
-    window.localStorage.setItem(COOKIE_CONSENT_STORAGE_KEY, value);
+    window.localStorage.setItem(STORAGE_KEY, value);
   } else {
-    window.localStorage.removeItem(COOKIE_CONSENT_STORAGE_KEY);
+    window.localStorage.removeItem(STORAGE_KEY);
   }
 
-  if (value !== "accepted") {
-    clearAnalyticsCookies();
+  if (value !== "accepted" && measurementId) {
+    disableGA(measurementId);
   }
 
-  broadcastPreference(value);
+  broadcast(value);
 }
 
-function subscribeToPreference(callback: () => void) {
-  function handleStorage(event: StorageEvent) {
-    if (event.key === COOKIE_CONSENT_STORAGE_KEY) {
-      callback();
-    }
-  }
+/* ── Hook ── */
 
-  function handlePreferenceChange() {
-    callback();
-  }
-
-  window.addEventListener("storage", handleStorage);
-  window.addEventListener(COOKIE_CONSENT_EVENT, handlePreferenceChange);
-
+function subscribe(cb: () => void) {
+  const onStorage = (e: StorageEvent) => { if (e.key === STORAGE_KEY) cb(); };
+  const onChange = () => cb();
+  window.addEventListener("storage", onStorage);
+  window.addEventListener(CHANGE_EVENT, onChange);
   return () => {
-    window.removeEventListener("storage", handleStorage);
-    window.removeEventListener(COOKIE_CONSENT_EVENT, handlePreferenceChange);
+    window.removeEventListener("storage", onStorage);
+    window.removeEventListener(CHANGE_EVENT, onChange);
   };
 }
 
-function subscribeToHydration() {
-  return () => {};
-}
-
 function useCookiePreference() {
-  const preference = useSyncExternalStore(
-    subscribeToPreference,
-    readStoredPreference,
-    () => null,
-  );
-  const hydrated = useSyncExternalStore(subscribeToHydration, () => true, () => false);
-
+  const preference = useSyncExternalStore(subscribe, readStored, () => null);
+  const hydrated = useSyncExternalStore(() => () => {}, () => true, () => false);
   return { preference, hydrated };
 }
 
-function getPreferenceCopy(preference: CookiePreference | null) {
-  if (preference === "accepted") {
-    return "Analytics cookies are enabled on this browser.";
-  }
-
-  if (preference === "essential") {
-    return "Only essential site storage is enabled on this browser.";
-  }
-
-  return "You have not saved a cookie preference for this browser yet.";
-}
+/* ── Banner component ── */
 
 export function CookieConsent({ measurementId }: { measurementId: string }) {
   const { preference, hydrated } = useCookiePreference();
+  const [justSaved, setJustSaved] = useState<CookiePreference | null>(null);
 
-  function savePreference(value: CookiePreference) {
+  function save(value: CookiePreference) {
     startTransition(() => {
-      storePreference(value);
+      store(value, measurementId);
+      setJustSaved(value);
     });
   }
 
-  const googleAnalyticsInitScript = `
+  // Clear the confirmation after 3 seconds
+  useEffect(() => {
+    if (!justSaved) return;
+    const t = setTimeout(() => setJustSaved(null), 3000);
+    return () => clearTimeout(t);
+  }, [justSaved]);
+
+  const gaInitScript = `
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
-gtag('config', '${measurementId}');
+gtag('config', '${measurementId}', { anonymize_ip: true });
 `;
 
   return (
     <>
+      {/* Load GA only when accepted */}
       {preference === "accepted" ? (
         <>
-          <Script
-            src={`https://www.googletagmanager.com/gtag/js?id=${measurementId}`}
-            strategy="afterInteractive"
-          />
-          <Script id="google-analytics" strategy="afterInteractive">
-            {googleAnalyticsInitScript}
-          </Script>
+          <Script src={`https://www.googletagmanager.com/gtag/js?id=${measurementId}`} strategy="afterInteractive" />
+          <Script id="google-analytics" strategy="afterInteractive">{gaInitScript}</Script>
         </>
       ) : null}
 
-      {hydrated && preference === null ? (
-        <div className="fixed inset-x-0 bottom-4 z-50 px-4 sm:px-6">
-          <div className="mx-auto max-w-5xl rounded-[1.75rem] border border-white/[0.08] bg-background/95 p-5 shadow-[0_28px_80px_-34px_rgba(2,132,199,0.55)] backdrop-blur-xl sm:p-6">
-            <div className="grid gap-5 lg:grid-cols-[minmax(0,1.35fr)_auto] lg:items-end">
-              <div>
-                <span className="inline-flex items-center gap-2 rounded-full border border-cyan-300/35 bg-cyan-300/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-cyan-200">
-                  <Cookie size={14} />
-                  Privacy Controls
+      <AnimatePresence mode="wait">
+        {/* Show banner when no preference saved yet */}
+        {hydrated && preference === null && !justSaved ? (
+          <motion.div
+            key="banner"
+            initial={{ opacity: 0, y: 60 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 40 }}
+            transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="fixed inset-x-0 bottom-[4.5rem] z-50 px-3 sm:bottom-4 sm:px-6 md:bottom-4"
+          >
+            <div className="card card-lg mx-auto max-w-2xl p-4 backdrop-blur-xl sm:p-6">
+              <div className="flex items-start gap-3 sm:gap-4">
+                <span className="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-sky-500/10 text-sky-400 sm:h-10 sm:w-10">
+                  <Cookie size={17} />
                 </span>
-                <h2 className="mt-4 font-heading text-2xl font-semibold text-white sm:text-3xl">
-                  Analytics cookies are optional on EziLab.
-                </h2>
-                <p className="mt-3 max-w-3xl text-sm leading-relaxed text-slate-300 sm:text-base">
-                  Essential storage keeps your theme and privacy choices in place. Optional
-                  analytics help us understand site usage only if you allow them.
-                </p>
-                <div className="mt-4 flex flex-wrap gap-3 text-sm text-slate-300">
-                  <Link
-                    href="/privacy-policy"
-                    className="inline-flex items-center gap-2 text-cyan-200 transition hover:text-cyan-100"
-                  >
-                    <ShieldCheck size={14} />
-                    Privacy Policy
-                  </Link>
-                  <Link
-                    href="/cookies"
-                    className="inline-flex items-center gap-2 text-cyan-200 transition hover:text-cyan-100"
-                  >
-                    <BarChart3 size={14} />
-                    Cookies & Controls
-                  </Link>
+                <div className="flex-1">
+                  <h2 className="font-heading text-[15px] font-semibold text-white sm:text-base">Cookie preferences</h2>
+                  <p className="mt-1 text-[13px] leading-relaxed text-muted sm:mt-1.5 sm:text-sm">
+                    We use essential storage for theme and preferences. Analytics cookies are optional and help us improve the site.
+                  </p>
+                  <div className="mt-2 flex flex-wrap gap-2 text-xs">
+                    <Link href="/privacy-policy" className="inline-flex items-center gap-1 text-sky-400 transition hover:text-sky-300">
+                      <ShieldCheck size={12} /> Privacy Policy
+                    </Link>
+                    <Link href="/cookies" className="inline-flex items-center gap-1 text-sky-400 transition hover:text-sky-300">
+                      <BarChart3 size={12} /> Cookie Details
+                    </Link>
+                  </div>
                 </div>
               </div>
 
-              <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
+              <div className="mt-4 flex flex-col gap-2 sm:flex-row">
                 <button
                   type="button"
-                  onClick={() => savePreference("accepted")}
-                  className="inline-flex h-11 items-center justify-center rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-5 text-sm font-semibold text-[#030712] transition hover:brightness-110"
+                  onClick={() => save("accepted")}
+                  className="inline-flex h-10 flex-1 items-center justify-center rounded-full bg-sky-500 px-5 text-sm font-semibold text-white transition hover:bg-sky-400 active:scale-[0.98] sm:flex-none"
                 >
-                  Accept analytics
+                  Accept all
                 </button>
                 <button
                   type="button"
-                  onClick={() => savePreference("essential")}
-                  className="inline-flex h-11 items-center justify-center rounded-full border border-white/[0.08] px-5 text-sm font-semibold text-slate-100 transition hover:border-slate-600 hover:text-sky-400"
+                  onClick={() => save("essential")}
+                  className="inline-flex h-10 flex-1 items-center justify-center rounded-full border border-[var(--card-border)] bg-[var(--card)] px-5 text-sm font-semibold text-foreground transition hover:bg-[var(--card-hover)] active:scale-[0.98] sm:flex-none"
                 >
                   Essential only
                 </button>
               </div>
             </div>
-          </div>
-        </div>
-      ) : null}
+          </motion.div>
+        ) : null}
+
+        {/* Confirmation toast after saving */}
+        {justSaved ? (
+          <motion.div
+            key="toast"
+            initial={{ opacity: 0, y: 30, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="fixed inset-x-0 bottom-[4.5rem] z-50 px-3 sm:bottom-4 sm:px-6 md:bottom-4"
+          >
+            <div className="card mx-auto flex max-w-md items-center gap-3 p-3 sm:p-4">
+              <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-green-500/10 text-green-400">
+                <Check size={16} />
+              </span>
+              <p className="flex-1 text-sm text-foreground">
+                {justSaved === "accepted"
+                  ? "Analytics enabled. Thanks for helping us improve."
+                  : "Essential only. No analytics cookies will be used."}
+              </p>
+              <button
+                type="button"
+                onClick={() => setJustSaved(null)}
+                className="shrink-0 text-muted transition hover:text-foreground"
+                aria-label="Dismiss"
+              >
+                <X size={16} />
+              </button>
+            </div>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
     </>
   );
 }
 
+/* ── Preferences panel (used on /cookies page) ── */
+
 export function CookiePreferences({ className }: { className?: string }) {
   const { preference, hydrated } = useCookiePreference();
+  const [saved, setSaved] = useState(false);
 
-  function setPreference(nextPreference: CookiePreference | null) {
+  const setPreference = useCallback((next: CookiePreference | null) => {
     startTransition(() => {
-      storePreference(nextPreference);
+      store(next);
+      setSaved(true);
     });
-  }
+  }, []);
+
+  useEffect(() => {
+    if (!saved) return;
+    const t = setTimeout(() => setSaved(false), 2500);
+    return () => clearTimeout(t);
+  }, [saved]);
 
   return (
-    <div className={cn("rounded-2xl border border-white/[0.06] bg-white/[0.03] p-6", className)}>
-      <span className="inline-flex rounded-full border border-cyan-300/35 bg-cyan-300/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-cyan-200">
-        Cookie Choice
+    <div className={cn("card p-6", className)}>
+      <span className="inline-block text-sm font-semibold uppercase tracking-[0.08em] text-sky-400">
+        Cookie Preferences
       </span>
-      <h3 className="mt-4 font-heading text-2xl font-semibold text-white">
-        Manage analytics consent
+      <h3 className="mt-3 font-heading text-xl font-semibold text-white">
+        Manage your consent
       </h3>
-      <p className="mt-3 text-sm leading-relaxed text-slate-300 sm:text-base">
-        {hydrated ? getPreferenceCopy(preference) : "Loading your saved preference..."}
-      </p>
 
-      <div className="mt-5 flex flex-wrap gap-3">
+      {/* Current status */}
+      <div className="mt-4 rounded-xl bg-foreground/[0.04] p-4">
+        <p className="text-xs font-semibold uppercase tracking-[0.1em] text-muted">Current status</p>
+        <p className="mt-1.5 text-sm text-foreground">
+          {!hydrated
+            ? "Loading..."
+            : preference === "accepted"
+              ? "✓ Analytics cookies are enabled"
+              : preference === "essential"
+                ? "✓ Essential only — no analytics"
+                : "No preference saved yet"}
+        </p>
+      </div>
+
+      {/* What each option does */}
+      <div className="mt-4 space-y-3">
+        <div className="rounded-xl bg-foreground/[0.04] p-4">
+          <div className="flex items-center gap-2">
+            <ShieldCheck size={16} className="text-green-400" />
+            <p className="text-sm font-semibold text-foreground">Essential storage</p>
+            <span className="ml-auto rounded-full bg-green-500/10 px-2 py-0.5 text-[10px] font-semibold text-green-400">Always on</span>
+          </div>
+          <p className="mt-2 text-xs leading-relaxed text-muted">
+            Theme preference and cookie consent choice. These never leave your browser and are required for the site to work properly.
+          </p>
+        </div>
+
+        <div className="rounded-xl bg-foreground/[0.04] p-4">
+          <div className="flex items-center gap-2">
+            <BarChart3 size={16} className="text-sky-400" />
+            <p className="text-sm font-semibold text-foreground">Analytics cookies</p>
+            <span className={cn(
+              "ml-auto rounded-full px-2 py-0.5 text-[10px] font-semibold",
+              preference === "accepted" ? "bg-sky-500/10 text-sky-400" : "bg-foreground/[0.06] text-muted"
+            )}>
+              {preference === "accepted" ? "Enabled" : "Disabled"}
+            </span>
+          </div>
+          <p className="mt-2 text-xs leading-relaxed text-muted">
+            Google Analytics (_ga, _ga_*) — measures page visits and engagement. Only loaded after you accept. IP addresses are anonymized.
+          </p>
+        </div>
+      </div>
+
+      {/* Action buttons */}
+      <div className="mt-5 flex flex-wrap gap-2">
         <button
           type="button"
           onClick={() => setPreference("accepted")}
-          className="inline-flex h-11 items-center rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-5 text-sm font-semibold text-[#030712] transition hover:brightness-110"
+          className={cn(
+            "inline-flex h-10 items-center rounded-full px-5 text-sm font-semibold transition active:scale-[0.98]",
+            preference === "accepted"
+              ? "bg-sky-500/10 text-sky-400"
+              : "bg-sky-500 text-white hover:bg-sky-400"
+          )}
         >
-          Accept analytics
+          {preference === "accepted" ? "✓ Analytics enabled" : "Accept analytics"}
         </button>
         <button
           type="button"
           onClick={() => setPreference("essential")}
-          className="inline-flex h-11 items-center rounded-full border border-white/[0.08] px-5 text-sm font-semibold text-slate-100 transition hover:border-slate-600 hover:text-sky-400"
+          className={cn(
+            "inline-flex h-10 items-center rounded-full border px-5 text-sm font-semibold transition active:scale-[0.98]",
+            preference === "essential"
+              ? "border-green-500/20 bg-green-500/10 text-green-400"
+              : "border-[var(--card-border)] text-foreground hover:bg-[var(--card-hover)]"
+          )}
         >
-          Essential only
+          {preference === "essential" ? "✓ Essential only" : "Essential only"}
         </button>
-        <button
-          type="button"
-          onClick={() => setPreference(null)}
-          className="inline-flex h-11 items-center rounded-full border border-white/[0.06] bg-background/70 px-5 text-sm font-semibold text-slate-300 transition hover:border-white/[0.12] hover:text-white"
-        >
-          Reset choice
-        </button>
+        {preference !== null ? (
+          <button
+            type="button"
+            onClick={() => setPreference(null)}
+            className="inline-flex h-10 items-center rounded-full border border-[var(--card-border)] px-5 text-sm font-semibold text-muted transition hover:text-foreground active:scale-[0.98]"
+          >
+            Reset
+          </button>
+        ) : null}
       </div>
+
+      {/* Save confirmation */}
+      <AnimatePresence>
+        {saved ? (
+          <motion.p
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            className="mt-3 flex items-center gap-1.5 text-sm text-green-400"
+          >
+            <Check size={14} /> Preference saved
+          </motion.p>
+        ) : null}
+      </AnimatePresence>
     </div>
   );
 }
