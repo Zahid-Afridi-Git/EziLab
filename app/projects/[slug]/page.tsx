@@ -66,7 +66,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
       <Container>
         <FadeIn>
           <div className="flex flex-wrap items-center gap-2 text-xs text-slate-400">
-            <Link href="/projects" className="transition hover:text-cyan-200">
+            <Link href="/projects" className="transition hover:text-brand-cyan">
               Projects
             </Link>
             <span>/</span>
@@ -81,7 +81,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
         </FadeIn>
 
         <FadeIn delay={0.08} className="mt-8">
-          <div className="relative aspect-[16/9] overflow-hidden rounded-2xl border border-slate-800 bg-background">
+          <div className="relative aspect-[16/9] overflow-hidden rounded-3xl border border-white/[0.06] bg-background">
             <Image
               src={project.image}
               alt={`${project.title} hero`}
@@ -96,7 +96,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
         <div className="mt-8 grid gap-5 lg:grid-cols-12">
           <FadeIn className="lg:col-span-8">
             <div className="space-y-4">
-              <section className="rounded-2xl border border-rose-400/25 bg-rose-500/5 p-5 sm:p-6">
+              <section className="rounded-3xl border border-rose-400/25 bg-rose-500/5 p-5 sm:p-6">
                 <h2 className="flex items-center gap-2 font-heading text-xl font-semibold text-white sm:text-2xl">
                   <AlertTriangle size={20} className="text-rose-200" />
                   Problem
@@ -106,17 +106,17 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                 </p>
               </section>
 
-              <section className="rounded-2xl border border-cyan-300/30 bg-cyan-400/5 p-5 sm:p-6">
+              <section className="rounded-3xl border border-brand-cyan/30 bg-brand-cyan/5 p-5 sm:p-6">
                 <h2 className="flex items-center gap-2 font-heading text-xl font-semibold text-white sm:text-2xl">
-                  <Lightbulb size={20} className="text-cyan-200" />
+                  <Lightbulb size={20} className="text-brand-cyan" />
                   Solution
                 </h2>
-                <p className="mt-3 border-l-2 border-cyan-300/45 pl-4 text-sm leading-relaxed text-slate-300 sm:text-base">
+                <p className="mt-3 border-l-2 border-brand-cyan/45 pl-4 text-sm leading-relaxed text-slate-300 sm:text-base">
                   {project.solution}
                 </p>
               </section>
 
-              <section className="rounded-2xl border border-emerald-300/30 bg-emerald-500/5 p-5 sm:p-6">
+              <section className="rounded-3xl border border-emerald-300/30 bg-emerald-500/5 p-5 sm:p-6">
                 <h2 className="flex items-center gap-2 font-heading text-xl font-semibold text-white sm:text-2xl">
                   <TrendingUp size={20} className="text-emerald-200" />
                   Outcome
@@ -129,7 +129,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
           </FadeIn>
 
           <FadeIn delay={0.08} className="lg:col-span-4">
-            <aside className="space-y-5 rounded-2xl border border-slate-800 bg-slate-900/70 p-5 sm:p-6">
+            <aside className="space-y-5 rounded-3xl border border-white/[0.06] bg-white/[0.03] p-5 sm:p-6">
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">
@@ -168,7 +168,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                   <p className="mt-1 text-sm leading-relaxed text-slate-200">{project.role}</p>
                 </div>
               </div>
-              <div className="border-t border-slate-800 pt-5">
+              <div className="border-t border-white/[0.06] pt-5">
                 <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">
                   Tech Stack
                 </p>
@@ -185,7 +185,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                     target={project.primaryAction.kind === "download" ? undefined : "_blank"}
                     rel={project.primaryAction.kind === "download" ? undefined : "noreferrer"}
                     download={project.primaryAction.kind === "download" ? true : undefined}
-                    className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-4 text-xs font-semibold text-slate-950 transition hover:brightness-110 sm:w-auto"
+                    className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-brand-cyan via-brand-blue to-brand-purple px-4 text-xs font-semibold text-white transition hover:brightness-110 sm:w-auto"
                   >
                     <ActionIcon kind={project.primaryAction.kind} />
                     {project.primaryAction.label}
@@ -197,7 +197,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                     target={project.secondaryAction.kind === "download" ? undefined : "_blank"}
                     rel={project.secondaryAction.kind === "download" ? undefined : "noreferrer"}
                     download={project.secondaryAction.kind === "download" ? true : undefined}
-                    className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full border border-white/[0.08] px-4 text-xs font-semibold text-slate-100 transition hover:border-cyan-300/70 hover:text-cyan-200 sm:w-auto"
+                    className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full border border-[var(--card-border)] px-4 text-xs font-semibold text-foreground transition hover:border-brand-cyan/30 hover:text-brand-cyan sm:w-auto"
                   >
                     <ActionIcon kind={project.secondaryAction.kind} />
                     {project.secondaryAction.label}
@@ -211,12 +211,12 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
           </FadeIn>
         </div>
 
-        <FadeIn delay={0.1} className="mt-8 rounded-2xl border border-slate-800 bg-slate-900/70 p-5 sm:p-6">
+        <FadeIn delay={0.1} className="mt-8 rounded-3xl border border-white/[0.06] bg-white/[0.03] p-5 sm:p-6">
           <h2 className="font-heading text-xl font-semibold text-white sm:text-2xl">Key Features</h2>
           <ul className="mt-4 grid gap-3 sm:grid-cols-2">
             {project.features.map((feature) => (
-              <li key={feature} className="flex gap-3 rounded-xl border border-slate-800 bg-slate-900 px-4 py-3">
-                <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-300" />
+              <li key={feature} className="flex gap-3 rounded-2xl border border-white/[0.06] bg-white/[0.03] px-4 py-3">
+                <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-brand-cyan" />
                 <span className="text-sm text-slate-200">{feature}</span>
               </li>
             ))}
@@ -229,7 +229,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
             {project.screenshots.map((shot) => (
               <figure
                 key={shot.alt}
-                className="w-[82vw] shrink-0 snap-center overflow-hidden rounded-xl border border-slate-800 bg-background"
+                className="w-[82vw] shrink-0 snap-center overflow-hidden rounded-2xl border border-white/[0.06] bg-background"
               >
                 <div className="relative aspect-[4/3]">
                   <Image src={shot.src} alt={shot.alt} fill sizes="82vw" className="object-contain p-1" />
@@ -242,7 +242,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
             {project.screenshots.map((shot) => (
               <figure
                 key={shot.alt}
-                className="overflow-hidden rounded-xl border border-slate-800 bg-background"
+                className="overflow-hidden rounded-2xl border border-white/[0.06] bg-background"
               >
                 <div className="relative aspect-[4/3]">
                   <Image src={shot.src} alt={shot.alt} fill sizes="(max-width: 1024px) 50vw, 33vw" className="object-contain p-1" />
@@ -257,7 +257,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
           {previous ? (
             <Link
               href={`/projects/${previous.slug}`}
-              className="rounded-xl border border-slate-800 bg-slate-900/70 p-4 transition hover:border-cyan-300/50"
+              className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-4 transition hover:border-brand-cyan/50"
             >
               <p className="text-xs uppercase tracking-[0.16em] text-slate-400">Previous project</p>
               <p className="mt-2 font-heading text-lg font-semibold text-white">{previous.title}</p>
@@ -266,7 +266,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
           {next ? (
             <Link
               href={`/projects/${next.slug}`}
-              className="rounded-xl border border-slate-800 bg-slate-900/70 p-4 text-left transition hover:border-cyan-300/50 sm:text-right"
+              className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-4 text-left transition hover:border-brand-cyan/50 sm:text-right"
             >
               <p className="text-xs uppercase tracking-[0.16em] text-slate-400">Next project</p>
               <p className="mt-2 font-heading text-lg font-semibold text-white">{next.title}</p>

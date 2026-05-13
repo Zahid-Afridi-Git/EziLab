@@ -50,7 +50,7 @@ export default function PrivacyPolicyPage() {
       <Container>
         <div className="grid gap-6 lg:grid-cols-12">
           <FadeIn className="lg:col-span-7">
-            <span className="inline-flex rounded-full border border-cyan-300/50 bg-cyan-300/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-cyan-200">
+            <span className="inline-flex rounded-full border border-brand-cyan/50 bg-brand-cyan/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-brand-cyan">
               Privacy Policy
             </span>
             <h1 className="mt-4 max-w-4xl text-balance font-heading text-4xl font-semibold text-white sm:text-5xl">
@@ -79,7 +79,7 @@ export default function PrivacyPolicyPage() {
                   </p>
                   <a
                     href={`mailto:${siteConfig.email}`}
-                    className="mt-2 inline-flex items-center gap-2 text-sm text-cyan-200 transition hover:text-cyan-100"
+                    className="mt-2 inline-flex items-center gap-2 text-sm text-brand-cyan transition hover:text-brand-blue"
                   >
                     <Mail size={15} />
                     {siteConfig.email}
@@ -103,7 +103,7 @@ export default function PrivacyPolicyPage() {
           {overviewCards.map((card, index) => (
             <FadeIn key={card.title} delay={0.04 * index}>
               <article className="h-full rounded-2xl border border-white/[0.06] bg-white/[0.03] p-6">
-                <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-cyan-300/35 bg-cyan-300/10 text-cyan-200">
+                <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-brand-cyan/35 bg-brand-cyan/10 text-brand-cyan">
                   <card.icon size={18} />
                 </span>
                 <h2 className="mt-4 font-heading text-2xl font-semibold text-white">{card.title}</h2>
@@ -124,16 +124,16 @@ export default function PrivacyPolicyPage() {
               <div className="mt-5 grid gap-4 md:grid-cols-2">
                 <article className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5">
                   <p className="flex items-center gap-2 text-sm font-semibold text-white">
-                    <MessageSquareText size={16} className="text-cyan-200" />
+                    <MessageSquareText size={16} className="text-brand-cyan" />
                     Information you submit directly
                   </p>
                   <ul className="mt-4 space-y-3 text-sm text-slate-300">
                     <li className="flex gap-3">
-                      <span className="mt-[7px] h-1.5 w-1.5 rounded-full bg-cyan-300" />
+                      <span className="mt-[7px] h-1.5 w-1.5 rounded-full bg-brand-cyan" />
                       <span>Name, email address, and project details submitted through the contact form.</span>
                     </li>
                     <li className="flex gap-3">
-                      <span className="mt-[7px] h-1.5 w-1.5 rounded-full bg-cyan-300" />
+                      <span className="mt-[7px] h-1.5 w-1.5 rounded-full bg-brand-cyan" />
                       <span>Any follow-up information you choose to send by email or WhatsApp.</span>
                     </li>
                   </ul>
@@ -141,16 +141,16 @@ export default function PrivacyPolicyPage() {
 
                 <article className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5">
                   <p className="flex items-center gap-2 text-sm font-semibold text-white">
-                    <BarChart3 size={16} className="text-cyan-200" />
+                    <BarChart3 size={16} className="text-brand-cyan" />
                     Information collected automatically
                   </p>
                   <ul className="mt-4 space-y-3 text-sm text-slate-300">
                     <li className="flex gap-3">
-                      <span className="mt-[7px] h-1.5 w-1.5 rounded-full bg-cyan-300" />
+                      <span className="mt-[7px] h-1.5 w-1.5 rounded-full bg-brand-cyan" />
                       <span>Basic device, browser, and page-interaction data through Google Analytics if you accept analytics cookies.</span>
                     </li>
                     <li className="flex gap-3">
-                      <span className="mt-[7px] h-1.5 w-1.5 rounded-full bg-cyan-300" />
+                      <span className="mt-[7px] h-1.5 w-1.5 rounded-full bg-brand-cyan" />
                       <span>Local browser storage used to remember your theme selection and cookie preference.</span>
                     </li>
                   </ul>
@@ -221,7 +221,7 @@ export default function PrivacyPolicyPage() {
               <div className="mt-5 grid gap-4 lg:grid-cols-12">
                 <article className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 lg:col-span-4">
                   <p className="flex items-center gap-2 text-sm font-semibold text-white">
-                    <LockKeyhole size={16} className="text-cyan-200" />
+                    <LockKeyhole size={16} className="text-brand-cyan" />
                     Retention
                   </p>
                   <p className="mt-3 text-sm leading-relaxed text-slate-300">
@@ -231,7 +231,7 @@ export default function PrivacyPolicyPage() {
                 </article>
                 <article className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 lg:col-span-4">
                   <p className="flex items-center gap-2 text-sm font-semibold text-white">
-                    <ShieldCheck size={16} className="text-cyan-200" />
+                    <ShieldCheck size={16} className="text-brand-cyan" />
                     Security
                   </p>
                   <p className="mt-3 text-sm leading-relaxed text-slate-300">
@@ -242,7 +242,7 @@ export default function PrivacyPolicyPage() {
                 </article>
                 <article className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 lg:col-span-4">
                   <p className="flex items-center gap-2 text-sm font-semibold text-white">
-                    <Mail size={16} className="text-cyan-200" />
+                    <Mail size={16} className="text-brand-cyan" />
                     Your choices
                   </p>
                   <p className="mt-3 text-sm leading-relaxed text-slate-300">
@@ -265,7 +265,7 @@ export default function PrivacyPolicyPage() {
                 privacy request or need clarification about this policy, contact{" "}
                 <a
                   href={`mailto:${siteConfig.email}`}
-                  className="text-cyan-200 transition hover:text-cyan-100"
+                  className="text-brand-cyan transition hover:text-brand-blue"
                 >
                   {siteConfig.email}
                 </a>
@@ -288,13 +288,13 @@ export default function PrivacyPolicyPage() {
             <div className="mt-6 flex flex-wrap gap-3">
               <Link
                 href="/cookies"
-                className="inline-flex h-11 items-center rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-5 text-sm font-semibold text-[#030712] transition hover:brightness-110"
+                className="inline-flex h-11 items-center rounded-full bg-gradient-to-r from-brand-cyan via-brand-blue to-brand-purple px-5 text-sm font-semibold text-white transition hover:brightness-110"
               >
                 Review Cookies
               </Link>
               <Link
                 href="/contact"
-                className="inline-flex h-11 items-center rounded-full border border-white/[0.08] px-5 text-sm font-semibold text-slate-100 transition hover:border-cyan-300/70 hover:text-cyan-200"
+                className="inline-flex h-11 items-center rounded-full border border-[var(--card-border)] px-5 text-sm font-semibold text-foreground transition hover:border-brand-cyan/30 hover:text-brand-cyan"
               >
                 Contact EziLab
               </Link>

@@ -1,67 +1,103 @@
 @import "tailwindcss";
 
 :root {
-  --background: #000000;
+  --background: #030712;
   --foreground: #f5f5f7;
   --muted: #86868b;
-  --bg-base: #000000;
+  --bg-base: #030712;
   --bg-glow-a: rgba(56, 189, 248, 0.04);
-  --card: #1c1c1e;
+  --card: #111827;
   --card-border: rgba(255, 255, 255, 0.08);
-  --card-hover: #2c2c2e;
+  --card-hover: #1f2937;
   --card-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
   --card-shadow-hover: 0 8px 40px rgba(0, 0, 0, 0.5);
+
+  /* Brand colors */
+  --brand-cyan: #22D3EE;
+  --brand-blue: #3B82F6;
+  --brand-purple: #8B5CF6;
+
+  /* Brand gradients */
+  --gradient-brand: linear-gradient(135deg, #22D3EE, #3B82F6, #8B5CF6);
+  --gradient-brand-reverse: linear-gradient(135deg, #8B5CF6, #3B82F6, #22D3EE);
+  --gradient-glow-cyan: rgba(34, 211, 238, 0.15);
+  --gradient-glow-blue: rgba(59, 130, 246, 0.12);
+  --gradient-glow-purple: rgba(139, 92, 246, 0.10);
+
+  /* Section alternating bg */
+  --section-alt: rgba(255, 255, 255, 0.02);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
+  --color-brand-cyan: var(--brand-cyan);
+  --color-brand-blue: var(--brand-blue);
+  --color-brand-purple: var(--brand-purple);
   --font-sans: var(--font-body);
   --font-heading: var(--font-display);
 }
 
+/* ═══════════════════════════════════════════════
+   LIGHT MODE — completely reworked
+   ═══════════════════════════════════════════════ */
 :root[data-theme="light"] {
-  --background: #ffffff;
-  --foreground: #1d1d1f;
-  --muted: #6e6e73;
-  --bg-base: #ffffff;
-  --bg-glow-a: rgba(0, 113, 227, 0.03);
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --muted: #64748b;
+  --bg-base: #f8fafc;
+  --bg-glow-a: rgba(59, 130, 246, 0.04);
+
+  /* Cards get a white bg on the soft gray page */
   --card: #ffffff;
-  --card-border: rgba(0, 0, 0, 0.06);
-  --card-hover: #fafafa;
-  --card-shadow: 0 2px 12px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(0, 0, 0, 0.04);
-  --card-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.06);
+  --card-border: rgba(15, 23, 42, 0.08);
+  --card-hover: #f8fafc;
+  --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --card-shadow-hover: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 4px 10px -3px rgba(0, 0, 0, 0.04);
 
-  --color-white: #1d1d1f;
-  --color-slate-950: #ffffff;
-  --color-slate-900: #ffffff;
-  --color-slate-800: #e5e5ea;
-  --color-slate-700: #c7c7cc;
-  --color-slate-500: #8e8e93;
-  --color-slate-400: #6e6e73;
-  --color-slate-300: #3a3a3c;
-  --color-slate-200: #2c2c2e;
-  --color-slate-100: #1d1d1f;
+  /* Brand colors — slightly deeper for contrast on light */
+  --brand-cyan: #0891b2;
+  --brand-blue: #2563eb;
+  --brand-purple: #7c3aed;
 
-  --color-cyan-100: #0071e3;
-  --color-cyan-200: #0071e3;
-  --color-cyan-300: #0071e3;
-  --color-cyan-400: #0071e3;
-  --color-cyan-500: #0071e3;
-  --color-sky-200: #0071e3;
-  --color-sky-300: #0071e3;
-  --color-sky-400: #0071e3;
-  --color-sky-500: #0071e3;
-  --color-blue-400: #0071e3;
-  --color-blue-500: #0056b3;
-  --color-blue-600: #004494;
+  --gradient-brand: linear-gradient(135deg, #0891b2, #2563eb, #7c3aed);
+  --gradient-glow-cyan: rgba(8, 145, 178, 0.12);
+  --gradient-glow-blue: rgba(37, 99, 235, 0.10);
+  --gradient-glow-purple: rgba(124, 58, 237, 0.08);
 
-  --color-violet-200: #bf5af2;
-  --color-violet-300: #a020f0;
-  --color-violet-400: #bf5af2;
-  --color-violet-500: #a020f0;
-  --color-purple-500: #a020f0;
+  --section-alt: rgba(0, 0, 0, 0.02);
+
+  /* Remap Tailwind color tokens for light mode */
+  --color-white: #0f172a;
+  --color-slate-950: #f8fafc;
+  --color-slate-900: #f8fafc;
+  --color-slate-800: #e2e8f0;
+  --color-slate-700: #cbd5e1;
+  --color-slate-500: #94a3b8;
+  --color-slate-400: #64748b;
+  --color-slate-300: #334155;
+  --color-slate-200: #1e293b;
+  --color-slate-100: #0f172a;
+
+  --color-cyan-100: #0891b2;
+  --color-cyan-200: #0891b2;
+  --color-cyan-300: #0891b2;
+  --color-cyan-400: #0891b2;
+  --color-cyan-500: #0891b2;
+  --color-sky-200: #2563eb;
+  --color-sky-300: #2563eb;
+  --color-sky-400: #2563eb;
+  --color-sky-500: #2563eb;
+  --color-blue-400: #2563eb;
+  --color-blue-500: #1d4ed8;
+  --color-blue-600: #1e40af;
+
+  --color-violet-200: #7c3aed;
+  --color-violet-300: #6d28d9;
+  --color-violet-400: #7c3aed;
+  --color-violet-500: #6d28d9;
+  --color-purple-500: #6d28d9;
 
   --color-emerald-200: #30d158;
   --color-emerald-300: #28a745;
@@ -116,7 +152,7 @@ body {
 a { color: inherit; text-decoration: none; }
 
 ::selection {
-  background: rgba(0, 113, 227, 0.2);
+  background: rgba(59, 130, 246, 0.25);
   color: inherit;
 }
 
@@ -124,14 +160,15 @@ a { color: inherit; text-decoration: none; }
   font-family: var(--font-display), -apple-system, "SF Pro Display", "Segoe UI", sans-serif;
 }
 
-/* ── Card system ── */
+/* ── Card system — soft rounded ── */
 .card {
   background: var(--card);
   border: 1px solid var(--card-border);
-  border-radius: 1rem;
+  border-radius: 1.25rem;
   box-shadow: var(--card-shadow);
   transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+              box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              border-color 0.3s ease;
 }
 
 .card:hover {
@@ -139,16 +176,217 @@ a { color: inherit; text-decoration: none; }
   box-shadow: var(--card-shadow-hover);
 }
 
-.card-lg { border-radius: 1.25rem; }
+.card-lg { border-radius: 1.5rem; }
 
-/* ── Light-mode overrides ── */
-:root[data-theme="light"] footer {
-  background-color: #f5f5f7;
+/* ── Brand gradient utilities ── */
+.text-gradient-brand {
+  background: var(--gradient-brand);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
+.bg-gradient-brand {
+  background: var(--gradient-brand);
+}
+
+.border-gradient-brand {
+  border-image: var(--gradient-brand) 1;
+}
+
+/* ── Animated gradient background ── */
+.gradient-mesh {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.gradient-mesh::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background:
+    radial-gradient(ellipse 600px 400px at 20% 30%, var(--gradient-glow-cyan), transparent),
+    radial-gradient(ellipse 500px 350px at 70% 20%, var(--gradient-glow-blue), transparent),
+    radial-gradient(ellipse 400px 300px at 50% 70%, var(--gradient-glow-purple), transparent);
+  animation: meshFloat 20s ease-in-out infinite;
+}
+
+@keyframes meshFloat {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(2%, -3%) rotate(1deg); }
+  50% { transform: translate(-1%, 2%) rotate(-0.5deg); }
+  75% { transform: translate(1%, -1%) rotate(0.5deg); }
+}
+
+/* ── Glow card hover — dark ── */
+.card-glow:hover {
+  border-color: rgba(34, 211, 238, 0.25);
+  box-shadow: 0 0 30px -10px rgba(34, 211, 238, 0.15),
+              0 8px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* ── Section divider gradient ── */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--brand-cyan), var(--brand-blue), var(--brand-purple), transparent);
+  opacity: 0.2;
+}
+
+/* ── Animated gradient border ── */
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.gradient-border {
+  position: relative;
+  border: none !important;
+}
+
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(var(--angle), #22D3EE, #3B82F6, #8B5CF6, #22D3EE);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  animation: rotateGradient 4s linear infinite;
+}
+
+@keyframes rotateGradient {
+  to { --angle: 360deg; }
+}
+
+/* ── Pulse glow for CTA ── */
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(59, 130, 246, 0.5), 0 0 60px rgba(139, 92, 246, 0.2); }
+}
+
+.btn-glow {
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+/* ═══════════════════════════════════════════════
+   LIGHT MODE OVERRIDES
+   ═══════════════════════════════════════════════ */
+
+/* Footer gets a clean white bg */
+:root[data-theme="light"] footer {
+  background-color: #ffffff;
+}
+
+/* Inputs get proper light styling */
 :root[data-theme="light"] input:not([type="hidden"]):not([type="submit"]),
 :root[data-theme="light"] textarea {
-  background-color: #f5f5f7 !important;
-  border-color: rgba(0, 0, 0, 0.1) !important;
-  color: #1d1d1f !important;
+  background-color: #f1f5f9 !important;
+  border-color: #e2e8f0 !important;
+  color: #0f172a !important;
+}
+
+/* Gradient mesh — stronger on light */
+:root[data-theme="light"] .gradient-mesh::before {
+  opacity: 0.8;
+}
+
+/* Card glow — softer, brand-tinted shadow on light */
+:root[data-theme="light"] .card-glow:hover {
+  border-color: rgba(37, 99, 235, 0.2);
+  box-shadow: 0 4px 20px -4px rgba(37, 99, 235, 0.12),
+              0 10px 25px -5px rgba(0, 0, 0, 0.06);
+}
+
+/* Section divider — more visible on light */
+:root[data-theme="light"] .section-divider {
+  opacity: 0.35;
+}
+
+/* CTA glow — subtler on light */
+:root[data-theme="light"] .btn-glow {
+  animation: pulseGlowLight 3s ease-in-out infinite;
+}
+
+@keyframes pulseGlowLight {
+  0%, 100% { box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25); }
+  50% { box-shadow: 0 4px 24px rgba(37, 99, 235, 0.35), 0 0 40px rgba(124, 58, 237, 0.1); }
+}
+
+/* ── Light mode: fix bg-white/[0.03] and border-white/[0.06] ──
+   These are invisible on white. Remap to dark-based equivalents. */
+:root[data-theme="light"] .bg-white\/\[0\.03\] {
+  background-color: #ffffff !important;
+}
+:root[data-theme="light"] .border-white\/\[0\.06\] {
+  border-color: #e2e8f0 !important;
+}
+:root[data-theme="light"] .bg-white\/\[0\.03\]:hover {
+  background-color: #f8fafc !important;
+}
+
+/* Fix bg-black/30 and bg-black/40 image containers in light mode */
+:root[data-theme="light"] .bg-black\/30 {
+  background-color: #f1f5f9 !important;
+}
+:root[data-theme="light"] .bg-black\/40 {
+  background-color: #f1f5f9 !important;
+}
+
+/* Fix foreground opacity utilities */
+:root[data-theme="light"] .bg-foreground\/\[0\.04\] {
+  background-color: rgba(15, 23, 42, 0.04) !important;
+}
+:root[data-theme="light"] .bg-foreground\/\[0\.06\] {
+  background-color: rgba(15, 23, 42, 0.06) !important;
+}
+:root[data-theme="light"] .bg-foreground\/\[0\.07\] {
+  background-color: rgba(15, 23, 42, 0.07) !important;
+}
+
+/* Grid pattern — use dark lines on light bg */
+:root[data-theme="light"] .gradient-mesh + div[style*="backgroundImage"] {
+  opacity: 0.04 !important;
+}
+
+/* ── Light mode: alternating section backgrounds ── */
+:root[data-theme="light"] section:nth-of-type(even) {
+  background-color: #ffffff;
+}
+
+/* ── Light mode: code terminal gets a dark bg to stay readable ── */
+:root[data-theme="light"] .card-lg .font-mono {
+  background-color: #1e293b;
+  color: #e2e8f0;
+  border-radius: 0 0 1.5rem 1.5rem;
+}
+:root[data-theme="light"] .card-lg .font-mono span[class*="text-brand-"] {
+  filter: brightness(1.3);
+}
+
+/* ── Light mode: phone mockup border ── */
+:root[data-theme="light"] .border-\[\#3a3a3c\] {
+  border-color: #cbd5e1 !important;
+}
+:root[data-theme="light"] .bg-\[\#3a3a3c\] {
+  background-color: #cbd5e1 !important;
+}
+
+/* ── Light mode: floating screenshots more visible ── */
+:root[data-theme="light"] .opacity-15 {
+  opacity: 0.08 !important;
+}
+
+/* ── Light mode: image showcase shadows ── */
+:root[data-theme="light"] .shadow-black\/20 {
+  --tw-shadow-color: rgba(0, 0, 0, 0.08) !important;
+}
+:root[data-theme="light"] .shadow-black\/30 {
+  --tw-shadow-color: rgba(0, 0, 0, 0.1) !important;
 }

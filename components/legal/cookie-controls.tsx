@@ -135,7 +135,7 @@ gtag('config', '${measurementId}', { anonymize_ip: true });
           >
             <div className="card card-lg mx-auto max-w-2xl p-4 backdrop-blur-xl sm:p-6">
               <div className="flex items-start gap-3 sm:gap-4">
-                <span className="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-sky-500/10 text-sky-400 sm:h-10 sm:w-10">
+                <span className="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-brand-cyan/10 text-brand-cyan sm:h-10 sm:w-10">
                   <Cookie size={17} />
                 </span>
                 <div className="flex-1">
@@ -144,10 +144,10 @@ gtag('config', '${measurementId}', { anonymize_ip: true });
                     We use essential storage for theme and preferences. Analytics cookies are optional and help us improve the site.
                   </p>
                   <div className="mt-2 flex flex-wrap gap-2 text-xs">
-                    <Link href="/privacy-policy" className="inline-flex items-center gap-1 text-sky-400 transition hover:text-sky-300">
+                    <Link href="/privacy-policy" className="inline-flex items-center gap-1 text-brand-cyan transition hover:text-brand-blue">
                       <ShieldCheck size={12} /> Privacy Policy
                     </Link>
-                    <Link href="/cookies" className="inline-flex items-center gap-1 text-sky-400 transition hover:text-sky-300">
+                    <Link href="/cookies" className="inline-flex items-center gap-1 text-brand-cyan transition hover:text-brand-blue">
                       <BarChart3 size={12} /> Cookie Details
                     </Link>
                   </div>
@@ -158,7 +158,7 @@ gtag('config', '${measurementId}', { anonymize_ip: true });
                 <button
                   type="button"
                   onClick={() => save("accepted")}
-                  className="inline-flex h-10 flex-1 items-center justify-center rounded-full bg-sky-500 px-5 text-sm font-semibold text-white transition hover:bg-sky-400 active:scale-[0.98] sm:flex-none"
+                  className="inline-flex h-10 flex-1 items-center justify-center rounded-full bg-gradient-to-r from-brand-cyan via-brand-blue to-brand-purple px-5 text-sm font-semibold text-white transition hover:shadow-lg hover:shadow-brand-blue/25 active:scale-[0.98] sm:flex-none"
                 >
                   Accept all
                 </button>
@@ -230,7 +230,7 @@ export function CookiePreferences({ className }: { className?: string }) {
 
   return (
     <div className={cn("card p-6", className)}>
-      <span className="inline-block text-sm font-semibold uppercase tracking-[0.08em] text-sky-400">
+      <span className="inline-block text-sm font-semibold uppercase tracking-[0.08em] text-brand-cyan">
         Cookie Preferences
       </span>
       <h3 className="mt-3 font-heading text-xl font-semibold text-white">
@@ -266,11 +266,11 @@ export function CookiePreferences({ className }: { className?: string }) {
 
         <div className="rounded-xl bg-foreground/[0.04] p-4">
           <div className="flex items-center gap-2">
-            <BarChart3 size={16} className="text-sky-400" />
+            <BarChart3 size={16} className="text-brand-cyan" />
             <p className="text-sm font-semibold text-foreground">Analytics cookies</p>
             <span className={cn(
               "ml-auto rounded-full px-2 py-0.5 text-[10px] font-semibold",
-              preference === "accepted" ? "bg-sky-500/10 text-sky-400" : "bg-foreground/[0.06] text-muted"
+              preference === "accepted" ? "bg-brand-cyan/10 text-brand-cyan" : "bg-foreground/[0.06] text-muted"
             )}>
               {preference === "accepted" ? "Enabled" : "Disabled"}
             </span>
@@ -289,8 +289,8 @@ export function CookiePreferences({ className }: { className?: string }) {
           className={cn(
             "inline-flex h-10 items-center rounded-full px-5 text-sm font-semibold transition active:scale-[0.98]",
             preference === "accepted"
-              ? "bg-sky-500/10 text-sky-400"
-              : "bg-sky-500 text-white hover:bg-sky-400"
+              ? "bg-brand-cyan/10 text-brand-cyan"
+              : "bg-gradient-to-r from-brand-cyan via-brand-blue to-brand-purple text-white hover:shadow-lg hover:shadow-brand-blue/25"
           )}
         >
           {preference === "accepted" ? "✓ Analytics enabled" : "Accept analytics"}

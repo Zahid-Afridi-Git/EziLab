@@ -11,7 +11,7 @@ type SectionHeadingProps = {
 export function SectionHeading({ label, title, description, align = "left", className }: SectionHeadingProps) {
   return (
     <div className={cn(align === "center" && "text-center", className)}>
-      <span className="inline-block text-sm font-semibold uppercase tracking-[0.08em] text-sky-400">
+      <span className="inline-block text-sm font-semibold uppercase tracking-[0.08em] text-gradient-brand">
         {label}
       </span>
       <h2 className="mt-3 text-balance font-heading text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:text-[2.75rem]">

@@ -7,9 +7,16 @@ import { SectionHeading } from "@/components/shared/section-heading";
 
 export function ProcessSection() {
   const icons = [Search, PencilRuler, Code2, ShieldCheck, Rocket];
+  const stepColors = [
+    { icon: "border-brand-cyan/35 bg-brand-cyan/15 text-brand-cyan", glow: "hover:border-brand-cyan/40 hover:shadow-[0_20px_38px_-28px_rgba(34,211,238,0.5)]" },
+    { icon: "border-brand-blue/35 bg-brand-blue/15 text-brand-blue", glow: "hover:border-brand-blue/40 hover:shadow-[0_20px_38px_-28px_rgba(59,130,246,0.5)]" },
+    { icon: "border-brand-purple/35 bg-brand-purple/15 text-brand-purple", glow: "hover:border-brand-purple/40 hover:shadow-[0_20px_38px_-28px_rgba(139,92,246,0.5)]" },
+    { icon: "border-brand-blue/35 bg-brand-blue/15 text-brand-blue", glow: "hover:border-brand-blue/40 hover:shadow-[0_20px_38px_-28px_rgba(59,130,246,0.5)]" },
+    { icon: "border-brand-cyan/35 bg-brand-cyan/15 text-brand-cyan", glow: "hover:border-brand-cyan/40 hover:shadow-[0_20px_38px_-28px_rgba(34,211,238,0.5)]" },
+  ];
 
   return (
-    <section className="py-14 sm:py-20">
+    <section className="relative py-14 sm:py-20">
       <Container>
         <FadeIn>
           <SectionHeading
@@ -22,15 +29,16 @@ export function ProcessSection() {
         </FadeIn>
 
         <div className="relative mt-12">
-          <div className="pointer-events-none absolute left-12 right-12 top-14 hidden h-px bg-gradient-to-r from-cyan-300/0 via-cyan-300/45 to-cyan-300/0 lg:block" />
+          <div className="pointer-events-none absolute left-12 right-12 top-14 hidden h-px bg-gradient-to-r from-brand-cyan/0 via-brand-blue/40 to-brand-purple/0 lg:block" />
           <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
             {processSteps.map((step, index) => {
               const Icon = icons[index] ?? Code2;
+              const colors = stepColors[index] ?? stepColors[0];
 
               return (
                 <FadeIn key={step.title} delay={index * 0.05}>
-                  <article className="flex h-full flex-col rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 transition duration-200 hover:-translate-y-1 hover:border-cyan-300/40 hover:shadow-[0_20px_38px_-28px_rgba(34,211,238,0.7)]">
-                    <span className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-cyan-300/35 bg-cyan-300/15 text-cyan-200">
+                  <article className={`flex h-full flex-col rounded-3xl border border-white/[0.06] bg-white/[0.03] p-5 sm:p-6 transition duration-200 hover:-translate-y-1 ${colors.glow}`}>
+                    <span className={`inline-flex h-11 w-11 items-center justify-center rounded-full border ${colors.icon}`}>
                       <Icon size={18} />
                     </span>
                     <div className="mt-3 flex items-center gap-2">

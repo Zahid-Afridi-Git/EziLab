@@ -1,91 +1,111 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowUpRight, Award, Clock, Repeat, Target } from "lucide-react";
+import { Award, Clock, Repeat, Target, ArrowRight } from "lucide-react";
+import Link from "next/link";
 import { Container } from "@/components/shared/container";
 import { FadeIn } from "@/components/shared/fade-in";
-import { SectionHeading } from "@/components/shared/section-heading";
 
 const stats = [
-  { icon: Target, value: "28+", label: "Projects delivered" },
-  { icon: Award, value: "9", label: "Industries served" },
-  { icon: Clock, value: "6–10 wks", label: "Avg. delivery" },
-  { icon: Repeat, value: "92%", label: "Client retention" },
+  { icon: Target, value: "28+", label: "Projects Delivered", color: "text-brand-cyan", bg: "bg-brand-cyan/10", border: "border-brand-cyan/25" },
+  { icon: Award, value: "9", label: "Industries Served", color: "text-brand-blue", bg: "bg-brand-blue/10", border: "border-brand-blue/25" },
+  { icon: Clock, value: "6–10 wks", label: "Avg. Delivery", color: "text-brand-purple", bg: "bg-brand-purple/10", border: "border-brand-purple/25" },
+  { icon: Repeat, value: "92%", label: "Client Retention", color: "text-brand-cyan", bg: "bg-brand-cyan/10", border: "border-brand-cyan/25" },
 ];
 
-const devices = [
-  { src: "/images/projects/tak8/tak8-hero.png", alt: "TAK8 website" },
-  { src: "/images/projects/sukoon/sukoon-greeting page.png", alt: "Sukoon app" },
-  { src: "/images/projects/eziwalk/eziwalk-hero.png", alt: "EziWalk store" },
+const reasons = [
+  { title: "Modern Tech Stack", desc: "React, Next.js, TypeScript, React Native — we use what works best for your product." },
+  { title: "End-to-End Delivery", desc: "From strategy and design to development and deployment — one team, one process." },
+  { title: "Performance First", desc: "Every product is optimized for speed, SEO, and conversion from day one." },
+  { title: "Ongoing Support", desc: "We don't disappear after launch. Maintenance, updates, and scaling support included." },
 ];
 
 export function TrustSection() {
   return (
-    <section className="py-14 sm:py-20 lg:py-28">
+    <section className="relative py-16 sm:py-24 lg:py-32">
+      {/* Background glow */}
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute left-1/3 top-0 h-[500px] w-[500px] rounded-full bg-brand-blue/[0.03] blur-[130px]" />
+        <div className="absolute right-1/3 bottom-0 h-[400px] w-[400px] rounded-full bg-brand-purple/[0.03] blur-[100px]" />
+      </div>
+
       <Container>
         <FadeIn>
-          <SectionHeading label="Why EziLab" title="Numbers that speak for themselves." description="We let our delivery track record do the talking." align="center" className="mx-auto max-w-2xl" />
+          <div className="mx-auto max-w-3xl text-center">
+            <span className="text-sm font-semibold uppercase tracking-[0.08em] text-gradient-brand">
+              Why EziLab
+            </span>
+            <h2 className="mt-3 font-heading text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:text-5xl">
+              Built different, delivered better
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
+              We combine technical excellence with business understanding to ship products that actually move the needle.
+            </p>
+          </div>
         </FadeIn>
 
-        <div className="mt-8 grid grid-cols-2 gap-3 sm:mt-12 sm:gap-4 lg:grid-cols-4">
+        {/* Stats row */}
+        <div className="mt-10 grid grid-cols-2 gap-3 sm:mt-14 sm:gap-4 lg:grid-cols-4">
           {stats.map((stat, i) => {
             const Icon = stat.icon;
             return (
-              <motion.article key={stat.label} initial={{ opacity: 0, y: 30, scale: 0.95 }} whileInView={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 0.6, delay: i * 0.08, ease: [0.25, 0.46, 0.45, 0.94] }} viewport={{ once: true }} className="card group flex flex-col items-center p-4 text-center sm:p-6">
-                <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-sky-500/10 text-sky-400 sm:h-11 sm:w-11">
-                  <Icon size={18} />
-                </span>
-                <p className="mt-2.5 font-heading text-2xl font-semibold tracking-tight text-white sm:mt-3 sm:text-3xl">{stat.value}</p>
-                <p className="mt-0.5 text-[12px] text-muted sm:mt-1 sm:text-sm">{stat.label}</p>
-              </motion.article>
+              <motion.div
+                key={stat.label}
+                initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.6, delay: i * 0.08, ease: [0.25, 0.46, 0.45, 0.94] }}
+                viewport={{ once: true }}
+                className="group relative overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.02] p-5 text-center transition hover:border-white/[0.12] hover:bg-white/[0.04] sm:p-6"
+              >
+                {/* Hover gradient */}
+                <div className={`pointer-events-none absolute inset-0 bg-gradient-to-br from-transparent ${stat.bg.replace("bg-", "to-")} opacity-0 transition-opacity group-hover:opacity-100`} />
+
+                <div className="relative">
+                  <span className={`mx-auto inline-flex h-11 w-11 items-center justify-center rounded-xl border ${stat.border} ${stat.bg}`}>
+                    <Icon size={18} className={stat.color} />
+                  </span>
+                  <p className="mt-3 font-heading text-2xl font-bold text-white sm:text-3xl">{stat.value}</p>
+                  <p className="mt-1 text-xs text-muted sm:text-sm">{stat.label}</p>
+                </div>
+              </motion.div>
             );
           })}
         </div>
 
-        {/* Device showcase — mobile shows phone only, desktop shows all 3 */}
-        <FadeIn delay={0.15} scale className="mt-10 sm:mt-16">
-          <div className="relative mx-auto flex max-w-4xl items-end justify-center gap-3 sm:gap-6">
-            {/* Desktop left — hidden on mobile */}
-            <motion.div initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.1, ease: [0.25, 0.46, 0.45, 0.94] }} viewport={{ once: true }} className="hidden w-[240px] sm:block lg:w-[280px]">
-              <div className="card card-lg overflow-hidden !rounded-b-none !shadow-2xl">
-                <div className="flex items-center gap-1.5 border-b border-[var(--card-border)] px-3 py-2">
-                  <span className="h-2 w-2 rounded-full bg-[#ff5f57]" /><span className="h-2 w-2 rounded-full bg-[#febc2e]" /><span className="h-2 w-2 rounded-full bg-[#28c840]" />
+        {/* Reasons grid */}
+        <div className="mt-12 grid gap-4 sm:mt-16 md:grid-cols-2">
+          {reasons.map((reason, i) => (
+            <FadeIn key={reason.title} delay={i * 0.06}>
+              <div className="group flex gap-4 rounded-2xl border border-white/[0.06] bg-white/[0.02] p-5 transition hover:border-white/[0.12] hover:bg-white/[0.04] sm:p-6">
+                <div className="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-brand-cyan/20 to-brand-purple/20">
+                  <span className="font-heading text-sm font-bold text-white">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
                 </div>
-                <div className="relative aspect-[16/10]"><Image src={devices[0].src} alt={devices[0].alt} fill sizes="280px" className="object-cover" /></div>
-              </div>
-            </motion.div>
-
-            {/* Mobile center — always visible */}
-            <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }} viewport={{ once: true }} className="relative z-10 w-[130px] sm:w-[160px]">
-              <div className="overflow-hidden rounded-[1.5rem] border-[3px] border-[#3a3a3c] bg-black p-1 shadow-2xl shadow-black/40 sm:rounded-[1.75rem]">
-                <div className="mx-auto mb-0.5 h-1 w-8 rounded-full bg-[#3a3a3c] sm:mb-1 sm:h-1.5 sm:w-10" />
-                <div className="relative aspect-[9/19] overflow-hidden rounded-[1rem] sm:rounded-[1.25rem]">
-                  <Image src={devices[1].src} alt={devices[1].alt} fill sizes="160px" className="object-cover" />
+                <div>
+                  <h3 className="font-heading text-base font-semibold text-white sm:text-lg">
+                    {reason.title}
+                  </h3>
+                  <p className="mt-1.5 text-sm leading-relaxed text-slate-400">
+                    {reason.desc}
+                  </p>
                 </div>
               </div>
-            </motion.div>
+            </FadeIn>
+          ))}
+        </div>
 
-            {/* Desktop right — hidden on mobile */}
-            <motion.div initial={{ opacity: 0, x: 40 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }} viewport={{ once: true }} className="hidden w-[240px] sm:block lg:w-[280px]">
-              <div className="card card-lg overflow-hidden !rounded-b-none !shadow-2xl">
-                <div className="flex items-center gap-1.5 border-b border-[var(--card-border)] px-3 py-2">
-                  <span className="h-2 w-2 rounded-full bg-[#ff5f57]" /><span className="h-2 w-2 rounded-full bg-[#febc2e]" /><span className="h-2 w-2 rounded-full bg-[#28c840]" />
-                </div>
-                <div className="relative aspect-[16/10]"><Image src={devices[2].src} alt={devices[2].alt} fill sizes="280px" className="object-cover" /></div>
-              </div>
-            </motion.div>
-          </div>
-          <p className="mt-4 text-center text-[11px] text-muted sm:mt-5 sm:text-xs">Real products — websites, mobile apps, and dashboards</p>
-        </FadeIn>
-
-        <FadeIn delay={0.2} className="mt-6 text-center sm:mt-8">
-          <Link href="/about" className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-sky-400 transition hover:text-sky-300 sm:text-sm">
-            Learn more about our team <ArrowUpRight size={14} />
+        <FadeIn delay={0.2} className="mt-10 text-center">
+          <Link
+            href="/about"
+            className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-cyan transition hover:text-brand-blue"
+          >
+            Learn more about our team <ArrowRight size={14} />
           </Link>
         </FadeIn>
       </Container>
+
+      <div className="section-divider mt-14 sm:mt-20" />
     </section>
   );
 }

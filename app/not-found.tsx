@@ -6,7 +6,7 @@ export default function NotFound() {
   return (
     <main className="py-24 sm:py-32">
       <Container className="text-center">
-        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-cyan-200">404</p>
+        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-cyan">404</p>
         <h1 className="mt-4 font-heading text-4xl font-semibold text-white sm:text-5xl">
           Page not found
         </h1>
@@ -15,7 +15,7 @@ export default function NotFound() {
         </p>
         <Link
           href="/"
-          className="mt-8 inline-flex h-11 items-center rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-6 text-sm font-semibold text-[#030712] transition hover:brightness-110"
+          className="mt-8 inline-flex h-11 items-center rounded-full bg-gradient-to-r from-brand-cyan via-brand-blue to-brand-purple px-6 text-sm font-semibold text-white transition hover:brightness-110"
         >
           Back to Home
         </Link>

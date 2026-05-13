@@ -24,7 +24,6 @@ export function MobileTabBar() {
 
   return (
     <nav className="fixed inset-x-0 bottom-0 z-50 md:hidden">
-      {/* Blur backdrop */}
       <div
         className="flex items-end justify-around px-1 pb-[env(safe-area-inset-bottom)] pt-0"
         style={{
@@ -47,11 +46,11 @@ export function MobileTabBar() {
               >
                 <motion.span
                   whileTap={{ scale: 0.9 }}
-                  className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-sky-500 text-white shadow-lg shadow-sky-500/30"
+                  className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-r from-brand-cyan via-brand-blue to-brand-purple text-white shadow-lg shadow-brand-blue/30"
                 >
                   <Plus size={22} strokeWidth={2.5} />
                 </motion.span>
-                <span className="mt-0.5 text-[10px] font-medium text-sky-400">Start</span>
+                <span className="mt-0.5 text-[10px] font-medium text-brand-cyan">Start</span>
               </Link>
             );
           }
@@ -62,7 +61,7 @@ export function MobileTabBar() {
               href={tab.href}
               className={cn(
                 "relative flex min-w-[56px] flex-col items-center gap-0.5 py-2 transition-colors",
-                active ? "text-sky-400" : "text-muted",
+                active ? "text-brand-cyan" : "text-muted",
               )}
             >
               <span className="relative">
@@ -70,12 +69,12 @@ export function MobileTabBar() {
                 {active && (
                   <motion.span
                     layoutId="tab-dot"
-                    className="absolute -bottom-1.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-sky-400"
+                    className="absolute -bottom-1.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-brand-cyan"
                     transition={{ type: "spring", stiffness: 400, damping: 28 }}
                   />
                 )}
               </span>
-              <span className={cn("text-[10px] font-medium", active && "text-sky-400")}>
+              <span className={cn("text-[10px] font-medium", active && "text-brand-cyan")}>
                 {tab.label}
               </span>
             </Link>

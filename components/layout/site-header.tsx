@@ -27,11 +27,14 @@ export function SiteHeader() {
       "sticky top-0 z-50 transition-all duration-300",
       isScrolled ? "bg-background/80 shadow-sm backdrop-blur-xl" : "bg-transparent",
     )}>
+      {/* Subtle gradient line at top */}
+      <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-brand-blue/30 to-transparent" />
+
       <div className="mx-auto flex h-12 w-full max-w-6xl items-center justify-between px-4 sm:h-[4.5rem] sm:px-6 lg:px-8">
-        {/* Logo */}
+        {/* Logo with brand gradient */}
         <Link href="/" className="flex items-center gap-2">
-          <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-sky-500 text-[10px] font-bold text-white sm:h-9 sm:w-9 sm:text-sm">EZ</span>
-          <span className="font-heading text-[15px] font-semibold tracking-tight text-white sm:text-lg">{siteConfig.shortName}</span>
+          <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-brand-cyan via-brand-blue to-brand-purple text-[10px] font-bold text-white sm:h-9 sm:w-9 sm:text-sm">EZ</span>
+          <span className="font-heading text-[15px] font-semibold tracking-tight text-foreground sm:text-lg">{siteConfig.shortName}</span>
         </Link>
 
         {/* Desktop nav */}
@@ -39,7 +42,7 @@ export function SiteHeader() {
           {mainNav.map((item) => (
             <Link key={item.href} href={item.href} className={cn(
               "rounded-full px-4 py-2 text-sm font-medium transition duration-200",
-              isActivePath(pathname, item.href) ? "bg-sky-500/10 text-sky-400" : "text-muted hover:text-foreground",
+              isActivePath(pathname, item.href) ? "bg-brand-blue/10 text-brand-cyan" : "text-muted hover:text-foreground",
             )}>{item.label}</Link>
           ))}
         </nav>
@@ -47,12 +50,12 @@ export function SiteHeader() {
         {/* Desktop right */}
         <div className="hidden items-center gap-2 md:flex">
           <ThemeToggle />
-          <Link href="/contact" className="inline-flex h-10 items-center rounded-full bg-sky-500 px-5 text-sm font-semibold text-white transition hover:bg-sky-400 active:scale-[0.98]">
+          <Link href="/contact" className="inline-flex h-10 items-center rounded-full bg-gradient-to-r from-brand-cyan via-brand-blue to-brand-purple px-5 text-sm font-semibold text-white transition hover:shadow-lg hover:shadow-brand-blue/25 active:scale-[0.98]">
             Start Your Project
           </Link>
         </div>
 
-        {/* Mobile right — just theme toggle */}
+        {/* Mobile right */}
         <div className="flex items-center md:hidden">
           <ThemeToggle />
         </div>

@@ -65,8 +65,8 @@ export function ProjectsBrowser({ initialCategory }: ProjectsBrowserProps) {
                   onClick={() => handleCategoryChange(category)}
                   className={
                     isActive
-                      ? "inline-flex h-10 shrink-0 snap-start items-center rounded-full bg-cyan-300/20 px-4 text-sm font-semibold text-cyan-100"
-                      : "inline-flex h-10 shrink-0 snap-start items-center rounded-full border border-white/[0.08] px-4 text-sm font-medium text-slate-200 transition hover:border-cyan-300/60 hover:text-cyan-100"
+                      ? "inline-flex h-10 shrink-0 snap-start items-center rounded-full bg-brand-cyan/20 px-4 text-sm font-semibold text-brand-cyan"
+                      : "inline-flex h-10 shrink-0 snap-start items-center rounded-full border border-[var(--card-border)] px-4 text-sm font-medium text-slate-200 transition hover:border-brand-cyan/60 hover:text-brand-cyan"
                   }
                 >
                   {category}
@@ -86,7 +86,7 @@ export function ProjectsBrowser({ initialCategory }: ProjectsBrowserProps) {
 
       {filteredProjects.length === 0 ? (
         <FadeIn delay={0.12} className="mt-8">
-          <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-8 text-center">
+          <div className="rounded-3xl border border-white/[0.06] bg-white/[0.03] p-8 text-center">
             <p className="font-heading text-xl font-semibold text-white">
               No projects found in this category
             </p>

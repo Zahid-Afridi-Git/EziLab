@@ -11,35 +11,36 @@ function applyTheme(theme: Theme) {
   document.documentElement.dataset.theme = theme;
 }
 
+function getInitialTheme(): Theme {
+  if (typeof window === "undefined") return "dark";
+
+  const current = document.documentElement.dataset.theme;
+  if (current === "dark" || current === "light") return current;
+
+  const saved = localStorage.getItem(storageKey) as Theme | null;
+  if (saved) return saved;
+
+  return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+}
+
 export function ThemeToggle() {
-  const [theme, setTheme] = useState<Theme>(() => {
-    if (typeof document !== "undefined") {
-      const current = document.documentElement.dataset.theme;
-      if (current === "dark" || current === "light") {
-        return current;
-      }
-    }
+  const [mounted, setMounted] = useState(false);
+  const [theme, setTheme] = useState<Theme>("dark");
 
-    if (typeof window === "undefined") {
-      return "dark";
-    }
-
-    const saved = localStorage.getItem(storageKey) as Theme | null;
-    if (saved) {
-      return saved;
-    }
-
-    return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
-  });
+  // Only read the real theme after mount to avoid hydration mismatch
+  useEffect(() => {
+    setTheme(getInitialTheme());
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
+    if (!mounted) return;
     applyTheme(theme);
     localStorage.setItem(storageKey, theme);
-  }, [theme]);
+  }, [theme, mounted]);
 
   function toggleTheme() {
-    const next: Theme = theme === "dark" ? "light" : "dark";
-    setTheme(next);
+    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
   }
 
   return (
@@ -49,7 +50,14 @@ export function ThemeToggle() {
       onClick={toggleTheme}
       className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[var(--card)] text-muted shadow-sm transition hover:text-foreground active:scale-95"
     >
-      {theme === "light" ? <Moon size={16} /> : <Sun size={16} />}
+      {/* Render a placeholder on server/before mount to avoid mismatch */}
+      {!mounted ? (
+        <span className="h-4 w-4" />
+      ) : theme === "light" ? (
+        <Moon size={16} />
+      ) : (
+        <Sun size={16} />
+      )}
     </button>
   );
 }

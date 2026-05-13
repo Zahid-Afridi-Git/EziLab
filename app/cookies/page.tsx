@@ -48,7 +48,7 @@ export default function CookiesPage() {
       <Container>
         <div className="grid gap-6 lg:grid-cols-12">
           <FadeIn className="lg:col-span-7">
-            <span className="inline-flex rounded-full border border-cyan-300/50 bg-cyan-300/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-cyan-200">
+            <span className="inline-flex rounded-full border border-brand-cyan/50 bg-brand-cyan/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-brand-cyan">
               Cookies & Tracking
             </span>
             <h1 className="mt-4 max-w-4xl text-balance font-heading text-4xl font-semibold text-white sm:text-5xl">
@@ -84,7 +84,7 @@ export default function CookiesPage() {
                   </p>
                   <Link
                     href="/privacy-policy"
-                    className="mt-2 inline-flex items-center gap-2 text-sm text-cyan-200 transition hover:text-cyan-100"
+                    className="mt-2 inline-flex items-center gap-2 text-sm text-brand-cyan transition hover:text-brand-blue"
                   >
                     <Globe2 size={15} />
                     Read the Privacy Policy
@@ -99,7 +99,7 @@ export default function CookiesPage() {
           {technologyCards.map((card, index) => (
             <FadeIn key={card.title} delay={0.04 * index}>
               <article className="h-full rounded-2xl border border-white/[0.06] bg-white/[0.03] p-6">
-                <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-cyan-300/35 bg-cyan-300/10 text-cyan-200">
+                <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-brand-cyan/35 bg-brand-cyan/10 text-brand-cyan">
                   <card.icon size={18} />
                 </span>
                 <h2 className="mt-4 font-heading text-2xl font-semibold text-white">{card.title}</h2>
@@ -120,15 +120,15 @@ export default function CookiesPage() {
               <div className="mt-5 space-y-4">
                 <article className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5">
                   <p className="flex items-center gap-2 text-sm font-semibold text-white">
-                    <Cookie size={16} className="text-cyan-200" />
+                    <Cookie size={16} className="text-brand-cyan" />
                     Essential local storage
                   </p>
                   <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
-                    <dt className="font-mono text-cyan-200">ezilab-theme</dt>
+                    <dt className="font-mono text-brand-cyan">ezilab-theme</dt>
                     <dd className="text-slate-300">
                       Remembers whether you selected the light or dark theme.
                     </dd>
-                    <dt className="font-mono text-cyan-200">ezilab-cookie-consent</dt>
+                    <dt className="font-mono text-brand-cyan">ezilab-cookie-consent</dt>
                     <dd className="text-slate-300">
                       Stores whether you accepted analytics or chose essential-only browsing.
                     </dd>
@@ -137,15 +137,15 @@ export default function CookiesPage() {
 
                 <article className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5">
                   <p className="flex items-center gap-2 text-sm font-semibold text-white">
-                    <BarChart3 size={16} className="text-cyan-200" />
+                    <BarChart3 size={16} className="text-brand-cyan" />
                     Google Analytics cookies after consent
                   </p>
                   <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
-                    <dt className="font-mono text-cyan-200">_ga</dt>
+                    <dt className="font-mono text-brand-cyan">_ga</dt>
                     <dd className="text-slate-300">
                       Used by Google Analytics to distinguish visitors across visits.
                     </dd>
-                    <dt className="font-mono text-cyan-200">_ga_*</dt>
+                    <dt className="font-mono text-brand-cyan">_ga_*</dt>
                     <dd className="text-slate-300">
                       Used by Google Analytics to persist session state and related measurement
                       details for the property.
@@ -192,7 +192,7 @@ export default function CookiesPage() {
               <div className="mt-5 grid gap-4 md:grid-cols-2">
                 <article className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5">
                   <p className="flex items-center gap-2 text-sm font-semibold text-white">
-                    <MonitorCog size={16} className="text-cyan-200" />
+                    <MonitorCog size={16} className="text-brand-cyan" />
                     Browser settings
                   </p>
                   <p className="mt-3 text-sm leading-relaxed text-slate-300">
@@ -203,7 +203,7 @@ export default function CookiesPage() {
                 </article>
                 <article className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5">
                   <p className="flex items-center gap-2 text-sm font-semibold text-white">
-                    <SlidersHorizontal size={16} className="text-cyan-200" />
+                    <SlidersHorizontal size={16} className="text-brand-cyan" />
                     Google Analytics opt-out
                   </p>
                   <p className="mt-3 text-sm leading-relaxed text-slate-300">
@@ -228,13 +228,13 @@ export default function CookiesPage() {
               <div className="mt-6 flex flex-wrap gap-3">
                 <Link
                   href="/privacy-policy"
-                  className="inline-flex h-11 items-center rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-5 text-sm font-semibold text-[#030712] transition hover:brightness-110"
+                  className="inline-flex h-11 items-center rounded-full bg-gradient-to-r from-brand-cyan via-brand-blue to-brand-purple px-5 text-sm font-semibold text-white transition hover:brightness-110"
                 >
                   View Privacy Policy
                 </Link>
                 <Link
                   href="/contact"
-                  className="inline-flex h-11 items-center rounded-full border border-white/[0.08] px-5 text-sm font-semibold text-slate-100 transition hover:border-cyan-300/70 hover:text-cyan-200"
+                  className="inline-flex h-11 items-center rounded-full border border-[var(--card-border)] px-5 text-sm font-semibold text-foreground transition hover:border-brand-cyan/30 hover:text-brand-cyan"
                 >
                   Contact EziLab
                 </Link>

@@ -3,73 +3,166 @@
 import { motion } from "framer-motion";
 import { Container } from "@/components/shared/container";
 import { FadeIn } from "@/components/shared/fade-in";
-import { SectionHeading } from "@/components/shared/section-heading";
 
-const stack = ["React", "Next.js", "TypeScript", "React Native", "Tailwind CSS", "Node.js", "PostgreSQL", "MongoDB", "Firebase", "Framer Motion"];
-
-const codeLines = [
-  { t: "// Built with our production stack", c: "comment" },
-  { t: 'import { NextPage } from "next";', c: "import" },
-  { t: 'import { motion } from "framer-motion";', c: "import" },
-  { t: 'import { db } from "@/lib/database";', c: "import" },
-  { t: "", c: "blank" },
-  { t: "export default async function App() {", c: "export" },
-  { t: "  const data = await db.query(...);", c: "const" },
-  { t: "  return <Dashboard data={data} />;", c: "return" },
-  { t: "}", c: "close" },
+const stack = [
+  { name: "React", category: "Frontend" },
+  { name: "Next.js", category: "Framework" },
+  { name: "TypeScript", category: "Language" },
+  { name: "React Native", category: "Mobile" },
+  { name: "Tailwind CSS", category: "Styling" },
+  { name: "Node.js", category: "Backend" },
+  { name: "PostgreSQL", category: "Database" },
+  { name: "MongoDB", category: "Database" },
+  { name: "Firebase", category: "Platform" },
+  { name: "Framer Motion", category: "Animation" },
+  { name: "Vercel", category: "Hosting" },
 ];
+
+/* Actual brand SVG icons for each technology */
+function TechIcon({ name }: { name: string }) {
+  const size = 20;
+
+  switch (name) {
+    case "React":
+    case "React Native":
+      return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="2.5" fill="#61DAFB" />
+          <ellipse cx="12" cy="12" rx="10" ry="4" stroke="#61DAFB" strokeWidth="1.2" fill="none" />
+          <ellipse cx="12" cy="12" rx="10" ry="4" stroke="#61DAFB" strokeWidth="1.2" fill="none" transform="rotate(60 12 12)" />
+          <ellipse cx="12" cy="12" rx="10" ry="4" stroke="#61DAFB" strokeWidth="1.2" fill="none" transform="rotate(120 12 12)" />
+        </svg>
+      );
+    case "Next.js":
+      return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="11" fill="currentColor" className="text-white" />
+          <path d="M9.5 8v8l6.5-4z" fill="black" />
+          <path d="M15 8v8" stroke="black" strokeWidth="1.5" strokeLinecap="round" />
+        </svg>
+      );
+    case "TypeScript":
+      return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+          <rect x="2" y="2" width="20" height="20" rx="3" fill="#3178C6" />
+          <path d="M7 12h5M9.5 12v5.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
+          <path d="M14.5 12.5c0-.8.7-1.2 1.5-1.2s1.5.3 1.5 1c0 1.5-3 1.2-3 3 0 .8.7 1.2 1.5 1.2s1.5-.3 1.5-1" stroke="white" strokeWidth="1.3" strokeLinecap="round" fill="none" />
+        </svg>
+      );
+    case "Tailwind CSS":
+      return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+          <path d="M12 6c-2.67 0-4.33 1.33-5 4 1-1.33 2.17-1.83 3.5-1.5.76.19 1.3.74 1.9 1.35C13.35 10.82 14.5 12 17 12c2.67 0 4.33-1.33 5-4-1 1.33-2.17 1.83-3.5 1.5-.76-.19-1.3-.74-1.9-1.35C15.65 7.18 14.5 6 12 6zM7 12c-2.67 0-4.33 1.33-5 4 1-1.33 2.17-1.83 3.5-1.5.76.19 1.3.74 1.9 1.35C8.35 16.82 9.5 18 12 18c2.67 0 4.33-1.33 5-4-1 1.33-2.17 1.83-3.5 1.5-.76-.19-1.3-.74-1.9-1.35C10.65 13.18 9.5 12 7 12z" fill="#06B6D4" />
+        </svg>
+      );
+    case "Node.js":
+      return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+          <path d="M12 2.5L3 7.5v9l9 5 9-5v-9l-9-5z" fill="#339933" opacity="0.15" stroke="#339933" strokeWidth="1.2" />
+          <path d="M12 7v10M8 9l4 2.5L16 9" stroke="#339933" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      );
+    case "PostgreSQL":
+      return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+          <ellipse cx="12" cy="8" rx="7" ry="4" fill="#336791" opacity="0.2" stroke="#336791" strokeWidth="1.2" />
+          <path d="M5 8v8c0 2.2 3.1 4 7 4s7-1.8 7-4V8" stroke="#336791" strokeWidth="1.2" fill="none" />
+          <path d="M5 12c0 2.2 3.1 4 7 4s7-1.8 7-4" stroke="#336791" strokeWidth="1.2" fill="none" />
+        </svg>
+      );
+    case "MongoDB":
+      return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+          <path d="M12 2C12 2 8 6 8 12c0 4 2 8 4 10 2-2 4-6 4-10 0-6-4-10-4-10z" fill="#47A248" opacity="0.2" stroke="#47A248" strokeWidth="1.2" />
+          <path d="M12 8v10" stroke="#47A248" strokeWidth="1.5" strokeLinecap="round" />
+        </svg>
+      );
+    case "Firebase":
+      return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+          <path d="M5 18L7 4l4 7-6 7z" fill="#FFA000" />
+          <path d="M11 11l-4 7 12-5-8-2z" fill="#F57C00" />
+          <path d="M19 18L11 3v8l8 7z" fill="#FFCA28" />
+        </svg>
+      );
+    case "Framer Motion":
+      return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+          <path d="M5 4h14v5.33H12L5 4z" fill="#BB4B96" />
+          <path d="M5 9.33h7l7 5.34H5V9.33z" fill="#7B2D8B" />
+          <path d="M5 14.67l7 5.33V14.67H5z" fill="#59166B" />
+        </svg>
+      );
+    case "Vercel":
+      return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+          <path d="M12 3L22 20H2L12 3z" fill="currentColor" className="text-white" />
+        </svg>
+      );
+    default:
+      return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5" className="text-brand-cyan" />
+          <path d="M8 12h8M12 8v8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" className="text-brand-cyan" />
+        </svg>
+      );
+  }
+}
 
 export function TechStackSection() {
   return (
-    <section className="py-14 sm:py-20 lg:py-28">
+    <section className="relative py-16 sm:py-24">
+      {/* Background glow */}
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute right-1/4 top-1/3 h-[400px] w-[400px] rounded-full bg-brand-purple/[0.04] blur-[120px]" />
+      </div>
+
       <Container>
         <FadeIn>
-          <SectionHeading label="Built With" title="Modern tech stack, production-ready code." description="We use industry-leading tools so your product is fast, secure, and easy to maintain." align="center" className="mx-auto max-w-2xl" />
+          <div className="mx-auto max-w-3xl text-center">
+            <span className="text-sm font-semibold uppercase tracking-[0.08em] text-gradient-brand">
+              Tech Stack
+            </span>
+            <h2 className="mt-3 font-heading text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+              Modern tools, production-ready code
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted">
+              We use industry-leading frameworks and tools so your product is fast, secure, and easy to maintain.
+            </p>
+          </div>
         </FadeIn>
 
-        <div className="mt-8 grid items-start gap-6 sm:mt-12 sm:gap-8 lg:grid-cols-2">
-          <FadeIn delay={0.1}>
-            <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 lg:justify-start">
-              {stack.map((tech, i) => (
-                <motion.span key={tech} initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} transition={{ duration: 0.4, delay: i * 0.04, ease: [0.25, 0.46, 0.45, 0.94] }} viewport={{ once: true }} className="card !rounded-full px-3.5 py-1.5 text-[13px] font-medium text-foreground sm:px-4 sm:py-2 sm:text-sm">
-                  {tech}
-                </motion.span>
-              ))}
-            </div>
-            <div className="card mt-4 flex flex-wrap items-center justify-center gap-x-5 gap-y-2.5 px-4 py-3 sm:mt-6 sm:gap-x-8 sm:gap-y-3 sm:px-6 sm:py-4 lg:justify-start">
-              {["Type-safe by default", "Component-driven", "API-first architecture", "CI/CD ready"].map((p) => (
-                <span key={p} className="flex items-center gap-1.5 text-[11px] font-medium text-muted sm:gap-2 sm:text-xs">
-                  <span className="h-1 w-1 rounded-full bg-sky-400 sm:h-1.5 sm:w-1.5" />{p}
+        {/* Tech grid with real icons */}
+        <div className="mx-auto mt-10 max-w-4xl sm:mt-14">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
+            {stack.map((tech, i) => (
+              <motion.div
+                key={tech.name}
+                initial={{ opacity: 0, scale: 0.85, y: 20 }}
+                whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                whileHover={{ scale: 1.04, y: -5 }}
+                transition={{ duration: 0.4, delay: i * 0.04, ease: [0.25, 0.46, 0.45, 0.94] }}
+                viewport={{ once: true }}
+                className="group flex items-center gap-3 rounded-2xl border border-white/[0.06] bg-white/[0.02] p-4 transition-all duration-300 hover:border-white/[0.14] hover:bg-white/[0.05] sm:p-5"
+              >
+                <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.04]">
+                  <TechIcon name={tech.name} />
                 </span>
-              ))}
-            </div>
-          </FadeIn>
-
-          <FadeIn delay={0.2} scale>
-            <div className="card card-lg overflow-hidden">
-              <div className="flex items-center gap-1.5 border-b border-[var(--card-border)] px-3 py-2 sm:px-4 sm:py-2.5">
-                <span className="h-2 w-2 rounded-full bg-[#ff5f57] sm:h-2.5 sm:w-2.5" />
-                <span className="h-2 w-2 rounded-full bg-[#febc2e] sm:h-2.5 sm:w-2.5" />
-                <span className="h-2 w-2 rounded-full bg-[#28c840] sm:h-2.5 sm:w-2.5" />
-                <span className="ml-2 text-[10px] text-muted sm:ml-3 sm:text-[11px]">app/page.tsx</span>
-              </div>
-              <div className="overflow-x-auto p-3 font-mono text-[10px] leading-5 sm:p-4 sm:text-[13px] sm:leading-7">
-                {codeLines.map((line, i) => (
-                  <motion.div key={i} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.25, delay: i * 0.06 }} viewport={{ once: true }} className="whitespace-nowrap">
-                    {line.c === "comment" ? <span className="text-[#636366]">{line.t}</span>
-                    : line.c === "import" ? <><span className="text-[#bf5af2]">import</span><span className="text-[#98989d]">{line.t.slice(6)}</span></>
-                    : line.c === "export" ? <><span className="text-[#bf5af2]">export default</span><span className="text-[#64d2ff]"> async function</span><span className="text-[#ffd60a]"> App</span><span className="text-[#98989d]">() {"{"}</span></>
-                    : line.c === "const" ? <><span className="text-[#98989d]">  </span><span className="text-[#bf5af2]">const</span><span className="text-[#98989d]"> data = </span><span className="text-[#64d2ff]">await</span><span className="text-[#98989d]"> db.query(...);</span></>
-                    : line.c === "return" ? <><span className="text-[#98989d]">  </span><span className="text-[#bf5af2]">return</span><span className="text-[#98989d]"> {"<"}</span><span className="text-[#64d2ff]">Dashboard</span><span className="text-[#98989d]"> data={"{data}"} /{">"}</span><span className="text-[#98989d]">;</span></>
-                    : line.c === "close" ? <span className="text-[#98989d]">{"}"}</span>
-                    : <span>&nbsp;</span>}
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          </FadeIn>
+                <div className="min-w-0">
+                  <p className="truncate font-heading text-sm font-semibold text-white transition group-hover:text-brand-cyan">
+                    {tech.name}
+                  </p>
+                  <p className="text-[10px] font-medium uppercase tracking-wider text-muted">
+                    {tech.category}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </Container>
+
+      <div className="section-divider mt-14 sm:mt-20" />
     </section>
   );
 }
