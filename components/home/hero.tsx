@@ -22,20 +22,64 @@ export function Hero() {
 
   return (
     <section ref={sectionRef} className="relative overflow-hidden pb-8 pt-[4.5rem] sm:pb-16 sm:pt-28 lg:pb-20">
+      {/* ═══ Immersive 3D Background ═══ */}
+
+      {/* Futuristic grid */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.04]"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(255,255,255,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.4) 1px, transparent 1px)",
+          backgroundSize: "60px 60px",
+        }}
+      />
+
       {/* Gradient mesh background */}
       <div className="gradient-mesh" />
 
-      {/* Animated gradient orbs */}
+      {/* Large animated gradient orbs */}
       <motion.div
-        animate={{ y: [0, -30, 0], x: [0, 15, 0], scale: [1, 1.1, 1] }}
-        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-        className="pointer-events-none absolute left-[5%] top-[15%] h-[300px] w-[300px] rounded-full bg-brand-cyan/[0.05] blur-[100px]"
+        animate={{ y: [0, -40, 0], x: [0, 20, 0], scale: [1, 1.15, 1] }}
+        transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+        className="pointer-events-none absolute left-[-5%] top-[5%] h-[500px] w-[500px] rounded-full bg-brand-cyan/[0.06] blur-[130px]"
       />
       <motion.div
-        animate={{ y: [0, 20, 0], x: [0, -20, 0], scale: [1, 1.15, 1] }}
-        transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 3 }}
-        className="pointer-events-none absolute right-[10%] top-[20%] h-[250px] w-[250px] rounded-full bg-brand-purple/[0.05] blur-[100px]"
+        animate={{ y: [0, 30, 0], x: [0, -25, 0], scale: [1, 1.2, 1] }}
+        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 3 }}
+        className="pointer-events-none absolute right-[-5%] top-[10%] h-[450px] w-[450px] rounded-full bg-brand-purple/[0.06] blur-[130px]"
       />
+      <motion.div
+        animate={{ y: [0, -20, 0], x: [0, 15, 0], scale: [1, 1.1, 1] }}
+        transition={{ duration: 16, repeat: Infinity, ease: "easeInOut", delay: 6 }}
+        className="pointer-events-none absolute bottom-[10%] left-[30%] h-[400px] w-[400px] rounded-full bg-brand-blue/[0.04] blur-[120px]"
+      />
+
+      {/* Animated light beams */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <motion.div
+          animate={{ opacity: [0.1, 0.35, 0.1], y: ["-100%", "200%"] }}
+          transition={{ duration: 7, repeat: Infinity, ease: "linear" }}
+          className="absolute left-[18%] top-0 w-[1px] h-[45%] bg-gradient-to-b from-transparent via-brand-cyan/30 to-transparent"
+        />
+        <motion.div
+          animate={{ opacity: [0.08, 0.25, 0.08], y: ["-100%", "200%"] }}
+          transition={{ duration: 10, repeat: Infinity, ease: "linear", delay: 3 }}
+          className="absolute right-[28%] top-0 w-[1px] h-[35%] bg-gradient-to-b from-transparent via-brand-purple/25 to-transparent"
+        />
+        <motion.div
+          animate={{ opacity: [0.05, 0.18, 0.05], y: ["-100%", "200%"] }}
+          transition={{ duration: 9, repeat: Infinity, ease: "linear", delay: 5 }}
+          className="absolute left-[60%] top-0 w-[1px] h-[50%] bg-gradient-to-b from-transparent via-brand-blue/20 to-transparent"
+        />
+        <motion.div
+          animate={{ opacity: [0.04, 0.12, 0.04], y: ["-100%", "200%"] }}
+          transition={{ duration: 12, repeat: Infinity, ease: "linear", delay: 1.5 }}
+          className="absolute left-[82%] top-0 w-[1px] h-[30%] bg-gradient-to-b from-transparent via-brand-cyan/15 to-transparent"
+        />
+      </div>
+
+      {/* Radial vignette for depth */}
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(3,7,18,0.5)_100%)]" />
 
       <Container>
         <motion.div style={{ y: heroY, opacity: heroOpacity }} className="relative z-10">

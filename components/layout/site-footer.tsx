@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Github, Linkedin, Twitter } from "lucide-react";
 import { mainNav, siteConfig } from "@/data/site";
@@ -19,7 +20,13 @@ export function SiteFooter() {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2.5">
-              <span className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-brand-cyan via-brand-blue to-brand-purple text-sm font-bold text-white">EZ</span>
+              <Image
+                src="/Logo/Ezilab Complete logo icon.png"
+                alt="EziLab Logo"
+                width={36}
+                height={36}
+                className="h-9 w-9"
+              />
               <p className="font-heading text-xl font-semibold text-foreground sm:text-2xl">{siteConfig.name}</p>
             </div>
             <p className="mt-3 max-w-lg text-[13px] leading-relaxed text-muted sm:mt-4 sm:text-sm">{siteConfig.description}</p>

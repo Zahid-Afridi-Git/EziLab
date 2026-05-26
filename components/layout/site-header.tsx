@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -31,9 +32,15 @@ export function SiteHeader() {
       <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-brand-blue/30 to-transparent" />
 
       <div className="mx-auto flex h-12 w-full max-w-6xl items-center justify-between px-4 sm:h-[4.5rem] sm:px-6 lg:px-8">
-        {/* Logo with brand gradient */}
+        {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
-          <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-brand-cyan via-brand-blue to-brand-purple text-[10px] font-bold text-white sm:h-9 sm:w-9 sm:text-sm">EZ</span>
+          <Image
+            src="/Logo/Ezilab Complete logo icon.png"
+            alt="EziLab Logo"
+            width={52}
+            height={52}
+            className="h-9 w-9 sm:h-12 sm:w-12"
+          />
           <span className="font-heading text-[15px] font-semibold tracking-tight text-foreground sm:text-lg">{siteConfig.shortName}</span>
         </Link>
 
