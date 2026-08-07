@@ -23,14 +23,13 @@ export function MobileTabBar() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-50 md:hidden">
+    <nav aria-label="Mobile navigation" className="fixed inset-x-0 bottom-0 z-50 px-2 pb-[max(0.4rem,env(safe-area-inset-bottom))] md:hidden">
       <div
-        className="flex items-end justify-around px-1 pb-[env(safe-area-inset-bottom)] pt-0"
+        className="surface-glass mx-auto flex max-w-md items-end justify-around rounded-[1.35rem] px-1"
         style={{
-          background: "color-mix(in srgb, var(--card) 85%, transparent)",
-          backdropFilter: "blur(20px) saturate(180%)",
-          WebkitBackdropFilter: "blur(20px) saturate(180%)",
-          borderTop: "1px solid var(--card-border)",
+          background: "color-mix(in srgb, var(--card) 88%, transparent)",
+          backdropFilter: "blur(24px) saturate(160%)",
+          WebkitBackdropFilter: "blur(24px) saturate(160%)",
         }}
       >
         {tabs.map((tab) => {
@@ -42,11 +41,12 @@ export function MobileTabBar() {
               <Link
                 key="cta"
                 href={tab.href}
-                className="relative -mt-4 flex flex-col items-center"
+                aria-label="Start a project"
+                className="relative -mt-3 flex flex-col items-center rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple/50"
               >
                 <motion.span
                   whileTap={{ scale: 0.9 }}
-                  className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-r from-brand-cyan via-brand-blue to-brand-purple text-white shadow-lg shadow-brand-blue/30"
+                  className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-brand text-white shadow-[0_14px_30px_-10px_rgba(99,102,241,.8)]"
                 >
                   <Plus size={22} strokeWidth={2.5} />
                 </motion.span>
@@ -59,22 +59,23 @@ export function MobileTabBar() {
             <Link
               key={tab.href + tab.label}
               href={tab.href}
+              aria-current={active ? "page" : undefined}
               className={cn(
-                "relative flex min-w-[56px] flex-col items-center gap-0.5 py-2 transition-colors",
+                "relative my-1 flex min-w-[56px] flex-col items-center gap-0.5 rounded-xl py-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple/45",
                 active ? "text-brand-cyan" : "text-muted",
               )}
             >
-              <span className="relative">
+              {active && (
+                <motion.span
+                  layoutId="mobile-active-tab"
+                  className="absolute inset-x-1 inset-y-0 rounded-xl border border-[var(--card-border)] bg-[var(--surface-soft)]"
+                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                />
+              )}
+              <span className="relative z-10">
                 <Icon size={20} strokeWidth={active ? 2.2 : 1.8} />
-                {active && (
-                  <motion.span
-                    layoutId="tab-dot"
-                    className="absolute -bottom-1.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-brand-cyan"
-                    transition={{ type: "spring", stiffness: 400, damping: 28 }}
-                  />
-                )}
               </span>
-              <span className={cn("text-[10px] font-medium", active && "text-brand-cyan")}>
+              <span className={cn("relative z-10 text-[10px] font-medium", active && "text-brand-cyan")}>
                 {tab.label}
               </span>
             </Link>

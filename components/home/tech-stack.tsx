@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Container } from "@/components/shared/container";
 import { FadeIn } from "@/components/shared/fade-in";
 
@@ -36,9 +36,9 @@ function TechIcon({ name }: { name: string }) {
     case "Next.js":
       return (
         <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-          <circle cx="12" cy="12" r="11" fill="currentColor" className="text-white" />
-          <path d="M9.5 8v8l6.5-4z" fill="black" />
-          <path d="M15 8v8" stroke="black" strokeWidth="1.5" strokeLinecap="round" />
+          <circle cx="12" cy="12" r="11" fill="#111827" />
+          <path d="M9.5 8v8l6.5-4z" fill="white" />
+          <path d="M15 8v8" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
         </svg>
       );
     case "TypeScript":
@@ -96,7 +96,7 @@ function TechIcon({ name }: { name: string }) {
     case "Vercel":
       return (
         <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-          <path d="M12 3L22 20H2L12 3z" fill="currentColor" className="text-white" />
+          <path d="M12 3L22 20H2L12 3z" fill="currentColor" className="text-heading" />
         </svg>
       );
     default:
@@ -109,60 +109,67 @@ function TechIcon({ name }: { name: string }) {
   }
 }
 
-export function TechStackSection() {
+function TechPill({ tech }: { tech: (typeof stack)[number] }) {
   return (
-    <section className="relative py-16 sm:py-24">
-      {/* Background glow */}
+    <div className="group flex min-w-[190px] items-center gap-3 rounded-2xl border border-[var(--card-border)] bg-[var(--surface-strong)] px-4 py-3 shadow-[var(--card-shadow)] backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:border-brand-purple/30 hover:bg-[var(--card-hover)] sm:min-w-[220px] sm:px-5 sm:py-4">
+      <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[var(--card-border)] bg-[var(--surface-soft)] transition-transform duration-300 group-hover:scale-105">
+        <TechIcon name={tech.name} />
+      </span>
+      <div className="min-w-0">
+        <p className="text-heading truncate font-heading text-sm font-semibold transition group-hover:text-brand-cyan">{tech.name}</p>
+        <p className="mt-0.5 text-[9px] font-bold uppercase tracking-[0.14em] text-muted">{tech.category}</p>
+      </div>
+    </div>
+  );
+}
+
+function MarqueeRow({ items, reverse = false, reduceMotion = false }: { items: typeof stack; reverse?: boolean; reduceMotion?: boolean }) {
+  const repeated = reduceMotion ? items : [...items, ...items];
+
+  return (
+    <div className="marquee-viewport group relative overflow-hidden py-2">
+      <div className={`flex w-max gap-3 sm:gap-4 ${reduceMotion ? "flex-wrap justify-center" : reverse ? "marquee-track marquee-reverse" : "marquee-track"}`}>
+        {repeated.map((tech, index) => (
+          <div key={`${tech.name}-${index}`} aria-hidden={!reduceMotion && index >= items.length}>
+            <TechPill tech={tech} />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export function TechStackSection() {
+  const reduceMotion = useReducedMotion();
+  const firstRow = stack.slice(0, 6);
+  const secondRow = stack.slice(6);
+
+  return (
+    <section className="relative overflow-hidden py-20 sm:py-28">
       <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute right-1/4 top-1/3 h-[400px] w-[400px] rounded-full bg-brand-purple/[0.04] blur-[120px]" />
+        <div className="absolute right-1/4 top-1/3 h-[450px] w-[450px] rounded-full bg-brand-purple/[0.065] blur-[135px]" />
+        <div className="absolute left-[-12rem] bottom-0 h-[380px] w-[380px] rounded-full bg-brand-cyan/[0.045] blur-[120px]" />
       </div>
 
       <Container>
         <FadeIn>
           <div className="mx-auto max-w-3xl text-center">
-            <span className="text-sm font-semibold uppercase tracking-[0.08em] text-gradient-brand">
-              Tech Stack
-            </span>
-            <h2 className="mt-3 font-heading text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-              Modern tools, production-ready code
+            <span className="text-sm font-semibold uppercase tracking-[0.1em] text-gradient-brand">Technology</span>
+            <h2 className="text-heading mt-3 font-heading text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
+              A modern stack with practical roots
             </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted">
-              We use industry-leading frameworks and tools so your product is fast, secure, and easy to maintain.
+            <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-muted">
+              Proven technologies selected for performance, maintainability, and the people who will own your product after launch.
             </p>
           </div>
         </FadeIn>
-
-        {/* Tech grid with real icons */}
-        <div className="mx-auto mt-10 max-w-4xl sm:mt-14">
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
-            {stack.map((tech, i) => (
-              <motion.div
-                key={tech.name}
-                initial={{ opacity: 0, scale: 0.85, y: 20 }}
-                whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                whileHover={{ scale: 1.04, y: -5 }}
-                transition={{ duration: 0.4, delay: i * 0.04, ease: [0.25, 0.46, 0.45, 0.94] }}
-                viewport={{ once: true }}
-                className="group flex items-center gap-3 rounded-2xl border border-white/[0.06] bg-white/[0.02] p-4 transition-all duration-300 hover:border-white/[0.14] hover:bg-white/[0.05] sm:p-5"
-              >
-                <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.04]">
-                  <TechIcon name={tech.name} />
-                </span>
-                <div className="min-w-0">
-                  <p className="truncate font-heading text-sm font-semibold text-white transition group-hover:text-brand-cyan">
-                    {tech.name}
-                  </p>
-                  <p className="text-[10px] font-medium uppercase tracking-wider text-muted">
-                    {tech.category}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
       </Container>
 
-      <div className="section-divider mt-14 sm:mt-20" />
+      <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }} className="mx-auto mt-12 max-w-[1500px] space-y-3 sm:mt-16 sm:space-y-4">
+        <MarqueeRow items={firstRow} reduceMotion={Boolean(reduceMotion)} />
+        <MarqueeRow items={secondRow} reverse reduceMotion={Boolean(reduceMotion)} />
+      </motion.div>
+
     </section>
   );
 }

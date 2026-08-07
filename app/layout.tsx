@@ -3,6 +3,7 @@ import { Manrope, Sora } from "next/font/google";
 
 import { CookieConsent } from "@/components/legal/cookie-controls";
 import { BackToTop } from "@/components/layout/back-to-top";
+import { FloatingContact } from "@/components/layout/floating-contact";
 import { MobileTabBar } from "@/components/layout/mobile-tab-bar";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
@@ -22,11 +23,8 @@ const headingFont = Sora({
 
 const themeInitScript = `
 (() => {
-  const key = "ezilab-theme";
-  const saved = window.localStorage.getItem(key);
-  const fallback = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
-  const theme = saved || fallback;
-  document.documentElement.dataset.theme = theme;
+  document.documentElement.dataset.theme = "dark";
+  window.localStorage.setItem("ezilab-theme", "dark");
 })();
 `;
 
@@ -113,7 +111,7 @@ export default function RootLayout({
     name: "EziLab",
     alternateName: "Elevate Zone of Innovation Lab",
     url: "https://ezilab.io",
-    email: "zahid@ezilab.io",
+    email: "support@ezilab.io",
     description: siteConfig.description,
     foundingDate: "2025",
     areaServed: "Worldwide",
@@ -150,6 +148,7 @@ export default function RootLayout({
           <SiteHeader />
           <div className="flex-1 pb-16 md:pb-0">{children}</div>
           <SiteFooter />
+          <FloatingContact />
           <BackToTop />
           <MobileTabBar />
         </div>

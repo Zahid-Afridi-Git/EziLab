@@ -24,7 +24,7 @@ export function BackToTop() {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 16, scale: 0.96 }}
           transition={{ duration: 0.2, ease: "easeOut" }}
-          className="fixed right-4 bottom-20 z-40 inline-flex h-10 w-10 items-center justify-center rounded-full bg-[var(--card)] text-muted shadow-lg transition hover:text-foreground active:scale-95 sm:right-6 sm:bottom-6 sm:h-12 sm:w-12 md:bottom-6"
+          className="fixed right-4 bottom-20 z-40 inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--card-border)] bg-[var(--card)] text-muted shadow-lg backdrop-blur-xl transition hover:border-brand-purple/30 hover:text-foreground active:scale-95 sm:right-6 sm:bottom-6 sm:h-12 sm:w-12"
         >
           <ArrowUp size={16} />
         </motion.button>

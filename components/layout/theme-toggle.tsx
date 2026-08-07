@@ -1,63 +1,59 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { Moon, Sun } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 
 type Theme = "dark" | "light";
 
 const storageKey = "ezilab-theme";
+const themeEvent = "ezilab-theme-change";
 
-function applyTheme(theme: Theme) {
-  document.documentElement.dataset.theme = theme;
+function getThemeSnapshot(): Theme {
+  const current = document.documentElement.dataset.theme;
+  return current === "light" ? "light" : "dark";
 }
 
-function getInitialTheme(): Theme {
-  if (typeof window === "undefined") return "dark";
-
-  const current = document.documentElement.dataset.theme;
-  if (current === "dark" || current === "light") return current;
-
-  const saved = localStorage.getItem(storageKey) as Theme | null;
-  if (saved) return saved;
-
-  return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+function subscribe(callback: () => void) {
+  window.addEventListener(themeEvent, callback);
+  window.addEventListener("storage", callback);
+  return () => {
+    window.removeEventListener(themeEvent, callback);
+    window.removeEventListener("storage", callback);
+  };
 }
 
 export function ThemeToggle() {
-  const [mounted, setMounted] = useState(false);
-  const [theme, setTheme] = useState<Theme>("dark");
-
-  // Only read the real theme after mount to avoid hydration mismatch
-  useEffect(() => {
-    setTheme(getInitialTheme());
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (!mounted) return;
-    applyTheme(theme);
-    localStorage.setItem(storageKey, theme);
-  }, [theme, mounted]);
+  const theme = useSyncExternalStore(subscribe, getThemeSnapshot, () => "dark" as Theme);
 
   function toggleTheme() {
-    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+    const nextTheme: Theme = theme === "dark" ? "light" : "dark";
+    document.documentElement.dataset.theme = nextTheme;
+    localStorage.setItem(storageKey, nextTheme);
+    window.dispatchEvent(new Event(themeEvent));
   }
 
+  const label = theme === "dark" ? "Switch to light theme" : "Switch to dark theme";
+
   return (
-    <button
+    <motion.button
       type="button"
-      aria-label="Toggle color theme"
+      aria-label={label}
+      title={label}
       onClick={toggleTheme}
-      className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[var(--card)] text-muted shadow-sm transition hover:text-foreground active:scale-95"
+      whileTap={{ scale: 0.9, rotate: -8 }}
+      className="group relative inline-flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-[var(--card-border)] bg-[var(--surface-soft)] text-muted shadow-sm transition hover:border-brand-purple/35 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple/50"
     >
-      {/* Render a placeholder on server/before mount to avoid mismatch */}
-      {!mounted ? (
-        <span className="h-4 w-4" />
-      ) : theme === "light" ? (
-        <Moon size={16} />
-      ) : (
-        <Sun size={16} />
-      )}
-    </button>
+      <span className="absolute inset-0 bg-gradient-brand opacity-0 transition-opacity group-hover:opacity-[0.08]" />
+      <motion.span
+        key={theme}
+        initial={{ opacity: 0, rotate: -45, scale: 0.6 }}
+        animate={{ opacity: 1, rotate: 0, scale: 1 }}
+        transition={{ duration: 0.25 }}
+        className="relative"
+      >
+        {theme === "light" ? <Moon size={16} /> : <Sun size={16} />}
+      </motion.span>
+    </motion.button>
   );
 }

@@ -9,8 +9,9 @@ export const siteConfig = {
   tagline: "EziLab — We design, build, and launch websites and apps for businesses ready to grow online.",
   description:
     "EziLab (Elevate Zone of Innovation Lab) is a web and app development platform that designs, builds, and launches modern websites, mobile apps, dashboards, and digital products for startups and growing businesses.",
-  email: "zahid@ezilab.io",
-  whatsapp: "+92 334 966 2622",
+  email: "support@ezilab.io",
+  whatsapp: "+92 326 999 3888",
+  phone: "+92 326 999 3888",
   social: {
     github: "https://github.com",
     linkedin: "https://linkedin.com",
@@ -20,7 +21,6 @@ export const siteConfig = {
 
 export const mainNav: NavItem[] = [
   { label: "Home", href: "/" },
-  { label: "Projects", href: "/projects" },
   { label: "Services", href: "/services" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },

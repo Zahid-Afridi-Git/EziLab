@@ -64,7 +64,7 @@ export function ServicesCTA() {
                   <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" />
                 </Link>
                 <Link
-                  href="/projects"
+                  href="/#featured-projects"
                   className="inline-flex h-13 items-center gap-2 rounded-full border border-white/[0.12] bg-white/[0.04] px-8 text-sm font-semibold text-white backdrop-blur-sm transition-all hover:border-white/[0.2] hover:bg-white/[0.08]"
                 >
                   See Our Work

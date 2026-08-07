@@ -73,7 +73,6 @@ export function AboutPreview() {
         </FadeIn>
       </Container>
 
-      <div className="section-divider mt-14 sm:mt-20" />
     </section>
   );
 }

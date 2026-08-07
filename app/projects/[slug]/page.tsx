@@ -66,8 +66,8 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
       <Container>
         <FadeIn>
           <div className="flex flex-wrap items-center gap-2 text-xs text-slate-400">
-            <Link href="/projects" className="transition hover:text-brand-cyan">
-              Projects
+            <Link href="/#featured-projects" className="transition hover:text-brand-cyan">
+              Selected work
             </Link>
             <span>/</span>
             <span>{project.title}</span>

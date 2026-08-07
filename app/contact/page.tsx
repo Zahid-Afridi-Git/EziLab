@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import type { LucideIcon } from "lucide-react";
-import { Mail, MessageCircle } from "lucide-react";
+import { Mail, MessageCircle, Phone } from "lucide-react";
 
 import { siteConfig } from "@/data/site";
 
@@ -32,6 +32,13 @@ const contactLinks = [
     href: `https://wa.me/${siteConfig.whatsapp.replace(/\D/g, "")}`,
     icon: MessageCircle,
     color: "border-brand-blue/30 bg-brand-blue/10 text-brand-blue",
+  },
+  {
+    label: "Phone",
+    value: siteConfig.phone,
+    href: `tel:${siteConfig.phone.replace(/[^\d+]/g, "")}`,
+    icon: Phone,
+    color: "border-brand-purple/30 bg-brand-purple/10 text-brand-purple",
   },
 ] as Array<{ label: string; value: string; href: string; icon: LucideIcon; color: string }>;
 
