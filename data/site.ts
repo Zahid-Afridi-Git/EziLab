@@ -10,8 +10,8 @@ export const siteConfig = {
   description:
     "EziLab (Elevate Zone of Innovation Lab) is a web and app development platform that designs, builds, and launches modern websites, mobile apps, dashboards, and digital products for startups and growing businesses.",
   email: "support@ezilab.io",
-  whatsapp: "+92 326 999 3888",
-  phone: "+92 326 999 3888",
+  whatsapp: "+92 330 011 3911",
+  phone: "+92 330 011 3911",
   social: {
     github: "https://github.com",
     linkedin: "https://linkedin.com",
