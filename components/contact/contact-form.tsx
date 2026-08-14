@@ -4,8 +4,6 @@ import { useState } from "react";
 import { AlertCircle, CheckCircle2, LoaderCircle } from "lucide-react";
 import { submitContact } from "@/lib/firestore";
 
-const WEB3FORMS_ACCESS_KEY = "2707b767-70a9-4561-9013-f7283c6045d5";
-
 const NAME_REGEX = /^[a-zA-Z\s'-]{2,60}$/;
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const MIN_MESSAGE_LENGTH = 20;
@@ -48,14 +46,19 @@ export function ContactForm() {
     setFieldErrors(errors);
     if (Object.keys(errors).length > 0) return;
     setSubmitting(true);
-    const formData = new FormData(form);
-    formData.append("access_key", WEB3FORMS_ACCESS_KEY);
-    formData.append("subject", "New Project Inquiry — EziLab");
-    formData.append("from_name", "EziLab Contact Form");
     try {
-      const response = await fetch("https://api.web3forms.com/submit", { method: "POST", body: formData });
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          email,
+          message,
+          website: (form.elements.namedItem("website") as HTMLInputElement)?.value || "",
+        }),
+      });
       const data = await response.json();
-      if (data.success) {
+      if (response.ok && data.success) {
         try { await submitContact({ name: name.trim(), email: email.trim(), message: message.trim() }); }
         catch (e) { console.error("Firestore save failed:", e); }
         setSubmitted(true);
@@ -79,7 +82,7 @@ export function ContactForm() {
     <form onSubmit={handleSubmit} noValidate className="rounded-3xl border border-white/[0.06] bg-white/[0.03] p-6 sm:p-8">
       <h2 className="font-heading text-2xl font-semibold text-white">Send a Project Inquiry</h2>
       <p className="mt-2 text-sm text-slate-300">Share your requirements and EziLab will respond within 24 hours.</p>
-      <input type="hidden" name="botcheck" className="hidden" />
+      <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
       <div className="mt-6 grid gap-4 sm:grid-cols-2">
         <div className="space-y-2">
           <label htmlFor="contact-name" className="text-sm font-medium text-slate-200">Full Name</label>
