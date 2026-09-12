@@ -51,7 +51,7 @@ function ProjectMeta({ project, index }: { project: Project; index: number }) {
             rel="noopener noreferrer"
             className="surface-glass inline-flex h-9 items-center gap-2 rounded-full px-4 text-xs font-semibold text-foreground transition hover:-translate-y-0.5 hover:border-brand-purple/35 hover:text-brand-purple focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple/50"
           >
-            Visit live website <ExternalLink size={13} />
+            {project.primaryAction.label} <ExternalLink size={13} />
           </a>
         )}
       </div>
@@ -134,7 +134,7 @@ function MobileProjectCard({ project, index }: { project: Project; index: number
               rel="noopener noreferrer"
               className="mt-4 inline-flex h-9 items-center gap-2 rounded-full border border-[var(--card-border)] bg-[var(--surface-soft)] px-4 text-xs font-semibold text-foreground transition hover:border-brand-purple/35 hover:text-brand-purple"
             >
-              Visit live website <ExternalLink size={13} />
+              {project.primaryAction.label} <ExternalLink size={13} />
             </a>
           )}
         </div>

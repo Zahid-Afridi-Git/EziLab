@@ -132,27 +132,38 @@ export const projects: Project[] = [
     category: "Islamic App",
     year: 2026,
     shortDescription:
-      "An Islamic mobile app designed around duas, adhkar, reflection, and calm daily faith routines.",
+      "A live Islamic companion app on Google Play — Quran, prayer times, duas, Hadith, tasbeeh, and Qibla in one calm space.",
     fullDescription:
-      "Sukoon is a mobile-first Islamic app created to help users stay connected to their faith through a calmer, more intentional daily experience. The product combines duas, adhkar, reminders, guided reflection, and habit support in a focused interface that avoids the clutter common in feature-heavy utility apps. Every part of the app is being shaped around trust, simplicity, and repeat daily use.",
-    projectType: "Mobile App (Android-first MVP)",
+      "Sukoon is a mobile Islamic app built to help Muslims stay connected to daily worship without the clutter that weighs down most utility apps. Published on Google Play as \"Sukoon: Quran Prayer Dua Qibla\", it brings Quran reading, prayer times, Azan reminders, duas and adhkar, Hadith, a Qibla compass, a digital tasbeeh counter, and the Hijri calendar into one distraction-free, dark-mode-friendly interface. Optional cloud sync keeps bookmarks, progress, and settings consistent across devices.",
+    projectType: "Mobile App (Android — live on Google Play)",
     clientType: "Internal",
-    role: "Product strategy, Islamic UX design, mobile app architecture, and end-to-end development.",
+    role: "Product strategy, Islamic UX design, mobile app architecture, end-to-end development, and Play Store release.",
     image: "/images/projects/sukoon/hero-sectin.png",
+    primaryAction: {
+      href: "https://play.google.com/store/apps/details?id=com.ezilab.sukoon",
+      label: "Get it on Google Play",
+      kind: "external",
+    },
+    availabilityNote:
+      "Available free on Google Play for Android, published by Ezilab under Books & Reference and rated for ages 3+. The listing declares no data shared with third parties, data encrypted in transit, and support for data deletion requests.",
     features: [
-      "Daily duas and adhkar presented in a calm, readable interface",
-      "Faith-based reminders that encourage regular Islamic practice",
-      "Guided reflection flows designed for quiet, intentional use",
-      "Habit and routine support for building consistency over time",
-      "Mobile-first UX designed for low-friction daily engagement",
-      "Launch path prepared for Android APK distribution and future store rollout",
+      "Holy Quran reading with a clean, distraction-free reader",
+      "Daily prayer times based on your selected or current location",
+      "Azan reminders and prayer notifications",
+      "Daily duas and adhkar for everyday Islamic routine",
+      "Hadith collection for reading and reflection",
+      "Qibla compass for finding the Qibla direction",
+      "Digital tasbeeh counter for tracking dhikr",
+      "Islamic calendar with Hijri dates and important days",
+      "Optional cloud sync for bookmarks, progress, and settings",
+      "Multi-language support, including a recently added Persian option",
     ],
     challenge:
       "The challenge was to design an Islamic app that felt spiritually grounded without becoming visually cluttered or difficult to use. Many existing apps are useful but fragmented, outdated, or overloaded with options, so Sukoon needed to deliver real faith-centered value inside a modern, peaceful experience that users would want to return to every day.",
     solution:
-      "EziLab approached Sukoon as a faith-centered product experience rather than a feature dump. We focused on a calm visual system, lightweight navigation, and a structure built around the moments users revisit most: remembrance, reflection, routine, and spiritual encouragement. The app was also planned for staged distribution, with support for early Android APK delivery and a roadmap for future app-store publishing.",
+      "EziLab approached Sukoon as a faith-centered product experience rather than a feature dump. We focused on a calm visual system, lightweight navigation, and a structure built around the moments users revisit most: remembrance, reflection, routine, and spiritual encouragement. Reliability work went into the parts users depend on daily — location-based prayer times, Azan delivery on Android devices that aggressively restrict notifications, and optional cloud sync for bookmarks and progress.",
     result:
-      "Sukoon is currently in active MVP development with a strong Islamic product identity, a focused feature set, and a launch-ready case study presence on the website. The current outcome is a clear product direction, a brand-aligned mobile experience, and a scalable foundation for screenshots, APK distribution, and future app-store expansion.",
+      "Sukoon is live on Google Play and shipping regular updates. Post-launch releases have added Persian language support, redesigned worship progress charts, a simpler first-run setup, and an Azan reliability check that detects when a phone is blocking notifications and walks the user through the fix. The app carries the full Islamic toolkit — Quran, prayer times, duas, Hadith, tasbeeh, and Qibla — inside one calm interface, giving EziLab a published, publicly verifiable mobile product.",
     techStack: ["React Native", "TypeScript", "Firebase", "Node.js", "Figma"],
     screenshots: [
       {
@@ -173,7 +184,7 @@ export const projects: Project[] = [
       },
     ],
     featured: true,
-    status: "Ongoing",
+    status: "Completed",
   },
   {
     title: "EziWalk E-Commerce",
