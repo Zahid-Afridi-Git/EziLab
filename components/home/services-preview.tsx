@@ -21,10 +21,15 @@ import {
   ShoppingBag,
   Smartphone,
 } from "lucide-react";
-import { type MouseEvent, useState } from "react";
+import { type CSSProperties, type PointerEvent, useRef, useState } from "react";
 import { services } from "@/data/services";
 import { Container } from "@/components/shared/container";
 import { FadeIn } from "@/components/shared/fade-in";
+import { Magnetic } from "@/components/shared/magnetic";
+import { RevealGroup } from "@/components/shared/reveal-group";
+import { RevealHeading } from "@/components/shared/reveal-heading";
+import { useSwipeHint } from "@/components/shared/use-swipe-hint";
+import { trackPointer } from "@/lib/pointer";
 
 const serviceIcons: Record<string, LucideIcon> = {
   "web-development": Globe,
@@ -49,6 +54,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
 export function ServicesPreview() {
   const [activeIndex, setActiveIndex] = useState(0);
   const reduceMotion = useReducedMotion();
+  const tabsRef = useRef<HTMLDivElement>(null);
   const pointerX = useMotionValue(0);
   const pointerY = useMotionValue(0);
   const rotateY = useSpring(pointerX, { stiffness: 100, damping: 22 });
@@ -57,7 +63,10 @@ export function ServicesPreview() {
   const theme = serviceThemes[activeIndex % serviceThemes.length];
   const ActiveIcon = serviceIcons[activeService.slug] ?? Globe;
 
-  function handlePointerMove(event: MouseEvent<HTMLDivElement>) {
+  useSwipeHint(tabsRef, !reduceMotion);
+
+  function handlePointerMove(event: PointerEvent<HTMLDivElement>) {
+    trackPointer(event);
     if (reduceMotion || window.matchMedia("(pointer: coarse)").matches) return;
     const rect = event.currentTarget.getBoundingClientRect();
     pointerX.set(((event.clientX - rect.left) / rect.width - 0.5) * 6);
@@ -83,10 +92,11 @@ export function ServicesPreview() {
         <FadeIn>
           <div className="grid items-end gap-5 lg:grid-cols-[1fr_auto]">
             <div>
-              <span className="text-sm font-semibold uppercase tracking-[0.1em] text-gradient-brand">What we do</span>
-              <h2 className="text-heading mt-3 max-w-3xl font-heading text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
-                One studio, every layer of your product
-              </h2>
+              <span className="gradient-glint text-sm font-semibold uppercase tracking-[0.1em]">What we do</span>
+              <RevealHeading
+                text="One studio, every layer of your product"
+                className="text-heading mt-3 max-w-3xl font-heading text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl"
+              />
             </div>
             <p className="max-w-md text-sm leading-6 text-muted sm:text-base lg:text-right">
               Strategy, design, engineering, and long-term support—connected in one focused delivery process.
@@ -94,8 +104,8 @@ export function ServicesPreview() {
           </div>
         </FadeIn>
 
-        <FadeIn delay={0.08} className="mt-10 sm:mt-14">
-          <div className="scrollbar-hide flex snap-x snap-mandatory gap-2 overflow-x-auto pb-3 lg:grid lg:grid-cols-6 lg:overflow-visible lg:pb-0" role="tablist" aria-label="Services">
+        <div className="mt-10 sm:mt-14">
+          <RevealGroup elementRef={tabsRef} className="scrollbar-hide flex snap-x snap-mandatory gap-2 overflow-x-auto pb-3 lg:grid lg:grid-cols-6 lg:overflow-visible lg:pb-0" role="tablist" aria-label="Services">
             {services.map((service, index) => {
               const Icon = serviceIcons[service.slug] ?? Globe;
               const isActive = index === activeIndex;
@@ -107,7 +117,10 @@ export function ServicesPreview() {
                   aria-selected={isActive}
                   aria-controls="active-service-panel"
                   onClick={() => setActiveIndex(index)}
-                  className={`group relative min-w-[155px] snap-start overflow-hidden rounded-2xl border px-3 py-4 text-left transition duration-300 lg:min-w-0 ${
+                  onPointerMove={trackPointer}
+                  onPointerDown={trackPointer}
+                  style={{ "--delay": `${index * 0.07}s` } as CSSProperties}
+                  className={`reveal-item spotlight-card group relative min-w-[155px] snap-start overflow-hidden rounded-2xl border px-3 py-4 text-left transition duration-300 [--ring-inset:0px] lg:min-w-0 ${
                     isActive
                       ? "border-[var(--card-border)] bg-[var(--surface-strong)] shadow-[var(--card-shadow)]"
                       : "border-transparent bg-[var(--surface-soft)] hover:border-[var(--card-border)]"
@@ -133,10 +146,10 @@ export function ServicesPreview() {
                 </button>
               );
             })}
-          </div>
-        </FadeIn>
+          </RevealGroup>
+        </div>
 
-        <div className="perspective-scene mt-5" onMouseMove={handlePointerMove} onMouseLeave={resetPointer}>
+        <div className="perspective-scene mt-5" onPointerMove={handlePointerMove} onPointerDown={handlePointerMove} onPointerLeave={resetPointer}>
           <AnimatePresence mode="wait">
             <motion.div
               id="active-service-panel"
@@ -151,6 +164,7 @@ export function ServicesPreview() {
             >
               <div className="pointer-events-none absolute inset-0 opacity-70" style={{ background: `radial-gradient(circle at 80% 20%, ${theme.wash}, transparent 38%)` }} />
               <div className="pointer-events-none absolute inset-x-0 top-0 h-px" style={{ background: `linear-gradient(90deg, transparent 8%, ${theme.accent}, ${theme.second}, transparent 92%)` }} />
+              <div className="cursor-glow absolute inset-0" aria-hidden="true" />
 
               <div className="relative grid gap-10 p-6 sm:p-9 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:p-12">
                 <div>
@@ -158,7 +172,7 @@ export function ServicesPreview() {
                     <motion.span
                       initial={{ rotate: -8, scale: 0.8 }}
                       animate={{ rotate: 0, scale: 1 }}
-                      className="inline-flex h-14 w-14 items-center justify-center rounded-2xl border border-[var(--card-border)] bg-[var(--surface-soft)]"
+                      className="orbit-border relative inline-flex h-14 w-14 items-center justify-center rounded-2xl border border-[var(--card-border)] bg-[var(--surface-soft)]"
                       style={{ color: theme.accent, boxShadow: `0 20px 45px -20px ${theme.glow}` }}
                     >
                       <ActiveIcon size={25} />
@@ -177,9 +191,11 @@ export function ServicesPreview() {
                   <p className="mt-5 text-xs text-muted">Best for: <span className="text-body font-medium">{activeService.forWho}</span></p>
 
                   <div className="mt-8 flex flex-wrap items-center gap-4">
-                    <Link href="/contact" className="inline-flex h-11 items-center gap-2 rounded-full bg-gradient-brand px-6 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:brightness-110">
-                      Start a project <ArrowRight size={14} />
-                    </Link>
+                    <Magnetic>
+                      <Link href="/contact" className="btn-shine group relative inline-flex h-11 items-center gap-2 overflow-hidden rounded-full bg-gradient-brand px-6 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:brightness-110">
+                        Start a project <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
+                      </Link>
+                    </Magnetic>
                     <Link href="/services" className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-cyan transition hover:gap-2.5 hover:text-brand-purple">
                       All services <ArrowRight size={14} />
                     </Link>
@@ -192,7 +208,7 @@ export function ServicesPreview() {
                     initial={{ opacity: 0, x: 30, rotateY: -8 }}
                     animate={{ opacity: 1, x: 0, rotateY: -3 }}
                     transition={{ duration: 0.55, delay: 0.08, ease }}
-                    className="surface-glass absolute inset-x-0 top-4 rounded-[1.6rem] p-5 sm:inset-x-5 sm:p-6"
+                    className="surface-glass sheen absolute inset-x-0 top-4 rounded-[1.6rem] p-5 [--sheen-delay:0.45s] [--sheen-duration:2.4s] [--sheen-repeat:1] sm:inset-x-5 sm:p-6"
                     style={{ transform: "translateZ(35px)" }}
                   >
                     <div className="flex items-center justify-between border-b border-[var(--card-border)] pb-4">
@@ -212,14 +228,14 @@ export function ServicesPreview() {
                           className="flex min-h-20 items-start gap-3 rounded-2xl border border-[var(--card-border)] bg-[var(--surface-soft)] p-4"
                         >
                           <span className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full" style={{ background: `${theme.accent}20`, color: theme.accent }}>
-                            <Check size={12} strokeWidth={3} />
+                            <Check size={12} strokeWidth={3} className="draw-check" style={{ "--delay": `${0.3 + index * 0.08}s` } as CSSProperties} />
                           </span>
                           <span className="text-body text-xs font-medium leading-5">{deliverable}</span>
                         </motion.div>
                       ))}
                     </div>
                   </motion.div>
-                  <div className="surface-glass absolute bottom-0 right-0 rounded-xl px-3 py-2 text-[9px] font-bold uppercase tracking-[0.15em] text-muted sm:right-1" style={{ transform: "translateZ(70px) rotate(2deg)" }}>
+                  <div className="surface-glass orbit-border float-y absolute bottom-0 right-0 rounded-xl px-3 py-2 [--float-distance:-6px] [--orbit-duration:5.5s] text-[9px] font-bold uppercase tracking-[0.15em] text-muted sm:right-1" style={{ transform: "translateZ(70px) rotate(2deg)" }}>
                     Strategy → Design → Build
                   </div>
                 </div>

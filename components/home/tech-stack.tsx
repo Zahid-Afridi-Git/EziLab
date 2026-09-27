@@ -3,6 +3,8 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { Container } from "@/components/shared/container";
 import { FadeIn } from "@/components/shared/fade-in";
+import { RevealHeading } from "@/components/shared/reveal-heading";
+import { trackPointer } from "@/lib/pointer";
 
 const stack = [
   { name: "React", category: "Frontend" },
@@ -111,8 +113,8 @@ function TechIcon({ name }: { name: string }) {
 
 function TechPill({ tech }: { tech: (typeof stack)[number] }) {
   return (
-    <div className="group flex min-w-[190px] items-center gap-3 rounded-2xl border border-[var(--card-border)] bg-[var(--surface-strong)] px-4 py-3 shadow-[var(--card-shadow)] backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:border-brand-purple/30 hover:bg-[var(--card-hover)] sm:min-w-[220px] sm:px-5 sm:py-4">
-      <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[var(--card-border)] bg-[var(--surface-soft)] transition-transform duration-300 group-hover:scale-105">
+    <div onPointerMove={trackPointer} onPointerDown={trackPointer} className="spotlight-card group relative flex min-w-[190px] items-center gap-3 rounded-2xl border border-[var(--card-border)] bg-[var(--surface-strong)] px-4 py-3 shadow-[var(--card-shadow)] backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:border-brand-purple/30 hover:bg-[var(--card-hover)] sm:min-w-[220px] sm:px-5 sm:py-4">
+      <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[var(--card-border)] bg-[var(--surface-soft)] transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110">
         <TechIcon name={tech.name} />
       </span>
       <div className="min-w-0">
@@ -154,10 +156,11 @@ export function TechStackSection() {
       <Container>
         <FadeIn>
           <div className="mx-auto max-w-3xl text-center">
-            <span className="text-sm font-semibold uppercase tracking-[0.1em] text-gradient-brand">Technology</span>
-            <h2 className="text-heading mt-3 font-heading text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
-              A modern stack with practical roots
-            </h2>
+            <span className="gradient-glint text-sm font-semibold uppercase tracking-[0.1em]">Technology</span>
+            <RevealHeading
+              text="A modern stack with practical roots"
+              className="text-heading mt-3 font-heading text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl"
+            />
             <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-muted">
               Proven technologies selected for performance, maintainability, and the people who will own your product after launch.
             </p>
@@ -165,10 +168,19 @@ export function TechStackSection() {
         </FadeIn>
       </Container>
 
-      <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }} className="mx-auto mt-12 max-w-[1500px] space-y-3 sm:mt-16 sm:space-y-4">
-        <MarqueeRow items={firstRow} reduceMotion={Boolean(reduceMotion)} />
-        <MarqueeRow items={secondRow} reverse reduceMotion={Boolean(reduceMotion)} />
-      </motion.div>
+      <div className="mx-auto mt-12 max-w-[1500px] space-y-3 sm:mt-16 sm:space-y-4">
+        {[firstRow, secondRow].map((row, index) => (
+          <motion.div
+            key={index}
+            initial={reduceMotion ? false : { opacity: 0, x: index === 0 ? -90 : 90 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.4 }}
+            transition={{ duration: 0.9, delay: index * 0.12, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <MarqueeRow items={row} reverse={index === 1} reduceMotion={Boolean(reduceMotion)} />
+          </motion.div>
+        ))}
+      </div>
 
     </section>
   );

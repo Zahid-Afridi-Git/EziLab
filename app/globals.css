@@ -27,6 +27,8 @@
   /* Brand gradients */
   --gradient-brand: linear-gradient(135deg, #22D3EE 0%, #6366F1 48%, #A855F7 100%);
   --gradient-brand-reverse: linear-gradient(135deg, #A855F7, #6366F1, #22D3EE);
+  --gradient-brand-a: linear-gradient(135deg, #22D3EE 0%, #6366F1 100%);
+  --gradient-brand-b: linear-gradient(135deg, #6366F1 0%, #A855F7 100%);
   --gradient-glow-cyan: rgba(34, 211, 238, 0.15);
   --gradient-glow-blue: rgba(59, 130, 246, 0.12);
   --gradient-glow-purple: rgba(139, 92, 246, 0.10);
@@ -76,6 +78,8 @@
   --brand-purple: #7137e8;
 
   --gradient-brand: linear-gradient(135deg, #078fa8 0%, #4f5fe7 48%, #7137e8 100%);
+  --gradient-brand-a: linear-gradient(135deg, #078fa8 0%, #4f5fe7 100%);
+  --gradient-brand-b: linear-gradient(135deg, #4f5fe7 0%, #7137e8 100%);
   --gradient-glow-cyan: rgba(8, 145, 178, 0.12);
   --gradient-glow-blue: rgba(37, 99, 235, 0.10);
   --gradient-glow-purple: rgba(124, 58, 237, 0.08);
@@ -499,3 +503,402 @@ a { color: inherit; text-decoration: none; }
 :root[data-theme="light"] .shadow-black\/30 {
   --tw-shadow-color: rgba(0, 0, 0, 0.1) !important;
 }
+
+/* ═══════════════════════════════════════════════
+   MOTION SYSTEM
+   Shared entrance, ambient, and pointer effects used
+   across the home sections. Entrances that run on
+   mount are CSS-driven so they start on first paint.
+   ═══════════════════════════════════════════════ */
+
+/* ── Entrances ── */
+.rise-in {
+  animation: rise-in 0.85s cubic-bezier(0.22, 1, 0.36, 1) var(--delay, 0s) both;
+}
+
+@keyframes rise-in {
+  from { opacity: 0; transform: translate3d(0, 18px, 0); filter: blur(6px); }
+  to { opacity: 1; transform: none; filter: none; }
+}
+
+.hero-word {
+  display: inline-block;
+  transform-origin: 50% 100%;
+  animation: hero-word 0.7s cubic-bezier(0.22, 1, 0.36, 1) calc(0.08s + var(--i, 0) * 0.045s) both;
+}
+
+@keyframes hero-word {
+  from { opacity: 0; transform: translate3d(0, 0.18em, 0) rotateX(-18deg); filter: blur(7px); }
+  to { opacity: 1; transform: none; filter: none; }
+}
+
+/* ── Brand gradient text with a light glint that sweeps across ── */
+.gradient-glint {
+  background-image:
+    linear-gradient(110deg, transparent 38%, rgba(255, 255, 255, 0.7) 50%, transparent 62%),
+    var(--glint-gradient, var(--gradient-brand));
+  background-size: 250% 100%, 100% 100%;
+  background-repeat: no-repeat;
+  background-position: 110% 0, 0 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: glint 6.5s ease-in-out var(--glint-delay, 1.6s) infinite;
+}
+
+@keyframes glint {
+  0% { background-position: 110% 0, 0 0; }
+  38%, 100% { background-position: -10% 0, 0 0; }
+}
+
+/* Items that rise in once their RevealGroup scrolls into view */
+.reveal-item {
+  opacity: 0;
+}
+
+[data-inview] .reveal-item {
+  animation: rise-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) var(--delay, 0s) both;
+}
+
+/* ── Comet light orbiting an element's border (host must be positioned) ── */
+.orbit-border::before {
+  content: "";
+  position: absolute;
+  inset: var(--orbit-inset, -1px);
+  z-index: 1;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--angle),
+    transparent 0deg 240deg,
+    rgba(34, 211, 238, 0.95) 295deg,
+    rgba(168, 85, 247, 0.95) 335deg,
+    transparent 360deg
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: rotateGradient var(--orbit-duration, 4.5s) linear infinite;
+  pointer-events: none;
+}
+
+/* ── Soft light sheen passing over a surface ── */
+.sheen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(100deg, transparent 35%, rgba(255, 255, 255, var(--sheen-strength, 0.16)) 50%, transparent 65%) no-repeat;
+  background-size: 250% 100%;
+  background-position: 110% 0;
+  animation: sheen var(--sheen-duration, 5s) ease-in-out var(--sheen-delay, 1.2s) var(--sheen-repeat, infinite);
+  pointer-events: none;
+}
+
+@keyframes sheen {
+  0% { background-position: 110% 0; }
+  40%, 100% { background-position: -10% 0; }
+}
+
+.twinkle {
+  animation: twinkle 3.2s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  50% { transform: scale(0.78) rotate(24deg); opacity: 0.6; }
+}
+
+/* Gentle floating; uses `translate` so it composes with inline transforms */
+.float-y {
+  animation: float-y var(--float-duration, 6s) ease-in-out var(--float-delay, 0s) infinite;
+}
+
+@keyframes float-y {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 var(--float-distance, -10px); }
+}
+
+.drift {
+  animation: drift var(--drift-duration, 16s) ease-in-out infinite alternate;
+}
+
+@keyframes drift {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(var(--drift-x, 40px), var(--drift-y, -30px), 0) scale(1.12); }
+  100% { transform: translate3d(calc(var(--drift-x, 40px) * -0.5), calc(var(--drift-y, -30px) * -0.6), 0) scale(0.94); }
+}
+
+.ping-soft {
+  animation: ping-soft 2.6s cubic-bezier(0, 0, 0.2, 1) var(--ping-delay, 0s) infinite;
+}
+
+@keyframes ping-soft {
+  0% { transform: scale(1); opacity: 0.7; }
+  80%, 100% { transform: scale(var(--ping-scale, 1.5)); opacity: 0; }
+}
+
+.glow-pulse {
+  animation: glow-pulse 2.8s ease-in-out infinite;
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.65; filter: brightness(1); }
+  50% { opacity: 1; filter: brightness(1.35); }
+}
+
+/* Checkmark that draws itself in */
+.draw-check path {
+  stroke-dasharray: 24;
+  stroke-dashoffset: 24;
+  animation: draw-check 0.55s cubic-bezier(0.65, 0, 0.35, 1) var(--delay, 0s) forwards;
+}
+
+@keyframes draw-check {
+  to { stroke-dashoffset: 0; }
+}
+
+/* ── Numbers that count up from zero to their real value ── */
+@property --count {
+  syntax: "<integer>";
+  initial-value: 0;
+  inherits: false;
+}
+
+.count-up {
+  --count: 0;
+  display: inline-block;
+  min-width: calc(var(--digits, 1) * 1ch);
+  font-variant-numeric: tabular-nums;
+  counter-reset: count-up var(--count);
+}
+
+[data-run] > .count-up {
+  --count: var(--to);
+  animation: count-up 1.8s cubic-bezier(0.16, 1, 0.3, 1) var(--delay, 0s) both;
+}
+
+.count-up::after {
+  content: counter(count-up);
+}
+
+@keyframes count-up {
+  from { --count: 0; }
+}
+
+/* ── Buttons: light sweep on hover ── */
+.btn-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.42) 50%, transparent 70%);
+  transform: translateX(-130%);
+  pointer-events: none;
+}
+
+.btn-shine:hover::after,
+.btn-shine:focus-visible::after {
+  transform: translateX(130%);
+  transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ── Cursor-following glow (pointer position in --mx / --my) ──
+   Registered so touch devices can animate the position instead. ── */
+@property --mx {
+  syntax: "<length-percentage>";
+  initial-value: 50%;
+  inherits: true;
+}
+
+@property --my {
+  syntax: "<length-percentage>";
+  initial-value: 50%;
+  inherits: true;
+}
+/* Host must be positioned (e.g. Tailwind `relative`) */
+.spotlight-card {
+  isolation: isolate;
+}
+
+.spotlight-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: radial-gradient(
+    var(--spot-size, 220px) circle at var(--mx, 50%) var(--my, 50%),
+    var(--spot-color, rgba(99, 102, 241, 0.2)),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+
+.spotlight-card::after {
+  content: "";
+  position: absolute;
+  inset: var(--ring-inset, -1px);
+  border-radius: inherit;
+  padding: 1px;
+  background: radial-gradient(
+    160px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(34, 211, 238, 0.75),
+    rgba(168, 85, 247, 0.35) 45%,
+    transparent 75%
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+
+@media (hover: hover) {
+  .spotlight-card:hover::before,
+  .spotlight-card:hover::after {
+    opacity: 1;
+  }
+}
+
+.cursor-glow {
+  background: radial-gradient(
+    var(--spot-size, 520px) circle at var(--mx, 50%) var(--my, 40%),
+    rgba(99, 102, 241, 0.16),
+    rgba(34, 211, 238, 0.05) 40%,
+    transparent 68%
+  );
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.cursor-grid {
+  background-image:
+    linear-gradient(rgba(165, 180, 252, 0.3) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(165, 180, 252, 0.3) 1px, transparent 1px);
+  background-size: var(--grid-size, 72px) var(--grid-size, 72px);
+  -webkit-mask-image: radial-gradient(240px circle at var(--mx, 50%) var(--my, 40%), #000, transparent 72%);
+  mask-image: radial-gradient(240px circle at var(--mx, 50%) var(--my, 40%), #000, transparent 72%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+@media (hover: hover) {
+  :hover > .cursor-glow { opacity: 1; }
+  :hover > .cursor-grid { opacity: 0.55; }
+}
+
+/* ── Touch devices: no cursor, so the glow drifts by itself and
+   taps light up whatever is pressed ── */
+@media (hover: none) {
+  .cursor-glow {
+    opacity: 0.8;
+    animation: ambient-sweep 16s ease-in-out infinite alternate;
+  }
+
+  .cursor-grid {
+    opacity: 0.32;
+    animation: ambient-sweep 16s ease-in-out infinite alternate;
+  }
+
+  .spotlight-card:active::before,
+  .spotlight-card:active::after,
+  .spotlight-card[data-active]::before {
+    opacity: 1;
+  }
+
+  .btn-shine:active::after {
+    transform: translateX(130%);
+    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+@keyframes ambient-sweep {
+  0% { --mx: 18%; --my: 24%; }
+  50% { --mx: 78%; --my: 56%; }
+  100% { --mx: 32%; --my: 82%; }
+}
+
+/* ── Hero background: section-level pointer state lives in --spot ── */
+.cursor-glow.hero-spotlight {
+  opacity: var(--spot, 0);
+}
+
+.cursor-grid.hero-grid-spotlight {
+  opacity: calc(var(--spot, 0) * 0.55);
+}
+
+@media (hover: none) {
+  .cursor-glow.hero-spotlight { opacity: 0.85; }
+  .cursor-grid.hero-grid-spotlight { opacity: 0.32; }
+}
+
+.hero-aura {
+  background: radial-gradient(
+    closest-side,
+    rgba(99, 102, 241, 0.16),
+    rgba(168, 85, 247, 0.07) 55%,
+    transparent
+  );
+  filter: blur(20px);
+  animation: hero-aura 9s ease-in-out infinite;
+}
+
+@keyframes hero-aura {
+  0%, 100% { opacity: 0.6; scale: 1; }
+  50% { opacity: 1; scale: 1.08; }
+}
+
+/* Video: fades in from a slight zoom, then drifts gently with the cursor */
+.hero-video-layer {
+  transform: translate3d(calc(var(--px, 0) * -12px), calc(var(--py, 0) * -8px), 0) scale(1.08);
+  transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.hero-video {
+  opacity: 0;
+  transform: scale(1.08);
+  transition: opacity 1.4s ease, transform 2.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hero-video[data-ready="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise-in,
+  .hero-word,
+  .gradient-glint,
+  .hero-aura,
+  .float-y,
+  .drift,
+  .ping-soft,
+  .glow-pulse,
+  .cursor-glow,
+  .cursor-grid,
+  .count-up,
+  [data-run] > .count-up {
+    animation: none !important;
+  }
+
+  .count-up {
+    --count: var(--to);
+  }
+
+  .reveal-item {
+    opacity: 1;
+    animation: none !important;
+  }
+
+  .draw-check path {
+    stroke-dashoffset: 0;
+    animation: none !important;
+  }
+}
+

@@ -2,12 +2,15 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { AnimatePresence, motion, useInView, useMotionValueEvent, useReducedMotion, useScroll, useSpring, useTransform } from "framer-motion";
 import { ArrowUpRight, ExternalLink } from "lucide-react";
-import { useRef, useState } from "react";
+import { type CSSProperties, type PointerEvent, useRef, useState } from "react";
 import { featuredProjects, type Project } from "@/data/projects";
 import { Container } from "@/components/shared/container";
 import { FadeIn } from "@/components/shared/fade-in";
+import { Magnetic } from "@/components/shared/magnetic";
+import { RevealHeading } from "@/components/shared/reveal-heading";
+import { trackPointer } from "@/lib/pointer";
 
 const projectThemes = [
   { accent: "#22D3EE", glow: "rgba(34,211,238,.22)", wash: "rgba(34,211,238,.08)" },
@@ -34,26 +37,29 @@ function ProjectMeta({ project, index }: { project: Project; index: number }) {
       <h3 className="text-heading mt-2 font-heading text-4xl font-bold tracking-tight xl:text-[3.25rem]">{project.title}</h3>
       <p className="text-body mt-3 max-w-md text-sm leading-6 xl:text-[15px] xl:leading-7">{project.shortDescription}</p>
       <div className="mt-5 flex flex-wrap gap-2">
-        {project.techStack.slice(0, 4).map((tech) => (
-          <span key={tech} className="rounded-lg border border-[var(--card-border)] bg-[var(--surface-soft)] px-3 py-1.5 text-[11px] font-medium text-muted">
+        {project.techStack.slice(0, 4).map((tech, techIndex) => (
+          <span key={tech} className="rise-in rounded-lg border border-[var(--card-border)] bg-[var(--surface-soft)] px-3 py-1.5 text-[11px] font-medium text-muted" style={{ "--delay": `${0.18 + techIndex * 0.06}s` } as CSSProperties}>
             {tech}
           </span>
         ))}
       </div>
       <div className="mt-6 flex flex-wrap items-center gap-4">
+        {project.primaryAction?.kind === "external" && (
+          <Magnetic>
+            <a
+              href={project.primaryAction.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-shine group relative inline-flex h-11 items-center gap-2 overflow-hidden rounded-full bg-gradient-brand px-6 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple/60 active:scale-[0.98]"
+            >
+              {project.primaryAction.label}
+              <ExternalLink size={14} className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            </a>
+          </Magnetic>
+        )}
         <Link href={`/projects/${project.slug}`} className="inline-flex items-center gap-2 text-sm font-semibold text-brand-cyan transition hover:gap-3 hover:text-brand-purple">
           Explore case study <ArrowUpRight size={15} />
         </Link>
-        {project.primaryAction?.kind === "external" && (
-          <a
-            href={project.primaryAction.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="surface-glass inline-flex h-9 items-center gap-2 rounded-full px-4 text-xs font-semibold text-foreground transition hover:-translate-y-0.5 hover:border-brand-purple/35 hover:text-brand-purple focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple/50"
-          >
-            {project.primaryAction.label} <ExternalLink size={13} />
-          </a>
-        )}
       </div>
     </div>
   );
@@ -62,9 +68,28 @@ function ProjectMeta({ project, index }: { project: Project; index: number }) {
 function ProjectVisual({ project, index }: { project: Project; index: number }) {
   const theme = projectThemes[index % projectThemes.length];
   const isMobile = project.projectType.toLowerCase().includes("mobile");
+  const reduceMotion = useReducedMotion();
+  const rotateX = useSpring(0, { stiffness: 120, damping: 20 });
+  const rotateY = useSpring(0, { stiffness: 120, damping: 20 });
+
+  function handlePointerMove(event: PointerEvent<HTMLDivElement>) {
+    if (reduceMotion || event.pointerType !== "mouse") return;
+    const rect = event.currentTarget.getBoundingClientRect();
+    rotateY.set(((event.clientX - rect.left) / rect.width - 0.5) * 10);
+    rotateX.set(((event.clientY - rect.top) / rect.height - 0.5) * -8);
+  }
+
+  function resetTilt() {
+    rotateX.set(0);
+    rotateY.set(0);
+  }
 
   return (
-    <div className="perspective-scene relative flex h-full min-h-0 items-center justify-center overflow-visible px-6 py-3">
+    <div
+      className="perspective-scene relative flex h-full min-h-0 items-center justify-center overflow-visible px-6 py-3"
+      onPointerMove={handlePointerMove}
+      onPointerLeave={resetTilt}
+    >
       <motion.div
         initial={{ opacity: 0, scale: 0.86, rotateY: 10, y: 45 }}
         animate={{ opacity: 1, scale: 1, rotateY: -3, y: 0 }}
@@ -73,47 +98,67 @@ function ProjectVisual({ project, index }: { project: Project; index: number }) 
         className="relative flex h-full w-full items-center justify-center"
         style={{ transformStyle: "preserve-3d" }}
       >
-        <div className="absolute inset-x-[8%] bottom-[2%] h-[28%] rounded-[50%] blur-[55px]" style={{ background: theme.glow }} />
-        <div className="absolute inset-0 rounded-[3rem] opacity-80 blur-3xl" style={{ background: `radial-gradient(circle, ${theme.wash}, transparent 68%)` }} />
+        <motion.div
+          className="relative flex h-full w-full items-center justify-center"
+          style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+        >
+          <div className="absolute inset-x-[8%] bottom-[2%] h-[28%] rounded-[50%] blur-[55px]" style={{ background: theme.glow }} />
+          <div className="absolute inset-0 rounded-[3rem] opacity-80 blur-3xl" style={{ background: `radial-gradient(circle, ${theme.wash}, transparent 68%)` }} />
 
-        {isMobile ? (
-          <div className="relative aspect-[9/18.5] h-[86%] max-h-[430px] min-h-0 w-auto rounded-[2.1rem] border border-[var(--card-border)] bg-[var(--surface-strong)] p-2 shadow-[0_40px_90px_-35px_rgba(0,0,0,.75)] xl:max-h-[470px]">
-            <div className="mx-auto mb-1.5 h-1.5 w-14 rounded-full bg-foreground/15" />
-            <div className="relative h-[calc(100%_-_0.625rem)] overflow-hidden rounded-[1.6rem] bg-[var(--surface-image)]">
-              <Image src={project.image} alt={`${project.title} mobile interface`} fill sizes="260px" className="object-cover object-top" />
+          {isMobile ? (
+            <div className="float-y relative aspect-[9/18.5] h-[86%] [--float-distance:-8px] max-h-[430px] min-h-0 w-auto rounded-[2.1rem] border border-[var(--card-border)] bg-[var(--surface-strong)] p-2 shadow-[0_40px_90px_-35px_rgba(0,0,0,.75)] xl:max-h-[470px]">
+              <div className="mx-auto mb-1.5 h-1.5 w-14 rounded-full bg-foreground/15" />
+              <div className="sheen relative h-[calc(100%_-_0.625rem)] overflow-hidden rounded-[1.6rem] bg-[var(--surface-image)] [--sheen-delay:0.5s] [--sheen-duration:2.6s] [--sheen-repeat:1] [--sheen-strength:0.22]">
+                <Image src={project.image} alt={`${project.title} mobile interface`} fill sizes="260px" className="object-cover object-top" />
+              </div>
             </div>
-          </div>
-        ) : (
-          <div className="surface-glass relative w-full max-w-[760px] overflow-hidden rounded-[1.6rem] shadow-[0_45px_100px_-40px_rgba(0,0,0,.9)]">
-            <div className="flex h-10 items-center gap-1.5 border-b border-[var(--card-border)] px-4">
-              <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
-              <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
-              <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
-              <div className="mx-auto h-5 w-[42%] rounded-full bg-foreground/[0.05]" />
+          ) : (
+            <div className="surface-glass float-y relative w-full max-w-[760px] [--float-distance:-8px] overflow-hidden rounded-[1.6rem] shadow-[0_45px_100px_-40px_rgba(0,0,0,.9)]">
+              <div className="flex h-10 items-center gap-1.5 border-b border-[var(--card-border)] px-4">
+                <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
+                <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
+                <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
+                <div className="mx-auto h-5 w-[42%] rounded-full bg-foreground/[0.05]" />
+              </div>
+              <div className="sheen relative aspect-[16/9] bg-[var(--surface-image)] [--sheen-delay:0.5s] [--sheen-duration:2.6s] [--sheen-repeat:1] [--sheen-strength:0.22]">
+                <Image src={project.image} alt={`${project.title} website interface`} fill sizes="55vw" className="object-contain p-3" />
+              </div>
             </div>
-            <div className="relative aspect-[16/9] bg-[var(--surface-image)]">
-              <Image src={project.image} alt={`${project.title} website interface`} fill sizes="55vw" className="object-contain p-3" />
-            </div>
-          </div>
-        )}
+          )}
 
-        <div className="surface-glass absolute bottom-3 left-1 rounded-2xl px-4 py-3" style={{ transform: "translateZ(60px)" }}>
-          <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-muted">Build type</p>
-          <p className="text-heading mt-1 max-w-[160px] text-xs font-semibold">{project.projectType}</p>
-        </div>
-        <div className="absolute right-1 top-1/2 h-16 w-1 -translate-y-1/2 rounded-full" style={{ background: theme.accent, boxShadow: `0 0 28px ${theme.glow}` }} />
+          <div className="surface-glass float-y absolute bottom-3 left-1 rounded-2xl px-4 py-3 [--float-delay:-2.5s] [--float-distance:-6px]" style={{ transform: "translateZ(60px)" }}>
+            <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-muted">Build type</p>
+            <p className="text-heading mt-1 max-w-[160px] text-xs font-semibold">{project.projectType}</p>
+          </div>
+          <div className="glow-pulse absolute right-1 top-1/2 h-16 w-1 -translate-y-1/2 rounded-full" style={{ background: theme.accent, boxShadow: `0 0 28px ${theme.glow}` }} />
+        </motion.div>
       </motion.div>
     </div>
   );
 }
 
 function MobileProjectCard({ project, index }: { project: Project; index: number }) {
+  const cardRef = useRef<HTMLElement>(null);
+  const reduceMotion = useReducedMotion();
+  // Touch has no hover, so the card in focus lights itself up and its image drifts on scroll.
+  const inFocus = useInView(cardRef, { amount: 0.75 });
+  const { scrollYProgress } = useScroll({ target: cardRef, offset: ["start end", "end start"] });
+  const imageY = useTransform(scrollYProgress, [0, 1], reduceMotion ? ["0%", "0%"] : ["-7%", "7%"]);
+
   return (
     <FadeIn scale>
-      <article className="surface-glass group overflow-hidden rounded-[1.6rem]">
+      <article
+        ref={cardRef}
+        data-active={inFocus ? "" : undefined}
+        onPointerMove={trackPointer}
+        onPointerDown={trackPointer}
+        className="surface-glass spotlight-card group relative overflow-hidden rounded-[1.6rem] transition-transform duration-300 [--ring-inset:0px] active:scale-[0.99]"
+      >
         <Link href={`/projects/${project.slug}`} className="block">
-          <div className="relative aspect-[16/10] bg-[var(--surface-image)]">
-            <Image src={project.image} alt={project.title} fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-contain p-4" />
+          <div className="relative aspect-[16/10] overflow-hidden bg-[var(--surface-image)]">
+            <motion.div className="absolute inset-0" style={{ y: imageY }}>
+              <Image src={project.image} alt={project.title} fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-contain p-4 transition-transform duration-700 ease-out group-hover:scale-[1.04]" />
+            </motion.div>
             <span className="absolute left-4 top-4 rounded-full bg-background/75 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-brand-cyan backdrop-blur-lg">
               {String(index + 1).padStart(2, "0")} · {project.category}
             </span>
@@ -132,9 +177,10 @@ function MobileProjectCard({ project, index }: { project: Project; index: number
               href={project.primaryAction.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-4 inline-flex h-9 items-center gap-2 rounded-full border border-[var(--card-border)] bg-[var(--surface-soft)] px-4 text-xs font-semibold text-foreground transition hover:border-brand-purple/35 hover:text-brand-purple"
+              className="btn-shine group relative mt-4 inline-flex h-10 items-center gap-2 overflow-hidden rounded-full bg-gradient-brand px-5 text-[13px] font-semibold text-white transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple/60 active:scale-[0.98]"
             >
-              {project.primaryAction.label} <ExternalLink size={13} />
+              {project.primaryAction.label}
+              <ExternalLink size={13} className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
             </a>
           )}
         </div>
@@ -153,6 +199,7 @@ export function FeaturedProjects() {
   const [activeIndex, setActiveIndex] = useState(0);
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end end"] });
   const progressScale = useTransform(scrollYProgress, [0.08, 0.92], [0, 1]);
+  const progressLeft = useTransform(progressScale, (value) => `${value * 100}%`);
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
     const next = Math.min(projects.length - 1, Math.max(0, Math.floor(latest * projects.length)));
@@ -179,8 +226,8 @@ export function FeaturedProjects() {
         <Container className="flex w-full flex-col lg:h-full">
           <FadeIn>
             <div>
-              <span className="text-sm font-semibold uppercase tracking-[0.1em] text-gradient-brand">Selected work</span>
-              <h2 className="text-heading mt-2 font-heading text-3xl font-semibold tracking-tight sm:text-4xl lg:text-[2.65rem]">Products built to perform</h2>
+              <span className="gradient-glint text-sm font-semibold uppercase tracking-[0.1em]">Selected work</span>
+              <RevealHeading text="Products built to perform" className="text-heading mt-2 font-heading text-3xl font-semibold tracking-tight sm:text-4xl lg:text-[2.65rem]" />
               <p className="mt-2 max-w-xl text-sm leading-6 text-muted xl:text-base">Each product gets its own stage. Scroll slowly to explore the work, technology, and outcome.</p>
             </div>
           </FadeIn>
@@ -198,8 +245,15 @@ export function FeaturedProjects() {
                   <span>Scroll to explore</span>
                   <span>{String(activeIndex + 1).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}</span>
                 </div>
-                <div className="mt-3 h-px overflow-hidden bg-foreground/10">
-                  <motion.div className="h-full origin-left bg-gradient-brand" style={{ scaleX: progressScale }} />
+                <div className="relative mt-3">
+                  <div className="h-px overflow-hidden bg-foreground/10">
+                    <motion.div className="h-full origin-left bg-gradient-brand" style={{ scaleX: progressScale }} />
+                  </div>
+                  <motion.span
+                    aria-hidden="true"
+                    className="absolute top-1/2 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-cyan shadow-[0_0_12px_2px_rgba(34,211,238,.8)]"
+                    style={{ left: progressLeft }}
+                  />
                 </div>
                 <div className="mt-4 grid grid-cols-3 gap-2">
                   {projects.map((project, index) => (

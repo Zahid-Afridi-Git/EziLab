@@ -1,11 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, Gauge, Layers3, LifeBuoy, Sparkles } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { useRef } from "react";
 import { Container } from "@/components/shared/container";
+import { CountUp } from "@/components/shared/count-up";
 import { FadeIn } from "@/components/shared/fade-in";
+import { RevealHeading } from "@/components/shared/reveal-heading";
 
 const stats = [
   { value: "28+", label: "Products delivered" },
@@ -43,6 +46,9 @@ const reasons: Array<{ title: string; eyebrow: string; desc: string; icon: Lucid
 
 export function TrustSection() {
   const reduceMotion = useReducedMotion();
+  const timelineRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress: timelineProgress } = useScroll({ target: timelineRef, offset: ["start 70%", "end 55%"] });
+  const timelineHead = useTransform(timelineProgress, (value) => `${value * 100}%`);
 
   return (
     <section className="section-flow relative isolate overflow-hidden py-20 sm:py-28 lg:py-32">
@@ -53,10 +59,11 @@ export function TrustSection() {
         <FadeIn>
           <div className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
             <div>
-              <span className="text-sm font-semibold uppercase tracking-[0.1em] text-gradient-brand">Why EziLab</span>
-              <h2 className="text-heading mt-3 font-heading text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
-                A clearer path from idea to impact
-              </h2>
+              <span className="gradient-glint text-sm font-semibold uppercase tracking-[0.1em]">Why EziLab</span>
+              <RevealHeading
+                text="A clearer path from idea to impact"
+                className="text-heading mt-3 font-heading text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl"
+              />
             </div>
             <p className="text-body max-w-2xl text-base leading-7 lg:justify-self-end lg:text-lg">
               Strong products come from connected decisions. Our process keeps business context, design quality, and engineering discipline moving in the same direction.
@@ -76,14 +83,27 @@ export function TrustSection() {
             >
               {index > 0 && <span className="absolute bottom-[18%] left-0 top-[18%] w-px bg-[var(--card-border)] max-lg:hidden" />}
               {index === 1 || index === 3 ? <span className="absolute bottom-[18%] left-0 top-[18%] w-px bg-[var(--card-border)] lg:hidden" /> : null}
-              <p className="text-heading font-heading text-3xl font-bold tracking-[-0.04em] sm:text-4xl lg:text-5xl">{stat.value}</p>
+              <p className="text-heading font-heading text-3xl font-bold tracking-[-0.04em] sm:text-4xl lg:text-5xl">
+                <CountUp value={stat.value} delay={0.15 + index * 0.1} />
+              </p>
               <p className="mt-2 max-w-32 text-[11px] font-medium leading-4 text-muted sm:text-xs">{stat.label}</p>
             </motion.div>
           ))}
         </div>
 
-        <div className="relative mt-16 sm:mt-20">
-          <div className="absolute bottom-8 left-[1.45rem] top-8 w-px bg-gradient-to-b from-brand-cyan/10 via-brand-purple/55 to-brand-cyan/10 md:left-1/2 md:-translate-x-1/2" />
+        <div ref={timelineRef} className="relative mt-16 sm:mt-20">
+          <div className="absolute bottom-8 left-[1.45rem] top-8 w-px md:left-1/2 md:-translate-x-1/2">
+            <div className="absolute inset-0 bg-gradient-to-b from-brand-cyan/10 via-brand-purple/55 to-brand-cyan/10" />
+            <motion.div
+              className="absolute inset-0 origin-top bg-gradient-to-b from-brand-cyan via-brand-blue to-brand-purple shadow-[0_0_14px_rgba(99,102,241,.7)]"
+              style={{ scaleY: timelineProgress }}
+            />
+            <motion.span
+              aria-hidden="true"
+              className="absolute left-1/2 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-cyan shadow-[0_0_16px_4px_rgba(34,211,238,.6)]"
+              style={{ top: timelineHead }}
+            />
+          </div>
 
           <div className="space-y-6 md:space-y-2">
             {reasons.map((reason, index) => {
@@ -109,6 +129,14 @@ export function TrustSection() {
                     className="surface-glass absolute left-0 top-5 z-10 flex h-12 w-12 items-center justify-center rounded-2xl text-brand-purple md:static md:col-start-2 md:row-start-1 md:mx-auto md:h-14 md:w-14"
                     style={{ boxShadow: "0 18px 42px -20px rgba(168,85,247,.75)" }}
                   >
+                    <motion.span
+                      aria-hidden="true"
+                      className="pointer-events-none absolute inset-0 rounded-2xl border border-brand-purple/70"
+                      initial={{ opacity: 0, scale: 1 }}
+                      whileInView={reduceMotion ? undefined : { opacity: [0, 0.9, 0], scale: [1, 1.05, 1.75] }}
+                      viewport={{ once: true, amount: 1 }}
+                      transition={{ duration: 1.3, delay: 0.3, ease: "easeOut" }}
+                    />
                     <Icon size={20} />
                     <span className="absolute -right-2 -top-2 flex h-5 min-w-5 items-center justify-center rounded-full border border-[var(--card-border)] bg-background px-1 font-heading text-[9px] font-bold text-muted">
                       {String(index + 1).padStart(2, "0")}

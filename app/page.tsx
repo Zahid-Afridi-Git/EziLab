@@ -1,6 +1,7 @@
 import { ContactCta } from "@/components/home/contact-cta";
 import { FeaturedProjects } from "@/components/home/featured-projects";
 import { Hero } from "@/components/home/hero";
+import { Philanthropy } from "@/components/home/philanthropy";
 import { ServicesPreview } from "@/components/home/services-preview";
 import { TrustSection } from "@/components/home/trust-section";
 import { TechStackSection } from "@/components/home/tech-stack";
@@ -10,6 +11,7 @@ export default function HomePage() {
     <>
       <Hero />
       <ServicesPreview />
+      <Philanthropy />
       <FeaturedProjects />
       <TrustSection />
       <TechStackSection />
