@@ -51,14 +51,26 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
         </div>
 
         <div className="flex flex-col gap-2.5 pt-2 text-sm font-medium sm:flex-row sm:flex-wrap sm:items-center">
-          <Link href={`/projects/${project.slug}`} className="inline-flex h-10 w-full items-center justify-center gap-1 rounded-full bg-gradient-to-r from-brand-cyan to-brand-blue px-4 text-white transition hover:shadow-lg hover:shadow-brand-blue/20 active:scale-[0.98] sm:w-auto">
-            View Case Study <ArrowUpRight size={14} />
-          </Link>
+          {/* The live product leads; the case study steps back to an outline button when it does. */}
           {project.primaryAction ? (
-            <a href={project.primaryAction.href} target={project.primaryAction.kind === "download" ? undefined : "_blank"} rel={project.primaryAction.kind === "download" ? undefined : "noreferrer"} download={project.primaryAction.kind === "download" ? true : undefined} className="inline-flex h-10 items-center justify-center gap-1 rounded-full border border-[var(--card-border)] bg-[var(--card)] px-4 text-foreground transition hover:border-brand-cyan/30 hover:bg-[var(--card-hover)]">
-              <ActionIcon kind={project.primaryAction.kind} /> {project.primaryAction.label}
+            <a href={project.primaryAction.href} target={project.primaryAction.kind === "download" ? undefined : "_blank"} rel={project.primaryAction.kind === "download" ? undefined : "noreferrer"} download={project.primaryAction.kind === "download" ? true : undefined} className="btn-shine group/action relative inline-flex h-10 w-full items-center justify-center gap-1.5 overflow-hidden rounded-full bg-gradient-brand px-4 text-white transition hover:-translate-y-0.5 hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple/60 active:scale-[0.98] sm:w-auto">
+              <span className="transition-transform duration-300 group-hover/action:-translate-y-0.5 group-hover/action:translate-x-0.5">
+                <ActionIcon kind={project.primaryAction.kind} />
+              </span>
+              {project.primaryAction.label}
             </a>
           ) : null}
+          <Link
+            href={`/projects/${project.slug}`}
+            className={cn(
+              "inline-flex h-10 w-full items-center justify-center gap-1 rounded-full px-4 transition active:scale-[0.98] sm:w-auto",
+              project.primaryAction
+                ? "border border-[var(--card-border)] bg-[var(--card)] text-foreground hover:border-brand-cyan/30 hover:bg-[var(--card-hover)]"
+                : "btn-shine relative overflow-hidden bg-gradient-brand text-white hover:-translate-y-0.5 hover:brightness-110",
+            )}
+          >
+            View Case Study <ArrowUpRight size={14} />
+          </Link>
           {project.secondaryAction ? (
             <a href={project.secondaryAction.href} target={project.secondaryAction.kind === "download" ? undefined : "_blank"} rel={project.secondaryAction.kind === "download" ? undefined : "noreferrer"} download={project.secondaryAction.kind === "download" ? true : undefined} className="inline-flex h-10 items-center justify-center gap-1 rounded-full border border-[var(--card-border)] bg-[var(--card)] px-4 text-foreground transition hover:border-brand-cyan/30 hover:bg-[var(--card-hover)]">
               <ActionIcon kind={project.secondaryAction.kind} /> {project.secondaryAction.label}

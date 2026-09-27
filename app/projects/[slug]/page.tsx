@@ -10,6 +10,7 @@ import { getAdjacentProjects, getProjectBySlug, projects } from "@/data/projects
 import { Badge } from "@/components/shared/badge";
 import { Container } from "@/components/shared/container";
 import { FadeIn } from "@/components/shared/fade-in";
+import { Magnetic } from "@/components/shared/magnetic";
 
 type ProjectDetailPageProps = {
   params: Promise<{
@@ -180,16 +181,20 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
               </div>
               <div className="flex flex-col gap-3 pt-1 sm:flex-row sm:flex-wrap">
                 {project.primaryAction ? (
-                  <a
-                    href={project.primaryAction.href}
-                    target={project.primaryAction.kind === "download" ? undefined : "_blank"}
-                    rel={project.primaryAction.kind === "download" ? undefined : "noreferrer"}
-                    download={project.primaryAction.kind === "download" ? true : undefined}
-                    className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-brand-cyan via-brand-blue to-brand-purple px-4 text-xs font-semibold text-white transition hover:brightness-110 sm:w-auto"
-                  >
-                    <ActionIcon kind={project.primaryAction.kind} />
-                    {project.primaryAction.label}
-                  </a>
+                  <Magnetic className="w-full flex-col sm:w-auto">
+                    <a
+                      href={project.primaryAction.href}
+                      target={project.primaryAction.kind === "download" ? undefined : "_blank"}
+                      rel={project.primaryAction.kind === "download" ? undefined : "noreferrer"}
+                      download={project.primaryAction.kind === "download" ? true : undefined}
+                      className="btn-shine group relative inline-flex h-11 w-full items-center justify-center gap-2 overflow-hidden rounded-full bg-gradient-brand px-5 text-xs font-semibold text-white transition hover:-translate-y-0.5 hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple/60 active:scale-[0.98] sm:w-auto"
+                    >
+                      <span className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5">
+                        <ActionIcon kind={project.primaryAction.kind} />
+                      </span>
+                      {project.primaryAction.label}
+                    </a>
+                  </Magnetic>
                 ) : null}
                 {project.secondaryAction ? (
                   <a
