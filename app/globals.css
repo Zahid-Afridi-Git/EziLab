@@ -727,7 +727,7 @@ a { color: inherit; text-decoration: none; }
   z-index: -1;
   border-radius: inherit;
   background: radial-gradient(
-    var(--spot-size, 220px) circle at var(--mx, 50%) var(--my, 50%),
+    circle var(--spot-size, 220px) at var(--mx, 50%) var(--my, 50%),
     var(--spot-color, rgba(99, 102, 241, 0.2)),
     transparent 70%
   );
@@ -743,7 +743,7 @@ a { color: inherit; text-decoration: none; }
   border-radius: inherit;
   padding: 1px;
   background: radial-gradient(
-    160px circle at var(--mx, 50%) var(--my, 50%),
+    circle 160px at var(--mx, 50%) var(--my, 50%),
     rgba(34, 211, 238, 0.75),
     rgba(168, 85, 247, 0.35) 45%,
     transparent 75%
@@ -765,10 +765,10 @@ a { color: inherit; text-decoration: none; }
 
 .cursor-glow {
   background: radial-gradient(
-    var(--spot-size, 520px) circle at var(--mx, 50%) var(--my, 40%),
-    rgba(99, 102, 241, 0.16),
-    rgba(34, 211, 238, 0.05) 40%,
-    transparent 68%
+    circle var(--spot-size, 380px) at var(--mx, 50%) var(--my, 40%),
+    rgba(99, 102, 241, 0.18),
+    rgba(34, 211, 238, 0.05) 42%,
+    transparent 70%
   );
   opacity: 0;
   transition: opacity 0.5s ease;
@@ -780,8 +780,8 @@ a { color: inherit; text-decoration: none; }
     linear-gradient(rgba(165, 180, 252, 0.3) 1px, transparent 1px),
     linear-gradient(90deg, rgba(165, 180, 252, 0.3) 1px, transparent 1px);
   background-size: var(--grid-size, 72px) var(--grid-size, 72px);
-  -webkit-mask-image: radial-gradient(240px circle at var(--mx, 50%) var(--my, 40%), #000, transparent 72%);
-  mask-image: radial-gradient(240px circle at var(--mx, 50%) var(--my, 40%), #000, transparent 72%);
+  -webkit-mask-image: radial-gradient(circle var(--grid-reach, 170px) at var(--mx, 50%) var(--my, 40%), #000, transparent 68%);
+  mask-image: radial-gradient(circle var(--grid-reach, 170px) at var(--mx, 50%) var(--my, 40%), #000, transparent 68%);
   opacity: 0;
   transition: opacity 0.5s ease;
   pointer-events: none;
@@ -789,7 +789,14 @@ a { color: inherit; text-decoration: none; }
 
 @media (hover: hover) {
   :hover > .cursor-glow { opacity: 1; }
-  :hover > .cursor-grid { opacity: 0.55; }
+  :hover > .cursor-grid { opacity: 0.6; }
+}
+
+@supports not (
+  (mask-image: radial-gradient(circle 10px at 1px 1px, #000, transparent)) or
+  (-webkit-mask-image: radial-gradient(circle 10px at 1px 1px, #000, transparent))
+) {
+  .cursor-grid { display: none; }
 }
 
 /* ── Touch devices: no cursor, so the glow drifts by itself and
@@ -829,7 +836,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 .cursor-grid.hero-grid-spotlight {
-  opacity: calc(var(--spot, 0) * 0.55);
+  opacity: calc(var(--spot, 0) * 0.6);
 }
 
 @media (hover: none) {
@@ -901,4 +908,5 @@ a { color: inherit; text-decoration: none; }
     animation: none !important;
   }
 }
+
 
