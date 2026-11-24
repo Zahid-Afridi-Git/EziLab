@@ -157,7 +157,7 @@ function MobileProjectCard({ project, index }: { project: Project; index: number
         <Link href={`/projects/${project.slug}`} className="block">
           <div className="relative aspect-[16/10] overflow-hidden bg-[var(--surface-image)]">
             <motion.div className="absolute inset-0" style={{ y: imageY }}>
-              <Image src={project.image} alt={project.title} fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-contain p-4 transition-transform duration-700 ease-out group-hover:scale-[1.04]" />
+              <Image src={project.cardImage ?? project.image} alt={project.title} fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-contain p-4 transition-transform duration-700 ease-out group-hover:scale-[1.04]" />
             </motion.div>
             <span className="absolute left-4 top-4 rounded-full bg-background/75 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-brand-cyan backdrop-blur-lg">
               {String(index + 1).padStart(2, "0")} · {project.category}

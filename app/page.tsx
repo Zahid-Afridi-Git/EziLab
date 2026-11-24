@@ -1,3 +1,4 @@
+import { AppShowcase } from "@/components/home/app-showcase";
 import { ContactCta } from "@/components/home/contact-cta";
 import { FeaturedProjects } from "@/components/home/featured-projects";
 import { Hero } from "@/components/home/hero";
@@ -13,6 +14,7 @@ export default function HomePage() {
       <ServicesPreview />
       <Philanthropy />
       <FeaturedProjects />
+      <AppShowcase />
       <TrustSection />
       <TechStackSection />
       <ContactCta />

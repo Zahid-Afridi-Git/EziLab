@@ -19,7 +19,10 @@ export type Project = {
   projectType: string;
   clientType: "Client" | "Internal";
   role: string;
+  /** Bare screenshot: the site draws the device frame around it. */
   image: string;
+  /** Optional wide image for the project card, where a tall screenshot looks lost. */
+  cardImage?: string;
   primaryAction?: ProjectAction;
   secondaryAction?: ProjectAction;
   availabilityNote?: string;
@@ -138,7 +141,8 @@ export const projects: Project[] = [
     projectType: "Mobile App (Android — live on Google Play)",
     clientType: "Internal",
     role: "Product strategy, Islamic UX design, mobile app architecture, end-to-end development, and Play Store release.",
-    image: "/images/projects/sukoon/hero-sectin.png",
+    image: "/images/projects/sukoon/screen-home.png",
+    cardImage: "/images/showcase/sukoon-showcase.png",
     primaryAction: {
       href: "https://play.google.com/store/apps/details?id=com.ezilab.sukoon",
       label: "Get it on Google Play",
@@ -167,20 +171,24 @@ export const projects: Project[] = [
     techStack: ["React Native", "TypeScript", "Firebase", "Node.js", "Figma"],
     screenshots: [
       {
-        src: "/images/projects/sukoon/sukoon-greeting page.png",
-        alt: "Sukoon greeting page",
+        src: "/images/projects/sukoon/screen-home.png",
+        alt: "Sukoon home screen with the next prayer countdown",
       },
       {
-        src: "/images/projects/sukoon/dua-library.png",
-        alt: "Sukoon dua library screen",
+        src: "/images/projects/sukoon/screen-quran.png",
+        alt: "Sukoon Quran reader showing Al-Fatihah",
       },
       {
-        src: "/images/projects/sukoon/habits-section.png",
-        alt: "Sukoon habits and routine section",
+        src: "/images/projects/sukoon/screen-prayers.png",
+        alt: "Sukoon daily prayer times",
       },
       {
-        src: "/images/projects/sukoon/hero-sectin.png",
-        alt: "Sukoon hero section",
+        src: "/images/projects/sukoon/screen-duas.png",
+        alt: "Sukoon dua and adhkar library",
+      },
+      {
+        src: "/images/projects/sukoon/screen-qibla.png",
+        alt: "Sukoon Qibla compass",
       },
     ],
     featured: true,
