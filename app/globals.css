@@ -509,11 +509,20 @@ a { color: inherit; text-decoration: none; }
    Shared entrance, ambient, and pointer effects used
    across the home sections. Entrances that run on
    mount are CSS-driven so they start on first paint.
+
+   Never write two var()s side by side in one value, as in
+   `at var(--x) var(--y)`. The production minifier drops
+   the space between them, and Firefox then joins the two
+   @property values into one invalid token (`560px330px`)
+   and discards the declaration. That is what made the hero
+   grid light up in full on hover. Keep a pair like that in
+   one variable instead, as --spot-at does.
    ═══════════════════════════════════════════════ */
 
 /* ── Entrances ── */
 .rise-in {
-  animation: rise-in 0.85s cubic-bezier(0.22, 1, 0.36, 1) var(--delay, 0s) both;
+  animation: rise-in 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--delay, 0s);
 }
 
 @keyframes rise-in {
@@ -524,7 +533,8 @@ a { color: inherit; text-decoration: none; }
 .hero-word {
   display: inline-block;
   transform-origin: 50% 100%;
-  animation: hero-word 0.7s cubic-bezier(0.22, 1, 0.36, 1) calc(0.08s + var(--i, 0) * 0.045s) both;
+  animation: hero-word 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(0.08s + var(--i, 0) * 0.045s);
 }
 
 @keyframes hero-word {
@@ -543,7 +553,8 @@ a { color: inherit; text-decoration: none; }
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: glint 6.5s ease-in-out var(--glint-delay, 1.6s) infinite;
+  animation: glint 6.5s ease-in-out infinite;
+  animation-delay: var(--glint-delay, 1.6s);
 }
 
 @keyframes glint {
@@ -557,7 +568,8 @@ a { color: inherit; text-decoration: none; }
 }
 
 [data-inview] .reveal-item {
-  animation: rise-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) var(--delay, 0s) both;
+  animation: rise-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--delay, 0s);
 }
 
 /* ── Comet light orbiting an element's border (host must be positioned) ── */
@@ -578,7 +590,8 @@ a { color: inherit; text-decoration: none; }
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
-  animation: rotateGradient var(--orbit-duration, 4.5s) linear infinite;
+  animation: rotateGradient 4.5s linear infinite;
+  animation-duration: var(--orbit-duration, 4.5s);
   pointer-events: none;
 }
 
@@ -591,7 +604,10 @@ a { color: inherit; text-decoration: none; }
   background: linear-gradient(100deg, transparent 35%, rgba(255, 255, 255, var(--sheen-strength, 0.16)) 50%, transparent 65%) no-repeat;
   background-size: 250% 100%;
   background-position: 110% 0;
-  animation: sheen var(--sheen-duration, 5s) ease-in-out var(--sheen-delay, 1.2s) var(--sheen-repeat, infinite);
+  animation: sheen 5s ease-in-out infinite;
+  animation-duration: var(--sheen-duration, 5s);
+  animation-delay: var(--sheen-delay, 1.2s);
+  animation-iteration-count: var(--sheen-repeat, infinite);
   pointer-events: none;
 }
 
@@ -611,7 +627,9 @@ a { color: inherit; text-decoration: none; }
 
 /* Gentle floating; uses `translate` so it composes with inline transforms */
 .float-y {
-  animation: float-y var(--float-duration, 6s) ease-in-out var(--float-delay, 0s) infinite;
+  animation: float-y 6s ease-in-out infinite;
+  animation-duration: var(--float-duration, 6s);
+  animation-delay: var(--float-delay, 0s);
 }
 
 @keyframes float-y {
@@ -620,7 +638,8 @@ a { color: inherit; text-decoration: none; }
 }
 
 .drift {
-  animation: drift var(--drift-duration, 16s) ease-in-out infinite alternate;
+  animation: drift 16s ease-in-out infinite alternate;
+  animation-duration: var(--drift-duration, 16s);
 }
 
 @keyframes drift {
@@ -630,7 +649,8 @@ a { color: inherit; text-decoration: none; }
 }
 
 .ping-soft {
-  animation: ping-soft 2.6s cubic-bezier(0, 0, 0.2, 1) var(--ping-delay, 0s) infinite;
+  animation: ping-soft 2.6s cubic-bezier(0, 0, 0.2, 1) infinite;
+  animation-delay: var(--ping-delay, 0s);
 }
 
 @keyframes ping-soft {
@@ -651,7 +671,8 @@ a { color: inherit; text-decoration: none; }
 .draw-check path {
   stroke-dasharray: 24;
   stroke-dashoffset: 24;
-  animation: draw-check 0.55s cubic-bezier(0.65, 0, 0.35, 1) var(--delay, 0s) forwards;
+  animation: draw-check 0.55s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  animation-delay: var(--delay, 0s);
 }
 
 @keyframes draw-check {
@@ -675,7 +696,8 @@ a { color: inherit; text-decoration: none; }
 
 [data-run] > .count-up {
   --count: var(--to);
-  animation: count-up 1.8s cubic-bezier(0.16, 1, 0.3, 1) var(--delay, 0s) both;
+  animation: count-up 1.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--delay, 0s);
 }
 
 .count-up::after {
@@ -702,17 +724,13 @@ a { color: inherit; text-decoration: none; }
   transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* ── Cursor-following glow (pointer position in --mx / --my) ──
+/* ── Cursor-following glow ──
+   The pointer position lives in one variable, --spot-at ("560px 330px"),
+   always used as `at var(--spot-at, …),` so a comma is all that follows it.
    Registered so touch devices can animate the position instead. ── */
-@property --mx {
-  syntax: "<length-percentage>";
-  initial-value: 50%;
-  inherits: true;
-}
-
-@property --my {
-  syntax: "<length-percentage>";
-  initial-value: 50%;
+@property --spot-at {
+  syntax: "<length-percentage>+";
+  initial-value: 50% 50%;
   inherits: true;
 }
 /* Host must be positioned (e.g. Tailwind `relative`) */
@@ -727,7 +745,7 @@ a { color: inherit; text-decoration: none; }
   z-index: -1;
   border-radius: inherit;
   background: radial-gradient(
-    circle var(--spot-size, 220px) at var(--mx, 50%) var(--my, 50%),
+    circle 220px at var(--spot-at, 50% 50%),
     var(--spot-color, rgba(99, 102, 241, 0.2)),
     transparent 70%
   );
@@ -743,7 +761,7 @@ a { color: inherit; text-decoration: none; }
   border-radius: inherit;
   padding: 1px;
   background: radial-gradient(
-    circle 160px at var(--mx, 50%) var(--my, 50%),
+    circle 160px at var(--spot-at, 50% 50%),
     rgba(34, 211, 238, 0.75),
     rgba(168, 85, 247, 0.35) 45%,
     transparent 75%
@@ -756,6 +774,15 @@ a { color: inherit; text-decoration: none; }
   pointer-events: none;
 }
 
+/* Larger glow for big surfaces such as the app showcase images */
+.spotlight-card.spotlight-lg::before {
+  background: radial-gradient(
+    circle 300px at var(--spot-at, 50% 50%),
+    var(--spot-color, rgba(99, 102, 241, 0.2)),
+    transparent 70%
+  );
+}
+
 @media (hover: hover) {
   .spotlight-card:hover::before,
   .spotlight-card:hover::after {
@@ -765,7 +792,7 @@ a { color: inherit; text-decoration: none; }
 
 .cursor-glow {
   background: radial-gradient(
-    circle var(--spot-size, 380px) at var(--mx, 50%) var(--my, 40%),
+    circle 380px at var(--spot-at, 50% 40%),
     rgba(99, 102, 241, 0.18),
     rgba(34, 211, 238, 0.05) 42%,
     transparent 70%
@@ -779,9 +806,9 @@ a { color: inherit; text-decoration: none; }
   background-image:
     linear-gradient(rgba(165, 180, 252, 0.3) 1px, transparent 1px),
     linear-gradient(90deg, rgba(165, 180, 252, 0.3) 1px, transparent 1px);
-  background-size: var(--grid-size, 72px) var(--grid-size, 72px);
-  -webkit-mask-image: radial-gradient(circle var(--grid-reach, 170px) at var(--mx, 50%) var(--my, 40%), #000, transparent 68%);
-  mask-image: radial-gradient(circle var(--grid-reach, 170px) at var(--mx, 50%) var(--my, 40%), #000, transparent 68%);
+  background-size: var(--grid-tile, 72px 72px);
+  -webkit-mask-image: radial-gradient(circle 170px at var(--spot-at, 50% 40%), #000, transparent 68%);
+  mask-image: radial-gradient(circle 170px at var(--spot-at, 50% 40%), #000, transparent 68%);
   opacity: 0;
   transition: opacity 0.5s ease;
   pointer-events: none;
@@ -825,9 +852,9 @@ a { color: inherit; text-decoration: none; }
 }
 
 @keyframes ambient-sweep {
-  0% { --mx: 18%; --my: 24%; }
-  50% { --mx: 78%; --my: 56%; }
-  100% { --mx: 32%; --my: 82%; }
+  0% { --spot-at: 18% 24%; }
+  50% { --spot-at: 78% 56%; }
+  100% { --spot-at: 32% 82%; }
 }
 
 /* ── Hero background: section-level pointer state lives in --spot ── */

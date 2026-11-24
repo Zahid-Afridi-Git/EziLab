@@ -37,7 +37,7 @@ export function ContactCta() {
                 backgroundSize: "50px 50px",
               }}
             />
-            <div className="cursor-grid absolute inset-0 [--grid-size:50px]" aria-hidden="true" />
+            <div className="cursor-grid absolute inset-0 [--grid-tile:50px_50px]" aria-hidden="true" />
             <div className="cursor-glow absolute inset-0" aria-hidden="true" />
 
             <div className="relative px-6 py-12 text-center sm:px-10 sm:py-16 lg:px-16 lg:py-20">

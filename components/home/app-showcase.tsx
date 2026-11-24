@@ -50,7 +50,7 @@ export function AppShowcase() {
                   <div
                     onPointerMove={trackPointer}
                     onPointerDown={trackPointer}
-                    className="spotlight-card relative [--ring-inset:0px] [--spot-color:var(--app-glow)] [--spot-size:300px]"
+                    className="spotlight-card spotlight-lg relative [--ring-inset:0px] [--spot-color:var(--app-glow)]"
                   >
                     <div
                       aria-hidden="true"

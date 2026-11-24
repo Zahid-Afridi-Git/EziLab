@@ -107,8 +107,7 @@ export function Hero() {
       const rect = section.getBoundingClientRect();
       const x = clientX - rect.left;
       const y = clientY - rect.top;
-      section.style.setProperty("--mx", `${x}px`);
-      section.style.setProperty("--my", `${y}px`);
+      section.style.setProperty("--spot-at", `${x}px ${y}px`);
       section.style.setProperty("--px", ((x / rect.width) * 2 - 1).toFixed(3));
       section.style.setProperty("--py", ((y / rect.height) * 2 - 1).toFixed(3));
       section.style.setProperty("--spot", "1");
